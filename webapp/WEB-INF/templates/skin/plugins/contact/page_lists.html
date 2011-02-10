@@ -1,0 +1,8 @@
+<div id="content" class="span-22 prepend-1 append-1 prepend-top last">
+    <p>#i18n{contact.lists.messageSelectList}</p>
+    <ul>
+        <#list list_of_lists as list >
+        <li><p><a href="jsp/site/Portal.jsp?page=contact&id_contact_list=${list.id}">${list.label}</a><br/>${list.description}</p></li>
+        </#list>
+    </ul>
+</div>

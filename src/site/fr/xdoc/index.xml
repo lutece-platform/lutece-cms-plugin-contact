@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+      <properties>
+          <title>
+              Lut&#232;ce : Contact
+          </title>
+      </properties>
+      <body>
+          <section name="Bienvenue sur le projet Contact">
+			<p>
+				Le plugin Contact permet de gérer plusieurs listes de contacts et d'afficher le formulaire d'envoi du mail.
+			</p>
+			<ul>
+				<li>
+					Gestion des contacts :
+					Cette fonctionnalité permet de créer, lister, modifier, et supprimer les contacts (Description du contact, et adresse e-mail).
+				</li>
+				
+				<li>
+					Gestion des listes de contacts:
+					Cette fonctionnalité permet de créer, lister, modifier, et supprimer les listes de contacts.
+				</li>
+				
+				<li>
+					Association de contacts à une liste:
+					Cette interface permet d'associer plusieurs contacts à une même liste.
+				</li>
+
+				<li>
+					Association d'un contact à plusieurs listes.
+					Cette interface permet d'associer un même contact à plusieurs listes à la fois.
+				</li>
+			</ul>
+			</section>
+      </body>
+  </document>

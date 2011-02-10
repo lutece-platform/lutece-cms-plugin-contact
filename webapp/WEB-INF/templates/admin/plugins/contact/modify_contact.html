@@ -1,0 +1,28 @@
+<div class="content-box">
+    
+    <form method="post"  name="modify_contact" action="jsp/admin/plugins/contact/DoModifyContact.jsp">
+        <h2>#i18n{contact.modify_contact.tableLabel}</h2>
+        
+        <p>
+            <label for="contact_name" >#i18n{contact.modify_contact.rowTitleLabel} * :</label>
+            <input type="text" id="contact_name" name="contact_name" size="60" maxlength="50" value="${contact.name}" tabindex="1" />
+        </p>  
+        <p>
+            <label for="contact_email" >#i18n{contact.modify_contact.rowTitleEmail} * : <input type="hidden" name="id_contact" value="${contact.id}"></label>
+            <input type="text" id="contact_email" name="contact_email" size="60" maxlength="100" value="${contact.email}" tabindex="2" />
+        </p>
+        
+        
+        <p>
+            <label for="workgroup" >#i18n{contact.modify_contact.labelWorkgroupKey}*:</label>
+            <@combo name="workgroup" default_value="${contact.workgroup}" items=workgroups_list />
+        </p>
+        
+        <p>   
+            <input type="submit" value="#i18n{contact.modify_contact.buttonValidate}" class="button" tabindex="3" />
+            <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />	
+        </p>
+        
+    </form>
+    
+</div>

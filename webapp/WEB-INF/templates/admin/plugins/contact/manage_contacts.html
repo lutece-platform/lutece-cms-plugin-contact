@@ -1,0 +1,73 @@
+
+<div class="content-box" >
+    <h2>#i18n{contact.manage_contacts.tableLabel}</h2>
+    <form method="post" action="jsp/admin/plugins/contact/ManageContacts.jsp">
+        <@pagination paginator=paginator />
+        
+        <!-- Number of contact per page selector -->
+        #i18n{contact.manage_contact.labelItemsPerPage} :
+        <select name="items_per_page">
+            <#list [ "10" , "20" , "50" , "100" ] as nb>
+            <#if nb_items_per_page = nb >
+            <option selected="selected" value="${nb}">${nb}</option>
+            <#else>
+            <option value="${nb}">${nb}</option>
+            </#if>
+            </#list>
+        </select>
+        <input type="submit" class="button" value="#i18n{contact.manage_contact.buttonItemsPerPage}" />
+    </form>           
+    <table>
+        <tr>
+            <th width="40%">#i18n{contact.manage_contacts.columnTitleLabel}</th>
+            <th>#i18n{contact.manage_contacts.columnTitleEmail}</th>
+            <th>#i18n{contact.workgroup}</th>
+            <th colspan="2" width="20%">#i18n{contact.manage_contacts.columnTitleActions}</th>
+        </tr>
+                
+        <#list contact_list as contact >
+	                
+        <tr>
+            <td>
+                <a href="jsp/admin/plugins/contact/ModifyContact.jsp?id_contact=${contact.id}" class="bullet-link">
+                    ${contact.name}
+                </a>
+            </td>
+            <td>
+                ${contact.email}
+            </td>
+            <td>
+                ${contact.workgroup}
+            </td>     
+            <td width="1%">
+                
+                <form method="post" action="jsp/admin/plugins/contact/ManageContactAssignations.jsp">
+                        
+                    <input type="hidden" name="id_contact" value="${contact.id}"/>
+                    <input src="images/admin/skin/actions/user.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{contact.contact_assignations.actionAssign}" title="#i18n{contact.contact_assignations.actionAssign}" type="image">
+                </form>
+                
+            </td>
+            
+             <td>
+                
+                <form method="post" action="jsp/admin/plugins/contact/RemoveContact.jsp">
+                        
+                    <input type="hidden" name="id_contact" value="${contact.id}"/>
+                    <input src="images/admin/skin/actions/delete.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{contact.contact.actionDelete}" title="#i18n{contact.contact.actionDelete}"  type="image">
+                </form>
+                
+            </td>
+        </tr>					
+        </#list>
+                
+    </table>
+
+    <form method="post"  action="jsp/admin/plugins/contact/CreateContact.jsp">
+        <input type="submit" value="#i18n{contact.manage_contacts.buttonAddContact}" class="button" />
+    </form>
+
+</div>
+
+
+

@@ -1,0 +1,103 @@
+<div class="span-15 prepend-1 append-bottom">
+	<form class="default-form" id="contact_form" action="jsp/site/plugins/contact/DoSendMessage.jsp" method="post" >
+
+		<div class="hide">
+			<input type="hidden" name="page" value="contact" />
+			<input type="hidden" name="portal_url" value="${portal_url}" />
+			<input type="hidden" name="id_contact_list" value="${id_contact_list}" />
+		</div>
+
+		<div class="portlet-background-header -lutece-border-radius-top">#i18n{contact.page_contact.pageTitle}</div> 
+        <div class="portlet-background-content -lutece-border-radius-bottom">
+        	<table width="100%">
+				<tr>
+				<td width="50%" align="right">
+				<label  for="visitor_email">#i18n{contact.page_contact.visitorEmail} * :</label>
+				</td>
+				<td>
+				<input type="text" name="visitor_email" id="visitor_email" size="30" maxlength="100" value="${visitor_email}" class="-lutece-input -lutece-border-radius-mini" />
+				</td>
+				</tr>
+				<tr>
+				<td>
+				<label  for="visitor_last_name">#i18n{contact.page_contact.visitorLastName} * :</label>
+				</td>
+				<td>
+				<input type="text" name="visitor_last_name" id="visitor_last_name" value="${visitor_last_name}" size="30" maxlength="50" class="-lutece-input -lutece-border-radius-mini" />
+				</td>
+				</tr>
+				<tr>
+				<td>
+				<label  for="visitor_first_name">#i18n{contact.page_contact.visitorFirstName} * :</label>
+				</td>
+				<td>
+				<input type="text" name="visitor_first_name" id="visitor_first_name" value="${visitor_first_name}" size="30" maxlength="50" class="-lutece-input -lutece-border-radius-mini" />
+				</td>
+				</tr>
+				<tr>
+				<td>
+				<label  for="visitor_address" >#i18n{contact.page_contact.visitorAddress} :</label>
+				</td>
+				<td>
+				<input type="text" name="visitor_address" id="visitor_address" value="${visitor_address}" size="50" maxlength="120" class="-lutece-input -lutece-border-radius-mini" />
+				</td>
+				</tr>
+				<tr>
+				<td>
+				<label class="combo-label">#i18n{contact.page_contact.comboLabel} * :</label>
+				</td>
+				<td>
+				<#assign cssComboParams>class="${style_contact?if_exists}"</#assign>      
+				<@comboWithParams name="contact" default_value="${default_contact}" additionalParameters="${cssComboParams}" items=contacts_list/>
+				</td>
+				</tr>
+				<tr>
+				<td>
+				<label  for="message_object">#i18n{contact.page_contact.messageObject} * :</label>
+				</td>
+				<td>
+				<input type="text" name="message_object" id="message_object" value="${message_object}" size="50" maxlength="120" class="-lutece-input -lutece-border-radius-mini" />
+				</td>
+				</tr>
+				<tr>
+				<td colspan="2">
+				<label for="message">#i18n{contact.page_contact.message} * #i18n{contact.page_contact.characterMax}</label><br />
+				<textarea name="message" id="message" cols="65" rows="6" class="${style_message?if_exists}">${message}</textarea>
+				</td>
+				</tr>
+				<tr>
+				<td colspan="2">
+				<#if is_active_captcha>
+					<div >${captcha}</div>
+				</#if>
+				</td>
+				</tr>
+				<tr>
+				<td colspan="2">
+				<#if alert?exists>
+					<div class="alert" >${alert}</div>
+				</#if>
+				</td>
+				</tr>
+				<tr>
+				<td colspan="2">
+				* #i18n{contact.page_contact.mandatoryFields}</div>
+				</td>
+				</tr>
+				<tr>
+				<td colspan="2" align="center">
+					<input class="-lutece-input -lutece-border-radius-mini" name="Submit" value="#i18n{contact.page_contact.buttonSend}" type="submit" />
+					<input class="-lutece-input -lutece-border-radius-mini" name="Reset" value="#i18n{contact.page_contact.buttonReset}" type="submit" /> 
+				</td>
+				</tr>
+			</table>
+		</div>
+	</form>
+</div>
+<div class="span-6 append-1 prepend-1 append-bottom last">
+	<div id="sidebar" class="portlet-background">
+		<form name="search" method="post" action="jsp/site/Portal.jsp">  
+			${page_tree_menu?if_exists}
+		</form>
+	</div>
+</div>

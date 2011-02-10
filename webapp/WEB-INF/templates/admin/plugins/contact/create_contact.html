@@ -1,0 +1,29 @@
+<div class="content-box" >
+    
+    <h2>#i18n{contact.create_contact.tableLabel}</h2>
+    
+    <form method="post"  name="create_contact" id="create_contact" action="jsp/admin/plugins/contact/DoCreateContact.jsp">
+        
+        <p>
+        	<label for="contact_name" >#i18n{contact.create_contact.rowTitleLabel} * : </label> 
+        	<input type="text" id="contact_name" name="contact_name" size="60" maxlength="50" tabindex="1" />
+        </p>
+        
+        <p>
+        	<label for="contact_email" >#i18n{contact.create_contact.rowTitleEmail} * :</label>  
+        	<input type="text" id="contact_email" name="contact_email" size="60" maxlength="100" tabindex="2" />
+        </p>
+        
+        
+        <p>
+        <label for="workgroup" >#i18n{contact.create_contact.labelWorkgroupKey}*:</label>
+        <@combo name="workgroup" default_value="all" items=workgroups_list />
+        </p>
+        
+        <p>   
+        	<input type="submit" value="#i18n{contact.create_contact.buttonValidate}" class="button" tabindex="3" />
+        </p>
+        
+    </form>
+    
+</div>

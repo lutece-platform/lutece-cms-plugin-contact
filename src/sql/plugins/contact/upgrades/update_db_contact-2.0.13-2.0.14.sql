@@ -1,0 +1,1 @@
+ALTER TABLE contact_list ADD COLUMN contact_list_order int DEFAULT '0' NOT NULL;

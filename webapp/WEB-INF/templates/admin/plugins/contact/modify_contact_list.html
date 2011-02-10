@@ -1,0 +1,33 @@
+<div class="content-box">
+
+<form method="post"  name="modify_contact" action="jsp/admin/plugins/contact/DoModifyContactList.jsp">
+    <h2>#i18n{contact.modify_contact_list.tableLabel}</h2>
+    
+    <p>
+        <label for="contact_list_label" >#i18n{contact.modify_contact_list.rowTitleLabel} * : </label> 
+        <input type="text" id="contact_list_label" name="contact_list_label" value="${contact_list.label}" size="60" maxlength="50" tabindex="1" />
+    </p>
+    <p>
+        <label for="contact_list_description" >#i18n{contact.modify_contact_list.rowTitleDescription} * :</label>  
+        <input type="text" id="contact_list_description" name="contact_list_description" value="${contact_list .description}" size="60" maxlength="100" tabindex="2" />
+    </p>
+    
+    <p>
+        <label for="workgroup" >#i18n{contact.modify_contact_list.labelWorkgroupKey}*:</label>
+        <@combo name="workgroup" default_value="${contact_list.workgroup}" items=workgroups_list />
+    </p>
+    
+    <p>
+         <label for="direction_workgroup" >#i18n{contact.modify_contact_list.labelRole}*:</label>
+         <@combo name="role" default_value="${contact_list.role}" items=roles_list />
+        </p>
+    
+    <p>   
+        <input type="submit" value="#i18n{contact.modify_contact_list.buttonValidate}" class="button" tabindex="3" />
+        <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />	
+    </p>
+    
+    <input type="hidden" name="id_contact_list" value="${contact_list.id}"></label>
+</form>
+
+</div>

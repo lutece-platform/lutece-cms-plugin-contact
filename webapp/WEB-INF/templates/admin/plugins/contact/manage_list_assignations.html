@@ -1,0 +1,158 @@
+<div id="left">
+    <div class="content-box" >
+        <table>
+            <tr>
+                <th colspan="3">
+                    #i18n{contact.contact_list_assignations.label}
+                </th>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    ${contact_list.label}
+                </td>
+            </tr>
+            <tr>
+                <th colspan="3">
+                    #i18n{contact.contact_list_assignations.description}
+                </th>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    ${contact_list.description}
+                </td>
+            </tr>
+            <tr>
+                <th colspan="3">
+                    #i18n{contact.contact_list_assignations.contactsNumer}
+                </th>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    ${contacts_number}
+                </td>
+            </tr>
+            <tr>
+                <th colspan="3">
+                    #i18n{contact.contact_list_assignations.navigation}
+                </th>
+            </tr>
+            <tr>
+                <td width="1%">
+                    <form method="post" action="jsp/admin/plugins/contact/ManageContacts.jsp">                        
+                        <input type="hidden" name="id_contact_list" value="${contact_list.id}"/>
+                        <input src="images/admin/skin/actions/user.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{contact.contact_list_assignations.goManageContacts}" title="#i18n{contact.contact_list_assignations.goManageContacts}" type="image">
+                    </form>                    
+                </td>                
+                <td width="1%">
+                    <form method="post" action="jsp/admin/plugins/contact/ModifyContactList.jsp">                        
+                        <input type="hidden" name="id_contact_list" value="${contact_list.id}"/>
+                        <input src="images/admin/skin/actions/modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{contact.manage_contact_lists.actionModifyContactList}" title="#i18n{contact.manage_contact_lists.actionModifyContactList}" type="image">
+                    </form>                    
+                </td>                
+                <td>
+                    <form method="post" action="jsp/admin/plugins/contact/RemoveContactList.jsp">                        
+                        <input type="hidden" name="id_contact_list" value="${contact_list.id}"/>
+                        <input src="images/admin/skin/actions/delete.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{contact.manage_contact_lists.actionDeleteContactList}" title="#i18n{contact.manage_contact_lists.actionDeleteContactList}" type="image">
+                    </form>                    
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="right">
+    <div class="content-box">
+        <h2>#i18n{contact.contact_list_assignations.listAssignationTitle}</h2>
+        <div class="multibox"  width="100%">
+            <#if list_contacts?size &gt; 0 >            
+	            <table width="100%" >
+	                <tr>
+	                    <th>
+	                        #i18n{contact.contact_list_assignations.holeListLabel}
+	                    </th>
+	                </tr>
+	                <form name="assignContact" method="post" action="jsp/admin/plugins/contact/DoAssignContactsToList.jsp">                        
+	                    <tr>					
+	                        <td>
+		                        <@comboWithParamsAndLength name="list_contact" default_value="" additionalParameters="multiple='multiple' size='10' style='width:100%;'" items=list_contacts max_length=175 />		    
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td align="center">
+	                            <input type="hidden" name="id_contact_list" value="${contact_list.id}" />
+	                            <input type="submit" value="#i18n{contact.contact_list_assignations.validateAssignation}" class="button"/>
+	                            <input type="submit" name="cancel" value="#i18n{portal.admin.message.buttonCancel}" class="button"/>
+	                        </td>
+	                    </tr>
+	                </form>
+	            </table>
+            <#else>
+            	#i18n{contact.contact_list_assignations.noContactToAssign}
+            </#if>
+        </div>	
+    </div>
+    
+    
+    
+    <div class="content-box"> 
+        <h2>
+            #i18n{contact.contact_list_assignations.assignedContacts}
+        </h2>
+        
+        <#if assigned_contacts?size &gt; 0 >
+        <table width="80%">
+            
+            <tr>
+                <th width="40%">#i18n{contact.manage_contacts.columnTitleLabel}</th>
+                <th width="30%">#i18n{contact.manage_contacts.columnTitleEmail}</th>
+                <th width="20%">#i18n{contact.manage_contacts.columnTitleOrder}</th>
+                <th colspan="2">#i18n{contact.manage_contacts.columnTitleActions}</th>
+            </tr>
+            
+            
+            
+            <#list assigned_contacts as assigned_contact>
+            <tr>
+                <td>
+                    ${assigned_contact.name}
+                </td>
+                
+                <td>
+                    ${assigned_contact.email}
+                </td>
+                
+                <td>
+                    <form method="post"  action="jsp/admin/plugins/contact/DoModifyContactsOrder.jsp">
+                        <input type="hidden" name="id_contact" value="${assigned_contact.id}" />	
+                        <input type="hidden" name="id_contact_list" value="${contact_list.id}" />
+                        <@combo name="contacts_order" default_value="${assigned_contact.contactOrder}" items=order_list />
+                        <input type="submit" class="button" value="#i18n{contact.manage_contacts.buttonChangeOrder}" />
+                    </form>
+                </td>
+                
+                    <td>
+                        <form method="post" action="jsp/admin/plugins/contact/ModifyContact.jsp">
+                            <input type="hidden" name="id_contact_list" value="${contact_list.id}" />
+                            <input type="hidden" name="id_contact" value="${assigned_contact.id}"/>
+                            
+                            <input src="images/admin/skin/actions/modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{contact.contact.actionModify}" title="#i18n{contact.contact.actionModify}" type="image">
+                        </form>
+                    </td>
+                    <td>
+                    <form method="post" action="jsp/admin/plugins/contact/DoUnassignContact.jsp">
+                        <input type="hidden" name="id_contact_list" value="${contact_list.id}" />
+                        <input type="hidden" name="id_contact" value="${assigned_contact.id}"/>
+                        <input src="images/admin/skin/actions/delete.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{contact.contact.actionUnassign}" title="#i18n{contact.contact.actionUnassign}" type="image">
+                    </form>
+                </td>
+            </tr>
+            </#list>
+            
+        </table>
+        <#else>
+        #i18n{contact.contact_list_assignations.noAssignedContacts}
+        </#if>    
+        
+    </div>
+    
+    
+</div>

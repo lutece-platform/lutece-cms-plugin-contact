@@ -1,0 +1,79 @@
+<div class="content-box" >
+    
+    <h2>#i18n{contact.manage_contact_lists.tableLabel}</h2>
+    <form method="post" rm action="jsp/admin/plugins/contact/ManageContactLists.jsp">
+        <@pagination paginator=paginator />
+        
+        <!-- Number of contact per page selector -->
+        #i18n{contact.manage_contact_lists.labelItemsPerPage} :
+        <select name="items_per_page">
+            <#list [ "10" , "20" , "50" , "100" ] as nb>
+            <#if nb_items_per_page = nb >
+            <option selected="selected" value="${nb}">${nb}</option>
+            <#else>
+            <option value="${nb}">${nb}</option>
+            </#if>
+            </#list>
+        </select>
+        <input type="submit" class="button" value="#i18n{contact.manage_contact_lists.buttonItemsPerPage}" />
+    </form>    
+    
+    <table>
+        <tr>
+            <th>#i18n{contact.manage_contact_lists.columnTitleLabel}</th>
+            <th>#i18n{contact.manage_contact_lists.columnTitleDescription}</th>
+            <th>#i18n{contact.workgroup}</th>
+            <th>#i18n{contact.contact_list_assignations.contactsNumer}</th>
+            <th>#i18n{contact.manage_contact_lists.contactListOrder}</th>
+            <th colspan="2">#i18n{contact.contact_list_assignations.navigation}</th>
+        </tr>
+
+        <#list list_contact_list  as contactList >	                
+        <tr>
+            <td>
+                <a title="#i18n{contact.manage_contact_lists.actionModifyContactList}" href="jsp/admin/plugins/contact/ModifyContactList.jsp?id_contact_list=${contactList.id}" class="bullet-link">
+                    ${contactList.label}
+                </a>
+            </td>
+            <td>
+                ${contactList.description}
+            </td>
+            <td>
+                ${contactList.workgroup}
+            </td>  
+            <td>
+                ${contactList.contactsNumber}
+            </td>
+            <td>
+                <form method="post"  action="jsp/admin/plugins/contact/DoModifyContactListsOrder.jsp">	
+                        <input type="hidden" name="id_contact_list" value="${contactList.id}" />
+                        <@combo name="contact_list_order" default_value="${contactList.contactListOrder}" items=order_list />
+                        <input type="submit" class="button" value="#i18n{contact.manage_contacts.buttonChangeOrder}" />
+                </form>
+                
+            </td>
+            <td width="1%">
+                <form method="post" action="jsp/admin/plugins/contact/ManageListAssignations.jsp">
+                    
+                    <input type="hidden" name="id_contact_list" value="${contactList.id}"/> 
+                    <input src="images/admin/skin/actions/group.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{contact.manage_contact_lists.actionAssignContacts}" title="#i18n{contact.manage_contact_lists.actionAssignContacts}" type="image">
+                </form>
+            </td>
+            
+            <td>
+                <form method="post" action="jsp/admin/plugins/contact/RemoveContactList.jsp">
+                    
+                    <input type="hidden" name="id_contact_list" value="${contactList.id}"/> 
+                    <input src="images/admin/skin/actions/delete.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{contact.manage_contact_lists.actionDeleteContactList}" title="#i18n{contact.manage_contact_lists.actionDeleteContactList}" type="image">
+                </form>
+            </td>
+        </tr>				
+        </#list>
+                
+    </table>
+
+    <form method="post"  action="jsp/admin/plugins/contact/CreateContactList.jsp">
+        <input type="submit" value="#i18n{contact.manage_contact_lists.buttonAddContactList}" class="button" />
+    </form>
+
+</div>
