@@ -23,7 +23,13 @@
 				<label  for="visitor_last_name">#i18n{contact.page_contact.visitorLastName} * :</label>
 				</td>
 				<td>
-				<input type="text" name="visitor_last_name" id="visitor_last_name" value="${visitor_last_name}" size="30" maxlength="50" class="-lutece-input -lutece-border-radius-mini" />
+				<input type="text" name="visitor_last_name" id="visitor_last_name" size="30" maxlength="50" class="-lutece-input -lutece-border-radius-mini" 
+					<#if mylutece_user??>
+						value="${mylutece_user.getUserInfo( 'user.name.family' )}"
+					<#else>
+						value="${visitor_last_name}" 
+					</#if>
+				/>
 				</td>
 				</tr>
 				<tr>
@@ -31,7 +37,13 @@
 				<label  for="visitor_first_name">#i18n{contact.page_contact.visitorFirstName} * :</label>
 				</td>
 				<td>
-				<input type="text" name="visitor_first_name" id="visitor_first_name" value="${visitor_first_name}" size="30" maxlength="50" class="-lutece-input -lutece-border-radius-mini" />
+				<input type="text" name="visitor_first_name" id="visitor_first_name" size="30" maxlength="50" class="-lutece-input -lutece-border-radius-mini"
+					<#if mylutece_user??>
+						value="${mylutece_user.getUserInfo( 'user.name.given' )}"
+					<#else>
+						value="${visitor_first_name}" 
+					</#if>
+				/>
 				</td>
 				</tr>
 				<tr>
@@ -87,7 +99,7 @@
 				<tr>
 				<td colspan="2" align="center">
 					<input class="-lutece-input -lutece-border-radius-mini" name="Submit" value="#i18n{contact.page_contact.buttonSend}" type="submit" />
-					<input class="-lutece-input -lutece-border-radius-mini" name="Reset" value="#i18n{contact.page_contact.buttonReset}" type="submit" /> 
+					<input class="-lutece-input -lutece-border-radius-mini" name="Reset" value="#i18n{contact.page_contact.buttonReset}" type="reset" /> 
 				</td>
 				</tr>
 			</table>

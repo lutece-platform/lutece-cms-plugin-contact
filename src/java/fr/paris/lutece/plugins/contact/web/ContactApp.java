@@ -33,11 +33,21 @@
  */
 package fr.paris.lutece.plugins.contact.web;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.plugins.contact.business.Contact;
 import fr.paris.lutece.plugins.contact.business.ContactHome;
 import fr.paris.lutece.plugins.contact.business.ContactList;
 import fr.paris.lutece.plugins.contact.business.ContactListHome;
+import fr.paris.lutece.plugins.contact.service.ContactPlugin;
 import fr.paris.lutece.portal.service.captcha.CaptchaSecurityService;
+import fr.paris.lutece.portal.service.content.XPageAppService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.SiteMessage;
@@ -55,16 +65,7 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
-
-import java.io.Serializable;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import fr.paris.lutece.util.url.UrlItem;
 
 /**
  * This class manages Contact page.
@@ -96,9 +97,10 @@ public class ContactApp implements XPageApplication
     private static final String MARK_CURRENT_DATE = "current_date";
     private static final String MARK_CAPTCHA = "captcha";
     private static final String MARK_IS_ACTIVE_CAPTCHA = "is_active_captcha";
-    private static final String MARK_ROLE = "role";
+    //private static final String MARK_ROLE = "role";
     private static final String MARK_LIST_OF_LISTS = "list_of_lists";
     private static final String MARK_ID_CONTACT_LIST = "id_contact_list";
+    private static final String MARK_MYLUTECE_USER = "mylutece_user";
     private static final String PARAMETER_PAGE = "page";
     private static final String PARAMETER_CONTACT = "contact";
     private static final String PARAMETER_VISITOR_LASTNAME = "visitor_last_name";
@@ -119,7 +121,7 @@ public class ContactApp implements XPageApplication
     private static final String PROPERTY_CAPTCHA_ERROR = "contact.message_contact.captchaError";
     private static final String PROPERTY_PAGE_TITLE = "contact.pageTitle";
     private static final String PROPERTY_PAGE_PATH = "contact.pagePathLabel";
-    private static final String PROPERTY_NO_ID_FOUND = "contact.message_contact.noIdFound";
+    //private static final String PROPERTY_NO_ID_FOUND = "contact.message_contact.noIdFound";
     private static final String PROPERTY_LIST_NOT_EXISTS = "contact.message_contact.listNotExists";
     private static final String PROPERTY_NOT_AUTHORIZED = "contact.message_contact.notauthorized";
     private static final String PROPERTY_NO_LIST_VISIBLE = "contact.message_contact.noListVisible";
@@ -233,7 +235,10 @@ public class ContactApp implements XPageApplication
 
             if ( strSendMessage.equals( "done" ) )
             {
-                SiteMessageService.setMessage( request, PROPERTY_SENDING_OK, SiteMessage.TYPE_INFO );
+            	UrlItem url = new UrlItem( strPortalUrl );
+            	url.addParameter( XPageAppService.PARAM_XPAGE_APP, ContactPlugin.PLUGIN_NAME );
+            	url.addParameter( PARAMETER_ID_CONTACT_LIST, strIdContactList );
+                SiteMessageService.setMessage( request, PROPERTY_SENDING_OK, SiteMessage.TYPE_INFO, url.getUrl(  ) );
             }
 
             else if ( strSendMessage.equals( "error_exception" ) )
@@ -294,9 +299,7 @@ public class ContactApp implements XPageApplication
 
             if ( user != null )
             {
-                //add user.getName()
-                strVisitorFirstName = user.getUserInfo( LuteceUser.NAME_GIVEN );
-                strVisitorLastName = user.getUserInfo( LuteceUser.NAME_FAMILY );
+                model.put( MARK_MYLUTECE_USER, user );
             }
         }
 
@@ -392,7 +395,7 @@ public class ContactApp implements XPageApplication
         String strContact = request.getParameter( PARAMETER_CONTACT );
         int nContact = ( strContact == null ) ? 0 : Integer.parseInt( strContact );
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
-
+    	
         //test the captcha
         if ( PluginService.isPluginEnable( JCAPTCHA_PLUGIN ) )
         {
