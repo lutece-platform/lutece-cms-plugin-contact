@@ -43,6 +43,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
@@ -147,8 +148,8 @@ public class ContactJspBean extends PluginAdminPageJspBean
         Collection<Contact> listContacts = ContactHome.findAll( getPlugin(  ) );
         listContacts = AdminWorkgroupService.getAuthorizedCollection( listContacts, getUser(  ) );
 
-        Paginator paginator = new Paginator( (List<Contact>) listContacts, _nItemsPerPage, getUrlPage(  ),
-                PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        LocalizedPaginator paginator = new LocalizedPaginator( (List<Contact>) listContacts, _nItemsPerPage, getUrlPage(  ),
+                PARAMETER_PAGE_INDEX, _strCurrentPageIndex ,getLocale() );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
 
