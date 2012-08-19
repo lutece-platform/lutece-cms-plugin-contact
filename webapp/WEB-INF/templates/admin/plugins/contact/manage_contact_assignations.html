@@ -1,147 +1,115 @@
-<div class="well span3">
-    <div class="row" >
-        <table class="table table-striped table-condensed">
+<div class="row" >
+    <div class="well span4">
+        <table class="table table-striped table-condensed span3">
             <tr>
-                <th colspan="3">
+                <th>
                     #i18n{contact.contact_assignations.description} 
                 </th>
             </tr>
             <tr>
-                <td colspan="3">
+                <td>
                     ${contact.name}
                 </td>
             </tr>
             <tr>
-                <th colspan="3">
+                <th>
                     #i18n{contact.contact_assignations.adress}
                 </th>
             </tr>
             <tr>
-                <td colspan="3">
+                <td>
                     ${contact.email}
                 </td>
             </tr>
             <tr>
-                <th colspan="3">
+                <th>
                     #i18n{contact.contact_assignations.navigation}
                 </th>
             </tr>
             <tr>
-                <td width="1%">
-                    <form class="form-horizontal" method="post" action="jsp/admin/plugins/contact/ManageContactLists.jsp">
-	<fieldset>
-
-                        <input type="hidden" name="id_contact" value="${contact.id}"/> 
-                        <input src="images/admin/skin/actions/group.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{contact.contact_list_assignations.goManageLists}" title="#i18n{contact.contact_list_assignations.goManageLists}" type="image">
-
-                    </fieldset>
-</form>
-                </td>
-                <td width="1%">
-                    <form class="form-horizontal" method="post" action="jsp/admin/plugins/contact/ModifyContact.jsp">
-	<fieldset>
-
-                        <input type="hidden" name="id_contact" value="${contact.id}"/> 
-                        <input src="images/admin/skin/actions/modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{contact.contact_assignations.actionModify}" title="#i18n{contact.contact_assignations.actionModify}" type="image">
-                    </fieldset>
-</form>
-                </td>
                 <td>
-                    <form class="form-horizontal" method="post" action="jsp/admin/plugins/contact/RemoveContact.jsp">
-	<fieldset>
+                    <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/contact/ManageContactLists.jsp?id_contact=${contact.id}" title="#i18n{contact.contact_list_assignations.goManageLists}">
+                        <i class="icon-user icon-white"></i>
+                    </a>
+                    <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/contact/ModifyContact.jsp?id_contact=${contact.id}" title="#i18n{contact.contact_assignations.actionModify}">
+                        <i class="icon-edit icon-white"></i>
+                    </a>
+                    <a class="btn btn-danger btn-mini" href="jsp/admin/plugins/contact/RemoveContact.jsp?id_contact=${contact.id}" title="#i18n{contact.contact_assignations.actionDelete}" >
+                        <i class="icon-trash icon-white"></i>
+                    </a>
 
-                        <input type="hidden" name="id_contact" value="${contact.id}"/> 
-                        <input src="images/admin/skin/actions/delete.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{contact.contact_assignations.actionDelete}" title="#i18n{contact.contact_assignations.actionDelete}" type="image">
-
-                    </fieldset>
-</form>
-                    
                 </td>
             </tr>
         </table>
     </div>
-</div>
-<div class="well span8 offset4">
-    <div class="row">
+
+
+    <div class="well span7">
         <legend>#i18n{contact.contact_assignations.ContactAssignationTitle}</legend>
-        <div class="multibox"  width="100%">		                  
-            <table width="100%" >
-                <tr>
-                    <th>
-                        #i18n{contact.contact_assignations.holeListLabel}
-                    </th>
-                 </tr>
-                <form class="form-horizontal" name="assignContact" method="post" action="jsp/admin/plugins/contact/DoAssignListsToContact.jsp">
-	<fieldset>              
+        <table>
+            <tr>
+                <th>
+                    #i18n{contact.contact_assignations.holeListLabel}
+                </th>
+            </tr>
+            <form class="form-horizontal" name="assignContact" method="post" action="jsp/admin/plugins/contact/DoAssignListsToContact.jsp">
+                <fieldset>              
                     <tr>					
                         <td>
                             <div class="controls">
-	<@comboWithParamsAndLength name="list_contact" default_value="" additionalParameters="multiple='multiple' size='10' style='width:100%;'" items=not_assigned_lists max_length=175 />
-		</div>
-	</div>		    
+                                <@comboWithParamsAndLength name="list_contact" default_value="" additionalParameters="multiple='multiple' size='10' style='width:100%;'" items=not_assigned_lists max_length=175 />
+                            </div>
+                            </div>		    
                         </td>
                     </tr>
                     <tr>
                         <td align="center" >
                             <input type="hidden" name="id_contact" value="${contact.id}" />
                             <button class="btn btn-primary" type="submit" >#i18n{contact.contact_assignations.validateAssignation}</button>
-	
+
                             <button class="btn btn-primary" type="submit" >#i18n{portal.admin.message.buttonCancel}</button>
-	
+
                         </td>
                     </tr>
                 </fieldset>
-</form>
-            </table>
-        </div>
-    </div>
-    
-    
-    <div class="row"> 
-        <legend>
-            #i18n{contact.contact_list_assignations.assignedLists}
-        </legend>
-        
-        <#if assigned_lists?size &gt; 0 >
-        <table width="80%">
-            
-            <#list assigned_lists as assigned_list>
-                
-                <tr>
-                    <td width="80%">
-                        ${assigned_list.label} ( ${assigned_list.contactsNumber} #i18n{contact.contact_list_assignations.contacts} )
-                    </td>
-                    
-                    <td width="1%" >
-                        <form class="form-horizontal" method="post" action="jsp/admin/plugins/contact/ModifyContactList.jsp">
-	<fieldset>
-                        <input type="hidden" name="id_contact_list" value="${assigned_list.id}" />
-                        <input type="hidden" name="id_contact" value="${contact.id}"/>                        
-                        <input src="images/admin/skin/actions/modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{contact.manage_contact_lists.actionModifyContactList}" title="#i18n{contact.manage_contact_lists.actionModifyContactList}" type="image">
-
-                        </fieldset>
-</form>
-                    </td>
-                    
-                    <td>
-                        <form class="form-horizontal" method="post" action="jsp/admin/plugins/contact/DoUnassignList.jsp">
-	<fieldset>
-                        <input type="hidden" name="id_contact_list" value="${assigned_list.id}" />
-                        <input type="hidden" name="id_contact" value="${contact.id}"/>
-                        
-                        <input src="images/admin/skin/actions/delete.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{contact.contact.actionUnassign}" title="#i18n{contact.contact.actionUnassign}" type="image">
-                        </fieldset>
-</form>
-                    </td>
-                </tr>
-                
-            </#list>
-            
+            </form>
         </table>
-        <#else>
-        #i18n{contact.contact_list_assignations.noAssignedList}
-        </#if>    
-        
     </div>
-    
+
+
+
+    <legend>
+        #i18n{contact.contact_list_assignations.assignedLists}
+    </legend>
+
+    <#if assigned_lists?size &gt; 0 >
+    <table>
+
+        <#list assigned_lists as assigned_list>
+
+        <tr>
+            <td>
+                ${assigned_list.label} ( ${assigned_list.contactsNumber} #i18n{contact.contact_list_assignations.contacts} )
+            </td>
+
+            <td>
+                <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/contact/ModifyContactList.jsp?id_contact_list=${assigned_list.id}&amp;id_contact=${contact.id}"
+                   title="#i18n{contact.manage_contact_lists.actionModifyContactList}">
+                    <i class="icon-edit icon-white"></i>
+                </a>
+                <a class="btn btn-danger btn-mini" href="jsp/admin/plugins/contact/DoUnassignList.jsp?id_contact_list=${assigned_list.id}&amp;id_contact=${contact.id}"
+                   title="#i18n{contact.contact.actionUnassign}" >
+                    <i class="icon-trash icon-white"></i>
+                </a>
+            </td>
+        </tr>
+
+        </#list>
+
+    </table>
+    <#else>
+    #i18n{contact.contact_list_assignations.noAssignedList}
+    </#if>    
+
 </div>
+
