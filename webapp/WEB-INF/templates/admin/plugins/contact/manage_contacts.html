@@ -1,20 +1,18 @@
-
-<form class="form-horizontal" method="post"  action="jsp/admin/plugins/contact/CreateContact.jsp">
-    <button class="btn btn-primary pull-right" type="submit" >
+<div class="row" >
+	<div class="span12" >
+    <legend>
+	#i18n{contact.manage_contacts.tableLabel}
+	<form class="form-inline pull-right" method="post"  action="jsp/admin/plugins/contact/CreateContact.jsp">
+    <button class="btn btn-primary" type="submit" >
         <i class="icon-plus icon-white"></i>
         <span class="hidden-phone">
             #i18n{contact.manage_contacts.buttonAddContact}
         </span>
     </button>
-</form>
-
-
-<div class="row" >
-    <legend>#i18n{contact.manage_contacts.tableLabel}</legend>
-
-    <@paginationAdmin paginator=paginator combo=1 />
-
-    <table class="table table-striped table-condensed">
+	</form>
+	</legend>
+	<@paginationAdmin paginator=paginator combo=1 />
+	<table class="table table-striped table-condensed">
         <thead>
             <tr>
                 <th>#i18n{contact.manage_contacts.columnTitleLabel}</th>
@@ -24,40 +22,28 @@
             </tr>
         </thead>
         <tbody>
-            <#list contact_list as contact >
-
-            <tr>
-                <td>
-                    ${contact.name}
-                </td>
-                <td>
-                    ${contact.email}
-                </td>
-                <td>
-                    ${contact.workgroup}
-                </td>     
-                <td>
-                    <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/contact/ModifyContact.jsp?id_contact=${contact.id}"  title="#i18n{portal.util.labelModify}" >
-                        <i class="icon-edit icon-white"></i>
-                    </a>
-
-                    <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/contact/ManageContactAssignations.jsp?id_contact=${contact.id}" title="#i18n{contact.contact_assignations.actionAssign}">
-                        <i class="icon-user icon-white"></i>
-                    </a>
-
-                    <a class="btn btn-danger btn-mini" href="jsp/admin/plugins/contact/RemoveContact.jsp?id_contact=${contact.id}" title="#i18n{contact.contact.actionDelete}">
-                        <i class="icon-trash icon-white"></i>
-                    </a>
-
-                </td>
-            </tr>					
-            </#list>
-        </tbody>
-
-    </table>
-
-    <@paginationAdmin paginator=paginator />
-
+        <#list contact_list as contact >
+		<tr>
+			<td>${contact.name}</td>
+            <td>${contact.email}</td>
+            <td>${contact.workgroup}</td>     
+            <td>
+				<a class="btn btn-primary btn-mini" href="jsp/admin/plugins/contact/ModifyContact.jsp?id_contact=${contact.id}"  title="#i18n{portal.util.labelModify}" >
+					<i class="icon-edit icon-white"></i>
+                </a>
+				<a class="btn btn-primary btn-mini" href="jsp/admin/plugins/contact/ManageContactAssignations.jsp?id_contact=${contact.id}" title="#i18n{contact.contact_assignations.actionAssign}">
+					<i class="icon-user icon-white"></i>
+                </a>
+				<a class="btn btn-danger btn-mini" href="jsp/admin/plugins/contact/RemoveContact.jsp?id_contact=${contact.id}" title="#i18n{contact.contact.actionDelete}">
+					<i class="icon-trash icon-white"></i>
+                </a>
+			</td>
+        </tr>					
+        </#list>
+    </tbody>
+	</table>
+	<@paginationAdmin paginator=paginator />
+	</div>
 </div>
 
 

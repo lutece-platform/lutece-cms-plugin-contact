@@ -1,37 +1,33 @@
 <div class="row" >
-
+<div class="row" >
+	<fieldset>
     <legend>#i18n{contact.create_contact.tableLabel}</legend>
-
-    <form class="form-horizontal" method="post"  name="create_contact" id="create_contact" action="jsp/admin/plugins/contact/DoCreateContact.jsp">
-        <fieldset>
-
-            <div class="control-group">
-                <label class="control-label" for="contact_name" >#i18n{contact.create_contact.rowTitleLabel} * : </label> 
-                <div class="controls">
-                    <input type="text" id="contact_name" name="contact_name" size="60" maxlength="50" tabindex="1" />
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label class="control-label" for="contact_email" >#i18n{contact.create_contact.rowTitleEmail} * :</label>  
-                <div class="controls">
-                    <input type="text" id="contact_email" name="contact_email" size="60" maxlength="100" tabindex="2" />
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label class="control-label" for="workgroup" >#i18n{contact.create_contact.labelWorkgroupKey}*:</label>
-                <div class="controls">
-                    <@combo name="workgroup" default_value="all" items=workgroups_list />
-                </div>
-            </div>
-
-            <div class="form-actions">
-                <button class="btn btn-primary" type="submit" >#i18n{contact.create_contact.buttonValidate}</button>
-                <a class="btn" href="jsp/admin/plugins/contact/ManageContacts.jsp" title="#i18n{portal.util.labelCancel}">#i18n{portal.util.labelCancel}</a>
-            </div>
-
-        </fieldset>
-    </form>
-
+		<form class="form-horizontal" method="post"  name="create_contact" id="create_contact" action="jsp/admin/plugins/contact/DoCreateContact.jsp">
+			<div class="control-group">
+			<label class="control-label" for="contact_name" >#i18n{contact.create_contact.rowTitleLabel} * : </label> 
+				<div class="controls">
+					<input type="text" id="contact_name" name="contact_name" size="60" maxlength="50" tabindex="1" />
+				</div>
+			</div>
+			<div class="control-group">
+			<label class="control-label" for="contact_email" >#i18n{contact.create_contact.rowTitleEmail} * :</label>  
+				<div class="controls">
+					<input type="text" id="contact_email" name="contact_email" size="60" maxlength="100" tabindex="2" />
+				</div>
+			</div>
+			<div class="control-group">
+			<label class="control-label" for="workgroup" >#i18n{contact.create_contact.labelWorkgroupKey}*:</label>
+				<div class="controls">
+				<@combo name="workgroup" default_value="all" items=workgroups_list />
+				</div>
+			</div>
+			<div class="form-actions">
+				<button class="btn btn-primary" type="submit" >#i18n{contact.create_contact.buttonValidate}</button>
+				<a class="btn btn-primary" href="jsp/admin/plugins/contact/ManageContacts.jsp" title="#i18n{portal.util.labelCancel}">
+					<i class="icon-remove-circle icon-white"></i>&nbsp;#i18n{portal.util.labelCancel}
+				</a>
+			</div>
+		</form>
+	</fieldset>
+	</div>
 </div>

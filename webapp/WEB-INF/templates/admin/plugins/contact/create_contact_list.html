@@ -1,44 +1,39 @@
 <div class="row" >
-
+	<div class="span12" >
+	<fieldset>
     <legend>#i18n{contact.create_contact_list.tableLabel}</legend>
-
-    <form class="form-horizontal" method="post"  name="create_contact_list" id="create_contact_list" action="jsp/admin/plugins/contact/DoCreateContactList.jsp">
-        <fieldset>
-
-            <div class="control-group">
-                <label class="control-label" for="contact_list_label" >#i18n{contact.create_contact_list.rowTitleLabel} * : </label> 
-                <div class="controls">
-                    <input type="text" id="contact_list_label" name="contact_list_label" size="60" maxlength="50" tabindex="1" />
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label class="control-label" for="contact_list_description" >#i18n{contact.create_contact_list.rowTitleDescription} * :</label>  
-                <div class="controls">
-                    <input type="text" id="contact_list_description" name="contact_list_description" size="60" maxlength="100" tabindex="2" />
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label class="control-label" for="direction_workgroup" >#i18n{contact.create_contact_list.labelWorkgroupKey}*:</label>
-                <div class="controls">
-                    <@combo name="workgroup" default_value="all" items=workgroups_list />
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label class="control-label" for="direction_workgroup" >#i18n{contact.create_contact_list.labelRole}*:</label>
-                <div class="controls">
-                    <@combo name="role" default_value="none" items=roles_list />
-                </div>
-            </div>
-
-            <div class="form-actions">
-                <button class="btn btn-primary" type="submit" >#i18n{contact.create_contact_list.buttonValidate}</button>
-                <a class="btn" href="jsp/admin/plugins/contact/ManageContactLists.jsp" title="#i18n{portal.util.labelCancel}">#i18n{portal.util.labelCancel}</a>
-            </div>
-
-        </fieldset>
-    </form>
-
+		<form class="form-horizontal" method="post"  name="create_contact_list" id="create_contact_list" action="jsp/admin/plugins/contact/DoCreateContactList.jsp">
+			<div class="control-group">
+			<label class="control-label" for="contact_list_label" >#i18n{contact.create_contact_list.rowTitleLabel} * : </label> 
+				<div class="controls">
+					<input type="text" id="contact_list_label" name="contact_list_label" size="60" maxlength="50" tabindex="1" />
+				</div>
+			</div>
+			<div class="control-group">
+			<label class="control-label" for="contact_list_description" >#i18n{contact.create_contact_list.rowTitleDescription} * :</label>  
+				<div class="controls">
+					<input type="text" id="contact_list_description" name="contact_list_description" size="60" maxlength="100" tabindex="2" />	
+				</div>
+			</div>
+			<div class="control-group">
+			<label class="control-label" for="direction_workgroup" >#i18n{contact.create_contact_list.labelWorkgroupKey}*:</label>
+				<div class="controls">
+					<@combo name="workgroup" default_value="all" items=workgroups_list />
+				</div>
+			</div>
+			<div class="control-group">
+			<label class="control-label" for="direction_workgroup" >#i18n{contact.create_contact_list.labelRole}*:</label>
+				<div class="controls">
+					<@combo name="role" default_value="none" items=roles_list />
+				</div>
+			</div>
+			<div class="form-actions">
+				<button class="btn btn-primary" type="submit"><i class="icon-ok icon-white"></i>&nbsp;#i18n{contact.create_contact_list.buttonValidate}</button>
+				<a class="btn btn-primary" href="jsp/admin/plugins/contact/ManageContactLists.jsp" title="#i18n{portal.util.labelCancel}">
+					<i class="icon-remove-circle icon-white"></i>&nbsp;#i18n{portal.util.labelCancel}
+				</a>
+			</div>
+		</form>
+	</fieldset>
+	</div>
 </div>
