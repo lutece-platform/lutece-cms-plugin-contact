@@ -1,8 +1,9 @@
-<div class="row">
+<div class="row-fluid">
 	<div class="span12">
     <fieldset>
     <legend>#i18n{contact.modify_contact.tableLabel}</legend>
 		<form class="form-horizontal" method="post"  name="modify_contact" action="jsp/admin/plugins/contact/DoModifyContact.jsp">
+		<input type="hidden" name="id_contact" value="${contact.id}">
             <div class="control-group">
                 <label class="control-label" for="contact_name" >#i18n{contact.modify_contact.rowTitleLabel} * :</label>
                 <div class="controls">
@@ -10,7 +11,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="contact_email" >#i18n{contact.modify_contact.rowTitleEmail} * : <input type="hidden" name="id_contact" value="${contact.id}"></label>
+                <label class="control-label" for="contact_email" >#i18n{contact.modify_contact.rowTitleEmail} * </label>
                 <div class="controls">
                     <input type="text" id="contact_email" name="contact_email" size="60" maxlength="100" value="${contact.email}" tabindex="2" />
                 </div>
@@ -22,9 +23,11 @@
                 </div>
             </div>
             <div class="form-actions">
-                <button class="btn btn-primary" type="submit" ><i class="icon-ok icon-white"></i>&nbsp;#i18n{contact.modify_contact.buttonValidate}</button>
-                <a class="btn btn-rimary" href="jsp/admin/plugins/contact/ManageContacts.jsp" title="#i18n{portal.util.labelCancel}">
-					<i class="icon-remove-circle icon-white"></i>&nbsp;<#i18n{portal.util.labelCancel}
+                <button class="btn btn-primary" type="submit" >
+					<i class="icon-ok icon-white"></i>&nbsp;#i18n{contact.modify_contact.buttonValidate}
+				</button>
+				<a class="btn btn-primary" href="jsp/admin/plugins/contact/ManageContacts.jsp" title="#i18n{portal.util.labelCancel}">
+					<i class="icon-remove-circle icon-white"></i>&nbsp;#i18n{portal.util.labelCancel}
 				</a>
             </div>
 		</form>

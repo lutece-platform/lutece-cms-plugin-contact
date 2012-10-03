@@ -1,4 +1,4 @@
-<div class="row" >
+<div class="row-fluid" >
     <div class="well span3">
 		<p><strong>#i18n{contact.contact_list_assignations.label}</strong></p>
         <p>${contact_list.label}</p>
@@ -57,8 +57,8 @@
                 <form class="inline" action="jsp/admin/plugins/contact/DoModifyContactsOrder.jsp">
                 <input type="hidden" name="id_contact" value="${assigned_contact.id}" />	
                 <input type="hidden" name="id_contact_list" value="${contact_list.id}" />
-					<@comboWithParams name="contacts_order" default_value="${assigned_contact.contactOrder}" additionalParameters="class=\"span1\"" items=order_list />
-					<button class="btn btn-primary btn-mini" type="submit" title="#i18n{contact.manage_contacts.buttonChangeOrder}"><i class="icon-list icon-white"></i></button>
+					<@comboWithParams name="contacts_order" default_value="${assigned_contact.contactOrder}" additionalParameters="class=\"span6\"" items=order_list />
+					<button class="btn btn-primary btn-mini" type="submit" title="#i18n{contact.manage_contacts.buttonChangeOrder}"><i class=" icon-move icon-white"></i></button>
                 </form>
             </td>
             <td>
