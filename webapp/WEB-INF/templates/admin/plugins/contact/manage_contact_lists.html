@@ -34,18 +34,18 @@
                     <form class="form-inline" method="post"  action="jsp/admin/plugins/contact/DoModifyContactListsOrder.jsp">
                         <input type="hidden" name="id_contact_list" value="${contactList.id}" />
                         <@comboWithParams name="contact_list_order" default_value="${contactList.contactListOrder}" additionalParameters="class=\"span6\"" items=order_list />
-                        <button class="btn btn-primary btn-mini" type="submit" title="#i18n{contact.manage_contacts.buttonChangeOrder}"><i class=" icon-move icon-white"></i></button>
+                        <button class="btn btn-primary btn-small" type="submit" title="#i18n{contact.manage_contacts.buttonChangeOrder}"><i class=" icon-move icon-white"></i></button>
                     </form>
                 </td>
                 <td>
-                    <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/contact/ModifyContactList.jsp?id_contact_list=${contactList.id}"  title="#i18n{contact.manage_contact_lists.actionModifyContactList}" >
+                    <a class="btn btn-primary btn-small" href="jsp/admin/plugins/contact/ModifyContactList.jsp?id_contact_list=${contactList.id}"  title="#i18n{contact.manage_contact_lists.actionModifyContactList}" >
                         <i class="icon-edit icon-white"></i>
                     </a>
-                    <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/contact/ManageListAssignations.jsp?id_contact_list=${contactList.id}" title="#i18n{contact.manage_contact_lists.actionAssignContacts}" >
+                    <a class="btn btn-primary btn-small" href="jsp/admin/plugins/contact/ManageListAssignations.jsp?id_contact_list=${contactList.id}" title="#i18n{contact.manage_contact_lists.actionAssignContacts}" >
                         <i class="icon-user icon-white"></i>
                     </a>
 
-                    <a class="btn btn-danger btn-mini" href="jsp/admin/plugins/contact/RemoveContactList.jsp?id_contact_list=${contactList.id}" title="#i18n{contact.manage_contact_lists.actionDeleteContactList}">
+                    <a class="btn btn-danger btn-small" href="jsp/admin/plugins/contact/RemoveContactList.jsp?id_contact_list=${contactList.id}" title="#i18n{contact.manage_contact_lists.actionDeleteContactList}">
                         <i class="icon-trash icon-white"></i>
                     </a>
                 </td>

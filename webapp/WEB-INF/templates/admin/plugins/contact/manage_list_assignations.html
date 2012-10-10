@@ -7,13 +7,13 @@
         <p><strong>#i18n{contact.contact_list_assignations.contactsNumer} :</strong> ${contacts_number}</p>
 		<p><strong>#i18n{contact.contact_list_assignations.navigation}</strong></p>
 		<p>
-			<a class="btn btn-primary btn-mini" href="jsp/admin/plugins/contact/ManageContacts.jsp?id_contact_list=${contact_list.id}" title="#i18n{contact.contact_list_assignations.goManageContacts}">
+			<a class="btn btn-primary btn-small" href="jsp/admin/plugins/contact/ManageContacts.jsp?id_contact_list=${contact_list.id}" title="#i18n{contact.contact_list_assignations.goManageContacts}">
 				<i class="icon-user icon-white"></i>
             </a>                    
-            <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/contact/ModifyContactList.jsp?id_contact_list=${contact_list.id}" title="#i18n{contact.manage_contact_lists.actionModifyContactList}">
+            <a class="btn btn-primary btn-small" href="jsp/admin/plugins/contact/ModifyContactList.jsp?id_contact_list=${contact_list.id}" title="#i18n{contact.manage_contact_lists.actionModifyContactList}">
 				<i class="icon-edit icon-white"></i>
             </a>                    
-            <a class="btn btn-danger btn-mini" href="jsp/admin/plugins/contact/RemoveContactList.jsp?id_contact_list=${contact_list.id}" title="#i18n{contact.manage_contact_lists.actionDeleteContactList}">
+            <a class="btn btn-danger btn-small" href="jsp/admin/plugins/contact/RemoveContactList.jsp?id_contact_list=${contact_list.id}" title="#i18n{contact.manage_contact_lists.actionDeleteContactList}">
 				<i class="icon-trash icon-white"></i>
             </a>                    
         </p>
@@ -58,14 +58,14 @@
                 <input type="hidden" name="id_contact" value="${assigned_contact.id}" />	
                 <input type="hidden" name="id_contact_list" value="${contact_list.id}" />
 					<@comboWithParams name="contacts_order" default_value="${assigned_contact.contactOrder}" additionalParameters="class=\"span6\"" items=order_list />
-					<button class="btn btn-primary btn-mini" type="submit" title="#i18n{contact.manage_contacts.buttonChangeOrder}"><i class=" icon-move icon-white"></i></button>
+					<button class="btn btn-primary btn-small" type="submit" title="#i18n{contact.manage_contacts.buttonChangeOrder}"><i class=" icon-move icon-white"></i></button>
                 </form>
             </td>
             <td>
-                <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/contact/ModifyContact.jsp?id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}" title="#i18n{contact.contact.actionModify}">
+                <a class="btn btn-primary btn-small" href="jsp/admin/plugins/contact/ModifyContact.jsp?id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}" title="#i18n{contact.contact.actionModify}">
                     <i class="icon-edit icon-white"></i>
                 </a>
-                <a class="btn btn-danger btn-mini" href="jsp/admin/plugins/contact/DoUnassignContact.jsp?id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}" title="#i18n{contact.contact.actionUnassign}">
+                <a class="btn btn-danger btn-small" href="jsp/admin/plugins/contact/DoUnassignContact.jsp?id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}" title="#i18n{contact.contact.actionUnassign}">
                     <i class="icon-trash icon-white"></i>
                 </a>
             </td>

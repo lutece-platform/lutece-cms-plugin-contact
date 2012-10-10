@@ -6,13 +6,13 @@
 		<p>${contact.email}</p>
 		<p><strong>#i18n{contact.contact_assignations.navigation}</strong></p>
 		<p>
-			<a class="btn btn-primary btn-mini" href="jsp/admin/plugins/contact/ManageContactLists.jsp?id_contact=${contact.id}" title="#i18n{contact.contact_list_assignations.goManageLists}">
+			<a class="btn btn-primary btn-small" href="jsp/admin/plugins/contact/ManageContactLists.jsp?id_contact=${contact.id}" title="#i18n{contact.contact_list_assignations.goManageLists}">
 				<i class="icon-user icon-white"></i>
 			</a>
-			<a class="btn btn-primary btn-mini" href="jsp/admin/plugins/contact/ModifyContact.jsp?id_contact=${contact.id}" title="#i18n{contact.contact_assignations.actionModify}">
+			<a class="btn btn-primary btn-small" href="jsp/admin/plugins/contact/ModifyContact.jsp?id_contact=${contact.id}" title="#i18n{contact.contact_assignations.actionModify}">
 				<i class="icon-edit icon-white"></i>
 			</a>
-			<a class="btn btn-danger btn-mini" href="jsp/admin/plugins/contact/RemoveContact.jsp?id_contact=${contact.id}" title="#i18n{contact.contact_assignations.actionDelete}" >
+			<a class="btn btn-danger btn-small" href="jsp/admin/plugins/contact/RemoveContact.jsp?id_contact=${contact.id}" title="#i18n{contact.contact_assignations.actionDelete}" >
 				<i class="icon-trash icon-white"></i>
 			</a>
 		</p>
@@ -46,11 +46,11 @@
 				<tr>
 					<td>${assigned_list.label} ( ${assigned_list.contactsNumber} #i18n{contact.contact_list_assignations.contacts} )</td>
 					<td>
-						<a class="btn btn-primary btn-mini" href="jsp/admin/plugins/contact/ModifyContactList.jsp?id_contact_list=${assigned_list.id}&amp;id_contact=${contact.id}"
+						<a class="btn btn-primary btn-small" href="jsp/admin/plugins/contact/ModifyContactList.jsp?id_contact_list=${assigned_list.id}&amp;id_contact=${contact.id}"
 						   title="#i18n{contact.manage_contact_lists.actionModifyContactList}">
 							<i class="icon-edit icon-white"></i>
 						</a>
-						<a class="btn btn-danger btn-mini" href="jsp/admin/plugins/contact/DoUnassignList.jsp?id_contact_list=${assigned_list.id}&amp;id_contact=${contact.id}"
+						<a class="btn btn-danger btn-small" href="jsp/admin/plugins/contact/DoUnassignList.jsp?id_contact_list=${assigned_list.id}&amp;id_contact=${contact.id}"
 						   title="#i18n{contact.contact.actionUnassign}" >
 							<i class="icon-trash icon-white"></i>
 						</a>
