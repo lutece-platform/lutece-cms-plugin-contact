@@ -21,18 +21,18 @@
 		<fieldset> 
         <legend>#i18n{contact.contact_assignations.ContactAssignationTitle}</legend>
 			<p class="lead">#i18n{contact.contact_assignations.holeListLabel}</p>
+			<#if not_assigned_lists ?size &gt; 0>
 			<form  name="assignContact" method="post" action="jsp/admin/plugins/contact/DoAssignListsToContact.jsp">
 			<input type="hidden" name="id_contact" value="${contact.id}" />
-			<div class="controls">
-				<@comboWithParamsAndLength name="list_contact" default_value="" additionalParameters="multiple='multiple' size='10' style='width:100%;'" items=not_assigned_lists max_length=175 />
-			</div>
-			<div class="form-actions">
-				<button class="btn btn-primary btn-small" type="submit" >
-					<i class="icon-plus icon-white"></i>
-					#i18n{contact.contact_assignations.validateAssignation}
-				</button>
-			</div>
+			<@comboWithParamsAndLength name="list_contact" default_value="" additionalParameters="multiple='multiple' size='10' style='width:100%;'" items=not_assigned_lists max_length=175 />
+			<button class="btn btn-primary btn-small" type="submit" >
+				<i class="icon-plus icon-white"></i>
+				#i18n{contact.contact_assignations.validateAssignation}
+			</button>
 			</form>
+		<#else>
+			<div class="alert alert-error">#i18n{contact.contact_list_assignations.noListAvailable}</div>
+		</#if> 
 		</fieldset> 
 		<fieldset> 
 		<legend> #i18n{contact.contact_list_assignations.assignedLists}</legend>
@@ -59,7 +59,7 @@
 				</#list>
 			</table>
     <#else>
-		<p class="label label-warning">#i18n{contact.contact_list_assignations.noAssignedList}</p>
+		<div class="alert alert-error">#i18n{contact.contact_list_assignations.noAssignedList}</div>
     </#if>  
 	</fieldset>	
 	</div>

@@ -37,7 +37,7 @@
 			</form>
 		</fieldset>
         <#else>
-			<p class="label label-warning">#i18n{contact.contact_list_assignations.noContactToAssign}</p>
+			<div class="alert alert-error">#i18n{contact.contact_list_assignations.noContactToAssign}</div>
         </#if>
 		<fieldset> 
 		<legend>#i18n{contact.contact_list_assignations.assignedContacts}</legend>
@@ -73,7 +73,7 @@
         </#list>
     </table>
     <#else>
-		<p class="label label-warning">#i18n{contact.contact_list_assignations.noAssignedContacts}</p>
+		<div class="alert alert-error">#i18n{contact.contact_list_assignations.noAssignedContacts}</div>
     </#if>    
  </div>	
 </div>
