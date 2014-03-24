@@ -75,11 +75,11 @@ public final class ContactDAO implements IContactDAO
     private int newPrimaryKey( Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEWPK, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         int nKey;
 
-        if ( !daoUtil.next(  ) )
+        if ( !daoUtil.next( ) )
         {
             // if the table is empty
             nKey = 1;
@@ -87,7 +87,7 @@ public final class ContactDAO implements IContactDAO
 
         nKey = daoUtil.getInt( 1 ) + 1;
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nKey;
     }
@@ -97,7 +97,7 @@ public final class ContactDAO implements IContactDAO
 
     /**
      * Insert a new record in the table.
-     *
+     * 
      * @param contact The contact object
      * @param plugin The plugin
      */
@@ -105,13 +105,13 @@ public final class ContactDAO implements IContactDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
         contact.setId( newPrimaryKey( plugin ) );
-        daoUtil.setInt( 1, contact.getId(  ) );
-        daoUtil.setString( 2, contact.getName(  ) );
-        daoUtil.setString( 3, contact.getEmail(  ) );
-        daoUtil.setString( 4, contact.getWorkgroup(  ) );
+        daoUtil.setInt( 1, contact.getId( ) );
+        daoUtil.setString( 2, contact.getName( ) );
+        daoUtil.setString( 3, contact.getEmail( ) );
+        daoUtil.setString( 4, contact.getWorkgroup( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -124,20 +124,20 @@ public final class ContactDAO implements IContactDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
         daoUtil.setInt( 1, nContactId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         Contact contact = null;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            contact = new Contact(  );
+            contact = new Contact( );
             contact.setId( daoUtil.getInt( 1 ) );
             contact.setName( daoUtil.getString( 2 ) );
             contact.setEmail( daoUtil.getString( 3 ) );
             contact.setWorkgroup( daoUtil.getString( 4 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return contact;
     }
@@ -150,9 +150,9 @@ public final class ContactDAO implements IContactDAO
     public void delete( Contact contact, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
-        daoUtil.setInt( 1, contact.getId(  ) );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.setInt( 1, contact.getId( ) );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -163,15 +163,15 @@ public final class ContactDAO implements IContactDAO
     public void store( Contact contact, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
-        int nContactId = contact.getId(  );
+        int nContactId = contact.getId( );
 
-        daoUtil.setString( 1, contact.getName(  ) );
-        daoUtil.setString( 2, contact.getEmail(  ) );
-        daoUtil.setString( 3, contact.getWorkgroup(  ) );
+        daoUtil.setString( 1, contact.getName( ) );
+        daoUtil.setString( 2, contact.getEmail( ) );
+        daoUtil.setString( 3, contact.getWorkgroup( ) );
         daoUtil.setInt( 4, nContactId );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -183,37 +183,37 @@ public final class ContactDAO implements IContactDAO
      */
     public ReferenceList selectContactsByListWithString( int nIdContactList, String strComboItem, Plugin plugin )
     {
-        ReferenceList contactList = new ReferenceList(  );
+        ReferenceList contactList = new ReferenceList( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_LIST, plugin );
         daoUtil.setInt( 1, nIdContactList );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
         contactList.addItem( 0, strComboItem );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             contactList.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return contactList;
     }
 
     /**
      * Load the list of contacts
-     *
+     * 
      * @param plugin The plugin
      * @return The Collection of the Contacts
      */
     public Collection<Contact> selectAll( Plugin plugin )
     {
-        Collection<Contact> contactList = new ArrayList<Contact>(  );
+        Collection<Contact> contactList = new ArrayList<Contact>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            Contact contact = new Contact(  );
+            Contact contact = new Contact( );
             contact.setId( daoUtil.getInt( 1 ) );
             contact.setName( daoUtil.getString( 2 ) );
             contact.setEmail( daoUtil.getString( 3 ) );
@@ -222,7 +222,7 @@ public final class ContactDAO implements IContactDAO
             contactList.add( contact );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return contactList;
     }
@@ -249,6 +249,7 @@ public final class ContactDAO implements IContactDAO
      * Returns the number of hits of a contact
      * @param nIdContact id of the contact
      * @param plugin the plugin Contact
+     * @return the number of hits
      */
     private int checkContactHits( int nIdContact, Plugin plugin )
     {
@@ -256,14 +257,14 @@ public final class ContactDAO implements IContactDAO
 
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CONTACT_HITS, plugin );
         daoUtil.setInt( 1, nIdContact );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             nHits = daoUtil.getInt( 1 );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nHits;
     }
@@ -271,6 +272,7 @@ public final class ContactDAO implements IContactDAO
     /**
      * updates the number of hits of a contact
      * @param nIdContact id of the contact
+     * @param nNewContactHits new number of hits
      * @param plugin the plugin Contact
      */
     private void updateContactHits( int nIdContact, int nNewContactHits, Plugin plugin )
@@ -278,8 +280,8 @@ public final class ContactDAO implements IContactDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_CONTACT_HITS, plugin );
         daoUtil.setInt( 1, nNewContactHits );
         daoUtil.setInt( 2, nIdContact );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -287,6 +289,7 @@ public final class ContactDAO implements IContactDAO
      * @param nIdContact id of the contact
      * @param nIdContactList id of contact list
      * @param plugin the plugin Contact
+     * @return the number of hits
      */
     private int checkContactInListHits( int nIdContact, int nIdContactList, Plugin plugin )
     {
@@ -295,14 +298,14 @@ public final class ContactDAO implements IContactDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CONTACT_IN_LIST_HITS, plugin );
         daoUtil.setInt( 1, nIdContact );
         daoUtil.setInt( 2, nIdContactList );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             nHits = daoUtil.getInt( 1 );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nHits;
     }
@@ -311,6 +314,7 @@ public final class ContactDAO implements IContactDAO
      * updates the number of hits of a contact in a specified list
      * @param nIdContact id of the contact
      * @param nIdContactList id of contact list
+     * @param nNewContactInListHits the new number of hits
      * @param plugin the plugin Contact
      */
     private void updateContactInListHits( int nIdContact, int nIdContactList, int nNewContactInListHits, Plugin plugin )
@@ -319,28 +323,28 @@ public final class ContactDAO implements IContactDAO
         daoUtil.setInt( 1, nNewContactInListHits );
         daoUtil.setInt( 2, nIdContact );
         daoUtil.setInt( 3, nIdContactList );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     ////////////////////////////////////////////////////////////////////////////
     // Contact Order management
 
     /**
-    * Modify the order of a contact
-    * @param nIdContactList The id of contactList
-    * @param nNewOrder The order number
-    * @param nId The contact identifier
-    * @param plugin The plugin
-    */
+     * Modify the order of a contact
+     * @param nIdContactList The id of contactList
+     * @param nNewOrder The order number
+     * @param nId The contact identifier
+     * @param plugin The plugin
+     */
     public void storeContactOrder( int nNewOrder, int nId, int nIdContactList, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_CONTACT_ORDER, plugin );
         daoUtil.setInt( 1, nNewOrder );
         daoUtil.setInt( 2, nId );
         daoUtil.setInt( 3, nIdContactList );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -353,12 +357,12 @@ public final class ContactDAO implements IContactDAO
     public int selectContactIdByOrder( int nContactOrder, int nIdContactList, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CONTACT_ID_BY_ORDER, plugin );
-        int nResult = nContactOrder;
+        int nResult;
         daoUtil.setInt( 1, nContactOrder );
         daoUtil.setInt( 2, nIdContactList );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( !daoUtil.next(  ) )
+        if ( !daoUtil.next( ) )
         {
             // If number order doesn't exist
             nResult = 1;
@@ -368,7 +372,7 @@ public final class ContactDAO implements IContactDAO
             nResult = daoUtil.getInt( 1 );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nResult;
     }
@@ -383,12 +387,12 @@ public final class ContactDAO implements IContactDAO
     public int selectContactOrderById( int nIdContact, int nIdContactList, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CONTACT_ORDER_BY_ID, plugin );
-        int nResult = nIdContact;
+        int nResult;
         daoUtil.setInt( 1, nIdContact );
         daoUtil.setInt( 2, nIdContactList );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( !daoUtil.next(  ) )
+        if ( !daoUtil.next( ) )
         {
             // If number order doesn't exist
             nResult = 1;
@@ -398,7 +402,7 @@ public final class ContactDAO implements IContactDAO
             nResult = daoUtil.getInt( 1 );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nResult;
     }

@@ -33,14 +33,6 @@
  */
 package fr.paris.lutece.plugins.contact.web;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.plugins.contact.business.Contact;
 import fr.paris.lutece.plugins.contact.business.ContactHome;
 import fr.paris.lutece.plugins.contact.business.ContactList;
@@ -67,11 +59,25 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
+
 /**
  * This class manages Contact page.
  */
 public class ContactApp implements XPageApplication
 {
+    /** Serial id */
+    private static final long serialVersionUID = 6553298772139973292L;
+
     ////////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String TEMPLATE_XPAGE_CONTACT = "skin/plugins/contact/page_contact.html";
@@ -135,18 +141,19 @@ public class ContactApp implements XPageApplication
     private Plugin _plugin;
 
     /**
-     * Returns the content of the page Contact. It is composed by a form which to capture the data to send a message to
+     * Returns the content of the page Contact. It is composed by a form which
+     * to capture the data to send a message to
      * a contact of the portal.
      * @return the Content of the page Contact
      * @param request The http request
      * @param nMode The current mode
      * @param plugin The plugin object
-     * @throws fr.paris.lutece.portal.service.message.SiteMessageException Message displayed if an exception occures
+     * @throws fr.paris.lutece.portal.service.message.SiteMessageException
+     *             Message displayed if an exception occures
      */
-    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
-        throws SiteMessageException
+    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin ) throws SiteMessageException
     {
-        XPage page = new XPage(  );
+        XPage page = new XPage( );
 
         String strPluginName = request.getParameter( PARAMETER_PAGE );
         _plugin = PluginService.getPlugin( strPluginName );
@@ -172,29 +179,38 @@ public class ContactApp implements XPageApplication
     /**
      * Checks if the page is visible for the current user
      * @param request The HTTP request
+     * @param strRole the role to check
      * @return true if the page could be shown to the user
      * @since v1.3.1
      */
     private boolean isVisible( HttpServletRequest request, String strRole )
     {
-        if ( ( strRole == null ) || ( strRole.trim(  ).equals( EMPTY_STRING ) ) )
+        if ( ( strRole == null ) || ( strRole.trim( ).equals( EMPTY_STRING ) ) )
         {
             return true;
         }
 
-        if ( !strRole.equals( ContactList.ROLE_NONE ) && SecurityService.isAuthenticationEnable(  ) )
+        if ( !strRole.equals( ContactList.ROLE_NONE ) && SecurityService.isAuthenticationEnable( ) )
         {
-            return SecurityService.getInstance(  ).isUserInRole( request, strRole );
+            return SecurityService.getInstance( ).isUserInRole( request, strRole );
         }
 
         return true;
     }
 
+    /**
+     * Return form
+     * @param request the page request
+     * @param strIdContactList the id of contact list
+     * @param strSendMessage the send message
+     * @return the corresponding form
+     * @throws SiteMessageException occurs during treatment
+     */
     private String getForm( HttpServletRequest request, String strIdContactList, String strSendMessage )
-        throws SiteMessageException
+            throws SiteMessageException
     {
-        String strPortalUrl = request.getRequestURI(  );
-        Map<String, Serializable> model = new HashMap<String, Serializable>(  );
+        String strPortalUrl = request.getRequestURI( );
+        Map<String, Serializable> model = new HashMap<String, Serializable>( );
 
         model.put( MARK_PORTAL_URL, strPortalUrl );
 
@@ -203,31 +219,31 @@ public class ContactApp implements XPageApplication
 
         if ( bIsCaptchaEnabled )
         {
-            _captchaService = new CaptchaSecurityService(  );
-            model.put( MARK_CAPTCHA, _captchaService.getHtmlCode(  ) );
+            _captchaService = new CaptchaSecurityService( );
+            model.put( MARK_CAPTCHA, _captchaService.getHtmlCode( ) );
         }
 
-        String strVisitorLastName = ( request.getParameter( PARAMETER_VISITOR_LASTNAME ) != null )
-            ? request.getParameter( PARAMETER_VISITOR_LASTNAME ) : "";
-        String strVisitorFirstName = ( request.getParameter( PARAMETER_VISITOR_FIRSTNAME ) != null )
-            ? request.getParameter( PARAMETER_VISITOR_FIRSTNAME ) : "";
-        String strVisitorEmail = ( request.getParameter( PARAMETER_VISITOR_EMAIL ) != null )
-            ? request.getParameter( PARAMETER_VISITOR_EMAIL ) : "";
-        String strVisitorAddress = ( request.getParameter( PARAMETER_VISITOR_ADDRESS ) != null )
-            ? request.getParameter( PARAMETER_VISITOR_ADDRESS ) : "";
-        String strObject = ( request.getParameter( PARAMETER_MESSAGE_OBJECT ) != null )
-            ? request.getParameter( PARAMETER_MESSAGE_OBJECT ) : "";
-        String strMessage = ( request.getParameter( PARAMETER_MESSAGE ) != null )
-            ? request.getParameter( PARAMETER_MESSAGE ) : "";
-        String strContact = ( request.getParameter( PARAMETER_CONTACT ) != null )
-            ? request.getParameter( PARAMETER_CONTACT ) : "";
+        String strVisitorLastName = ( request.getParameter( PARAMETER_VISITOR_LASTNAME ) != null ) ? request
+                .getParameter( PARAMETER_VISITOR_LASTNAME ) : "";
+        String strVisitorFirstName = ( request.getParameter( PARAMETER_VISITOR_FIRSTNAME ) != null ) ? request
+                .getParameter( PARAMETER_VISITOR_FIRSTNAME ) : "";
+        String strVisitorEmail = ( request.getParameter( PARAMETER_VISITOR_EMAIL ) != null ) ? request
+                .getParameter( PARAMETER_VISITOR_EMAIL ) : "";
+        String strVisitorAddress = ( request.getParameter( PARAMETER_VISITOR_ADDRESS ) != null ) ? request
+                .getParameter( PARAMETER_VISITOR_ADDRESS ) : "";
+        String strObject = ( request.getParameter( PARAMETER_MESSAGE_OBJECT ) != null ) ? request
+                .getParameter( PARAMETER_MESSAGE_OBJECT ) : "";
+        String strMessage = ( request.getParameter( PARAMETER_MESSAGE ) != null ) ? request
+                .getParameter( PARAMETER_MESSAGE ) : "";
+        String strContact = ( request.getParameter( PARAMETER_CONTACT ) != null ) ? request
+                .getParameter( PARAMETER_CONTACT ) : "";
 
         if ( strSendMessage != null )
         {
             String strStyleLastName = strVisitorLastName.equals( "" ) ? "error" : "";
             String strStyleFirstName = strVisitorFirstName.equals( "" ) ? "error" : "";
-            String strStyleEmail = ( strVisitorEmail.equals( "" ) ||
-                ( StringUtil.checkEmail( strVisitorEmail ) != true ) ) ? "error" : "";
+            String strStyleEmail = ( strVisitorEmail.equals( "" ) || ( StringUtil.checkEmail( strVisitorEmail ) != true ) ) ? "error"
+                    : "";
             String strStyleObject = strObject.equals( "" ) ? "error" : "";
             String strStyleMessage = strMessage.equals( "" ) ? "error" : "";
             String strStyleContact = strContact.equals( "0" ) ? "error" : "";
@@ -235,34 +251,34 @@ public class ContactApp implements XPageApplication
 
             if ( strSendMessage.equals( "done" ) )
             {
-            	UrlItem url = new UrlItem( strPortalUrl );
-            	url.addParameter( XPageAppService.PARAM_XPAGE_APP, ContactPlugin.PLUGIN_NAME );
-            	url.addParameter( PARAMETER_ID_CONTACT_LIST, strIdContactList );
-                SiteMessageService.setMessage( request, PROPERTY_SENDING_OK, SiteMessage.TYPE_INFO, url.getUrl(  ) );
+                UrlItem url = new UrlItem( strPortalUrl );
+                url.addParameter( XPageAppService.PARAM_XPAGE_APP, ContactPlugin.PLUGIN_NAME );
+                url.addParameter( PARAMETER_ID_CONTACT_LIST, strIdContactList );
+                SiteMessageService.setMessage( request, PROPERTY_SENDING_OK, SiteMessage.TYPE_INFO, url.getUrl( ) );
             }
 
             else if ( strSendMessage.equals( "error_exception" ) )
             {
-                strAlert = I18nService.getLocalizedString( PROPERTY_SENDING_NOK, request.getLocale(  ) );
+                strAlert = I18nService.getLocalizedString( PROPERTY_SENDING_NOK, request.getLocale( ) );
             }
 
             else if ( strSendMessage.equals( "error_captcha" ) )
             {
-                strAlert = I18nService.getLocalizedString( PROPERTY_CAPTCHA_ERROR, request.getLocale(  ) );
+                strAlert = I18nService.getLocalizedString( PROPERTY_CAPTCHA_ERROR, request.getLocale( ) );
             }
 
             else if ( strSendMessage.equals( "error_field" ) )
             {
-                strAlert = I18nService.getLocalizedString( PROPERTY_MANDATORY_FIELD_MISSING, request.getLocale(  ) );
+                strAlert = I18nService.getLocalizedString( PROPERTY_MANDATORY_FIELD_MISSING, request.getLocale( ) );
             }
 
             else if ( strSendMessage.equals( "error_recipient" ) )
             {
-                strAlert = I18nService.getLocalizedString( PROPERTY_RECIPIENT_MISSING, request.getLocale(  ) );
+                strAlert = I18nService.getLocalizedString( PROPERTY_RECIPIENT_MISSING, request.getLocale( ) );
             }
             else if ( strSendMessage.equals( "error_email" ) )
             {
-                strAlert = I18nService.getLocalizedString( PROPERTY_ERROR_EMAIL, request.getLocale(  ) );
+                strAlert = I18nService.getLocalizedString( PROPERTY_ERROR_EMAIL, request.getLocale( ) );
             }
 
             model.put( MARK_CONTACT_ALERT, strAlert );
@@ -277,25 +293,25 @@ public class ContactApp implements XPageApplication
         int nIdContactList = Integer.parseInt( strIdContactList );
         ContactList contactList = ContactListHome.findByPrimaryKey( nIdContactList, _plugin );
 
-        if ( !ContactListHome.listExists( contactList.getId(  ), _plugin ) )
+        if ( !ContactListHome.listExists( contactList.getId( ), _plugin ) )
         {
             SiteMessageService.setMessage( request, PROPERTY_LIST_NOT_EXISTS, SiteMessage.TYPE_ERROR );
         }
 
-        if ( !isVisible( request, contactList.getRole(  ) ) )
+        if ( !isVisible( request, contactList.getRole( ) ) )
         {
             SiteMessageService.setMessage( request, PROPERTY_NOT_AUTHORIZED, SiteMessage.TYPE_STOP );
         }
 
-        String strComboItem = I18nService.getLocalizedString( PROPERTY_COMBO_CHOOSE, request.getLocale(  ) );
+        String strComboItem = I18nService.getLocalizedString( PROPERTY_COMBO_CHOOSE, request.getLocale( ) );
 
         // Contacts Combo
-        ReferenceList listContact = ContactHome.getContactsByListWithString( contactList.getId(  ), strComboItem,
+        ReferenceList listContact = ContactHome.getContactsByListWithString( contactList.getId( ), strComboItem,
                 _plugin );
 
-        if ( SecurityService.isAuthenticationEnable(  ) )
+        if ( SecurityService.isAuthenticationEnable( ) )
         {
-            LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
+            LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
 
             if ( user != null )
             {
@@ -314,41 +330,44 @@ public class ContactApp implements XPageApplication
 
         model.put( MARK_DEFAULT_CONTACT, ( ( strContact == null ) || ( strContact.equals( "" ) ) ) ? "0" : strContact );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_XPAGE_CONTACT, request.getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_XPAGE_CONTACT, request.getLocale( ), model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
-    private String getLists( HttpServletRequest request )
-        throws SiteMessageException
+    /**
+     * Get lists
+     * @param request the page request
+     * @return the lists
+     * @throws SiteMessageException occurs during treatment
+     */
+    private String getLists( HttpServletRequest request ) throws SiteMessageException
     {
         String strTemplate = "";
-        Map<String, Collection<ContactList>> model = new HashMap<String, Collection<ContactList>>(  );
+        Map<String, Collection<ContactList>> model = new HashMap<String, Collection<ContactList>>( );
         Collection<ContactList> listOfLists = ContactListHome.findAll( _plugin );
 
-        Collection<ContactList> visibleList = new ArrayList<ContactList>(  ); // filter the list of lists by role
+        Collection<ContactList> visibleList = new ArrayList<ContactList>( ); // filter the list of lists by role
 
         for ( ContactList currentList : listOfLists )
         {
-            if ( isVisible( request, currentList.getRole(  ) ) )
+            if ( isVisible( request, currentList.getRole( ) ) )
             {
                 visibleList.add( currentList );
             }
         }
 
-        if ( visibleList.size(  ) == 0 )
+        if ( visibleList.size( ) == 0 )
         {
             SiteMessageService.setMessage( request, PROPERTY_NO_LIST_VISIBLE, SiteMessage.TYPE_WARNING );
         }
-        else if ( visibleList.size(  ) == 1 )
+        else if ( visibleList.size( ) == 1 )
         {
-            String strContactListId = "";
-            ContactList contactList = new ContactList(  );
+            String strContactListId = StringUtils.EMPTY;
 
             for ( ContactList onlyList : visibleList )
             {
-                contactList = ContactListHome.findByPrimaryKey( onlyList.getId(  ), _plugin );
-                strContactListId = Integer.toString( onlyList.getId(  ) );
+                strContactListId = Integer.toString( onlyList.getId( ) );
             }
 
             return getForm( request, strContactListId, null );
@@ -359,100 +378,105 @@ public class ContactApp implements XPageApplication
             strTemplate = TEMPLATE_XPAGE_LISTS;
         }
 
-        HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, request.getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, request.getLocale( ), model );
         model.put( MARK_LIST_OF_LISTS, visibleList );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
-     * This method tests the parameters stored in the request and send the message if they are corrects. Otherwise, it
+     * This method tests the parameters stored in the request and send the
+     * message if they are corrects. Otherwise, it
      * displays an error message.
      * @return The result of the process of the sending message.
      * @param request The http request
-     * @throws fr.paris.lutece.portal.service.message.SiteMessageException Message displayed if an exception occures
+     * @throws fr.paris.lutece.portal.service.message.SiteMessageException
+     *             Message displayed if an exception occures
      */
-    public String doSendMessage( HttpServletRequest request )
-        throws SiteMessageException
+    public String doSendMessage( HttpServletRequest request ) throws SiteMessageException
     {
         String strPortalUrl = request.getParameter( PARAMETER_PORTAL_URL );
         String strIdContactList = request.getParameter( PARAMETER_ID_CONTACT_LIST );
 
         String strUrl = strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList + "&send=done";
-        String strVisitorLastName = ( request.getParameter( PARAMETER_VISITOR_LASTNAME ) == null ) ? ""
-                                                                                                   : request.getParameter( PARAMETER_VISITOR_LASTNAME );
-        String strVisitorFirstName = ( request.getParameter( PARAMETER_VISITOR_FIRSTNAME ) == null ) ? ""
-                                                                                                     : request.getParameter( PARAMETER_VISITOR_FIRSTNAME );
-        String strVisitorAddress = ( request.getParameter( PARAMETER_VISITOR_ADDRESS ) == null ) ? ""
-                                                                                                 : request.getParameter( PARAMETER_VISITOR_ADDRESS );
-        String strVisitorEmail = ( request.getParameter( PARAMETER_VISITOR_EMAIL ) == null ) ? ""
-                                                                                             : request.getParameter( PARAMETER_VISITOR_EMAIL );
-        String strObject = ( request.getParameter( PARAMETER_MESSAGE_OBJECT ) == null ) ? ""
-                                                                                        : request.getParameter( PARAMETER_MESSAGE_OBJECT );
-        String strMessage = ( request.getParameter( PARAMETER_MESSAGE ) == null ) ? ""
-                                                                                  : request.getParameter( PARAMETER_MESSAGE );
-        String strDateOfDay = DateUtil.getCurrentDateString(  );
+        String strVisitorLastName = ( request.getParameter( PARAMETER_VISITOR_LASTNAME ) == null ) ? "" : request
+                .getParameter( PARAMETER_VISITOR_LASTNAME );
+        String strVisitorFirstName = ( request.getParameter( PARAMETER_VISITOR_FIRSTNAME ) == null ) ? "" : request
+                .getParameter( PARAMETER_VISITOR_FIRSTNAME );
+        String strVisitorAddress = ( request.getParameter( PARAMETER_VISITOR_ADDRESS ) == null ) ? "" : request
+                .getParameter( PARAMETER_VISITOR_ADDRESS );
+        String strVisitorEmail = ( request.getParameter( PARAMETER_VISITOR_EMAIL ) == null ) ? "" : request
+                .getParameter( PARAMETER_VISITOR_EMAIL );
+        String strObject = ( request.getParameter( PARAMETER_MESSAGE_OBJECT ) == null ) ? "" : request
+                .getParameter( PARAMETER_MESSAGE_OBJECT );
+        String strMessage = ( request.getParameter( PARAMETER_MESSAGE ) == null ) ? "" : request
+                .getParameter( PARAMETER_MESSAGE );
+        String strDateOfDay = DateUtil.getCurrentDateString( request.getLocale( ) );
         String strContact = request.getParameter( PARAMETER_CONTACT );
         int nContact = ( strContact == null ) ? 0 : Integer.parseInt( strContact );
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
-    	
+
         //test the captcha
         if ( PluginService.isPluginEnable( JCAPTCHA_PLUGIN ) )
         {
-            _captchaService = new CaptchaSecurityService(  );
+            _captchaService = new CaptchaSecurityService( );
 
             if ( !_captchaService.validate( request ) )
             {
-                return strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList +
-                "&send=error_captcha&visitor_last_name=" + strVisitorLastName + "&visitor_first_name=" +
-                strVisitorFirstName + "&visitor_email=" + strVisitorEmail + "&visitor_address=" + strVisitorAddress +
-                "&contact=" + strContact + "&message_object=" + strObject + "&message=" + strMessage;
+                return strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList
+                        + "&send=error_captcha&visitor_last_name=" + strVisitorLastName + "&visitor_first_name="
+                        + strVisitorFirstName + "&visitor_email=" + strVisitorEmail + "&visitor_address="
+                        + strVisitorAddress + "&contact=" + strContact + "&message_object=" + strObject + "&message="
+                        + strMessage;
             }
         }
 
         //test the selection of the contact
         if ( nContact == 0 )
         {
-            return strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList +
-            "&send=error_recipient&visitor_last_name=" + strVisitorLastName + "&visitor_first_name=" +
-            strVisitorFirstName + "&visitor_email=" + strVisitorEmail + "&visitor_address=" + strVisitorAddress +
-            "&contact=" + strContact + "&message_object=" + strObject + "&message=" + strMessage;
+            return strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList
+                    + "&send=error_recipient&visitor_last_name=" + strVisitorLastName + "&visitor_first_name="
+                    + strVisitorFirstName + "&visitor_email=" + strVisitorEmail + "&visitor_address="
+                    + strVisitorAddress + "&contact=" + strContact + "&message_object=" + strObject + "&message="
+                    + strMessage;
         }
 
         String strPluginName = request.getParameter( PARAMETER_PAGE );
         _plugin = PluginService.getPlugin( strPluginName );
 
         Contact contact = ContactHome.findByPrimaryKey( nContact, _plugin );
-        String strEmailContact = contact.getEmail(  );
-        String strContactName = contact.getName(  );
+        String strEmailContact = contact.getEmail( );
+        String strContactName = contact.getName( );
 
         //tests the length of the message  ( 1000 characters maximums )
-        if ( strMessage.length(  ) > 1000 )
+        if ( strMessage.length( ) > 1000 )
         {
             strMessage = strMessage.substring( 0, 1000 );
         }
 
         // Mandatory fields
-        if ( strVisitorLastName.equals( "" ) || strVisitorFirstName.equals( "" ) || strVisitorEmail.equals( "" ) ||
-                strContact.equals( "" ) || strObject.equals( "" ) || strMessage.equals( "" ) )
+        if ( strVisitorLastName.equals( "" ) || strVisitorFirstName.equals( "" ) || strVisitorEmail.equals( "" )
+                || strContact.equals( "" ) || strObject.equals( "" ) || strMessage.equals( "" ) )
         {
-            return strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList +
-            "&send=error_field&visitor_last_name=" + strVisitorLastName + "&visitor_first_name=" + strVisitorFirstName +
-            "&visitor_email=" + strVisitorEmail + "&visitor_address=" + strVisitorAddress + "&contact=" + strContact +
-            "&message_object=" + strObject + "&message=" + strMessage;
+            return strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList
+                    + "&send=error_field&visitor_last_name=" + strVisitorLastName + "&visitor_first_name="
+                    + strVisitorFirstName + "&visitor_email=" + strVisitorEmail + "&visitor_address="
+                    + strVisitorAddress + "&contact=" + strContact + "&message_object=" + strObject + "&message="
+                    + strMessage;
         }
 
         //test the email of the visitor
         //Checking of the presence of the email address and of its format (@ caracter in the address).
         if ( StringUtil.checkEmail( strVisitorEmail ) != true )
         {
-            return strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList +
-            "&send=error_email&visitor_last_name=" + strVisitorLastName + "&visitor_first_name=" + strVisitorFirstName +
-            "&visitor_email=" + strVisitorEmail + "&visitor_address=" + strVisitorAddress + "&contact=" + strContact +
-            "&message_object=" + strObject + "&message=" + strMessage;
+            return strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList
+                    + "&send=error_email&visitor_last_name=" + strVisitorLastName + "&visitor_first_name="
+                    + strVisitorFirstName + "&visitor_email=" + strVisitorEmail + "&visitor_address="
+                    + strVisitorAddress + "&contact=" + strContact + "&message_object=" + strObject + "&message="
+                    + strMessage;
         }
 
-        Map<String, String> model = new HashMap<String, String>(  );
+        Map<String, String> model = new HashMap<String, String>( );
         model.put( MARK_VISITOR_LASTNAME, strVisitorLastName );
         model.put( MARK_VISITOR_FIRSTNAME, strVisitorFirstName );
         model.put( MARK_VISITOR_ADDRESS, strVisitorAddress );
@@ -461,9 +485,9 @@ public class ContactApp implements XPageApplication
         model.put( MARK_MESSAGE, strMessage );
         model.put( MARK_CURRENT_DATE, strDateOfDay );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MESSAGE_CONTACT, request.getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MESSAGE_CONTACT, request.getLocale( ), model );
 
-        String strMessageText = template.getHtml(  );
+        String strMessageText = template.getHtml( );
 
         MailService.sendMailHtml( strEmailContact, strVisitorLastName, strVisitorEmail, strObject, strMessageText );
         ContactHome.updateHits( nContact, nIdContactList, _plugin );

@@ -62,21 +62,21 @@ public class ContactList implements AdminWorkgroupResource
     private int _nContactListOrder;
 
     /**
-    * Initialize the ContactList
-    */
-    public static void init(  )
+     * Initialize the ContactList
+     */
+    public static void init( )
     {
         // Create removal listeners and register them
         if ( _listenerWorkgroup == null )
         {
-            _listenerWorkgroup = new ContactListWorkgroupRemovalListener(  );
-            WorkgroupRemovalListenerService.getService(  ).registerListener( _listenerWorkgroup );
+            _listenerWorkgroup = new ContactListWorkgroupRemovalListener( );
+            WorkgroupRemovalListenerService.getService( ).registerListener( _listenerWorkgroup );
         }
 
         if ( _listenerRole == null )
         {
-            _listenerRole = new ContactListRoleRemovalListener(  );
-            RoleRemovalListenerService.getService(  ).registerListener( _listenerRole );
+            _listenerRole = new ContactListRoleRemovalListener( );
+            RoleRemovalListenerService.getService( ).registerListener( _listenerRole );
         }
     }
 
@@ -84,7 +84,7 @@ public class ContactList implements AdminWorkgroupResource
      * Returns the identifier of this contactList.
      * @return the contact identifier
      */
-    public int getId(  )
+    public int getId( )
     {
         return _nId;
     }
@@ -102,14 +102,14 @@ public class ContactList implements AdminWorkgroupResource
      * Returns the label of this list.
      * @return the contact name
      */
-    public String getLabel(  )
+    public String getLabel( )
     {
         return _strContactListLabel;
     }
 
     /**
      * Sets the label of the contact List to the specified string.
-     *
+     * 
      * @param strContactListLabel the new name
      */
     public void setLabel( String strContactListLabel )
@@ -121,7 +121,7 @@ public class ContactList implements AdminWorkgroupResource
      * Returns the description of this contact list.
      * @return the contact name
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strContactListDescription;
     }
@@ -139,7 +139,7 @@ public class ContactList implements AdminWorkgroupResource
      * gets the number of contacts assigned to list
      * @return returns the number of contacts assigned to this list
      */
-    public int getContactsNumber(  )
+    public int getContactsNumber( )
     {
         return _nContactsNumber;
     }
@@ -157,7 +157,7 @@ public class ContactList implements AdminWorkgroupResource
      * Returns the workgroup
      * @return The workgroup
      */
-    public String getWorkgroup(  )
+    public String getWorkgroup( )
     {
         return _strAdminWorkgroup;
     }
@@ -181,7 +181,7 @@ public class ContactList implements AdminWorkgroupResource
      * @return contactList's role as a String
      * @since v1.1
      */
-    public String getRole(  )
+    public String getRole( )
     {
         return _strRole;
     }
@@ -192,14 +192,6 @@ public class ContactList implements AdminWorkgroupResource
      */
     public void setRole( String strRole )
     {
-        /*if ( ( strRole == null ) || ( strRole.equals( "" ) ) )
-        {
-            _strRole = ROLE_NONE;
-        }
-        else
-        {
-            _strRole = strRole;
-        }*/
         _strRole = ( ( strRole == null ) || ( strRole.equals( "" ) ) ) ? ROLE_NONE : strRole;
     }
 
@@ -207,14 +199,14 @@ public class ContactList implements AdminWorkgroupResource
      * Returns the order
      * @return The order
      */
-    public int getContactListOrder(  )
+    public int getContactListOrder( )
     {
         return _nContactListOrder;
     }
 
     /**
      * Sets the workgroup
-     * @param strAdminWorkgroup The workgroup
+     * @param nContactListOrder the contact list
      */
     public void setContactListOrder( int nContactListOrder )
     {

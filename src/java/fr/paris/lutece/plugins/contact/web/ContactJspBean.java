@@ -59,7 +59,8 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * This class provides the user interface to manage contact features ( manage, create, modify, remove, change order of
+ * This class provides the user interface to manage contact features ( manage,
+ * create, modify, remove, change order of
  * contact )
  */
 public class ContactJspBean extends PluginAdminPageJspBean
@@ -124,15 +125,15 @@ public class ContactJspBean extends PluginAdminPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_FEATURES );
 
-        HashMap rootModel = new HashMap(  );
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_HOME, getLocale(  ), rootModel );
+        HashMap rootModel = new HashMap( );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_HOME, getLocale( ), rootModel );
 
-        return getAdminPage( templateList.getHtml(  ) );
+        return getAdminPage( templateList.getHtml( ) );
     }
 
     /**
      * Returns the list of people to contact by email
-     *
+     * 
      * @param request The Http request
      * @return the contacts list
      */
@@ -145,26 +146,26 @@ public class ContactJspBean extends PluginAdminPageJspBean
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
 
-        Collection<Contact> listContacts = ContactHome.findAll( getPlugin(  ) );
-        listContacts = AdminWorkgroupService.getAuthorizedCollection( listContacts, getUser(  ) );
+        Collection<Contact> listContacts = ContactHome.findAll( getPlugin( ) );
+        listContacts = AdminWorkgroupService.getAuthorizedCollection( listContacts, getUser( ) );
 
-        LocalizedPaginator paginator = new LocalizedPaginator( (List<Contact>) listContacts, _nItemsPerPage, getUrlPage(  ),
-                PARAMETER_PAGE_INDEX, _strCurrentPageIndex ,getLocale() );
+        LocalizedPaginator paginator = new LocalizedPaginator( (List<Contact>) listContacts, _nItemsPerPage,
+                getUrlPage( ), PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_CONTACT_LIST, paginator.getPageItems(  ) );
+        model.put( MARK_CONTACT_LIST, paginator.getPageItems( ) );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_CONTACTS, getLocale(  ), model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_CONTACTS, getLocale( ), model );
 
-        return getAdminPage( templateList.getHtml(  ) );
+        return getAdminPage( templateList.getHtml( ) );
     }
 
     /**
      * Returns the form to create a contact
-     *
+     * 
      * @param request The Http request
      * @return the html code of the contact form
      */
@@ -172,31 +173,31 @@ public class ContactJspBean extends PluginAdminPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE );
 
-        Map<String, ReferenceList> model = new HashMap<String, ReferenceList>(  );
-        ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) );
+        Map<String, ReferenceList> model = new HashMap<String, ReferenceList>( );
+        ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
         model.put( MARK_WORKGROUPS_LIST, workgroupsList );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_CONTACT, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_CONTACT, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Process the data capture form of a new contact
-     *
+     * 
      * @param request The Http Request
      * @return The Jsp URL of the process result
      */
     public String doCreateContact( HttpServletRequest request )
     {
-        Contact contact = new Contact(  );
+        Contact contact = new Contact( );
         contact.setName( request.getParameter( PARAMETER_CONTACT_NAME ) );
         contact.setEmail( request.getParameter( PARAMETER_CONTACT_EMAIL ) );
         contact.setWorkgroup( request.getParameter( PARAMETER_CONTACT_WORKGROUP ) );
 
         // Mandatory fields
-        if ( request.getParameter( PARAMETER_CONTACT_NAME ).equals( "" ) ||
-                request.getParameter( PARAMETER_CONTACT_EMAIL ).equals( "" ) )
+        if ( request.getParameter( PARAMETER_CONTACT_NAME ).equals( "" )
+                || request.getParameter( PARAMETER_CONTACT_EMAIL ).equals( "" ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -206,7 +207,7 @@ public class ContactJspBean extends PluginAdminPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_EMAIL_NOT_VALID, AdminMessage.TYPE_STOP );
         }
 
-        ContactHome.create( contact, getPlugin(  ) );
+        ContactHome.create( contact, getPlugin( ) );
 
         // if the operation occurred well, redirects towards the list of the Contacts
         return JSP_REDIRECT_TO_MANAGE_CONTACTS;
@@ -214,7 +215,7 @@ public class ContactJspBean extends PluginAdminPageJspBean
 
     /**
      * Returns the form to update info about a contact
-     *
+     * 
      * @param request The Http request
      * @return The HTML form to update info
      */
@@ -223,29 +224,34 @@ public class ContactJspBean extends PluginAdminPageJspBean
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY );
 
         int nId = Integer.parseInt( request.getParameter( PARAMETER_CONTACT_ID ) );
-        Contact contact = ContactHome.findByPrimaryKey( nId, getPlugin(  ) );
+        Contact contact = ContactHome.findByPrimaryKey( nId, getPlugin( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) );
+        if ( contact == null )
+        {
+            return getManageContacts( request );
+        }
+
+        Map<String, Object> model = new HashMap<String, Object>( );
+        ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
         model.put( MARK_WORKGROUPS_LIST, workgroupsList );
         model.put( MARK_CONTACT, contact );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_CONTACT, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_CONTACT, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Process the change form of a contact
-     *
+     * 
      * @param request The Http request
      * @return The Jsp URL of the process result
      */
     public String doModifyContact( HttpServletRequest request )
     {
         // Mandatory fields
-        if ( request.getParameter( PARAMETER_CONTACT_NAME ).equals( "" ) ||
-                request.getParameter( PARAMETER_CONTACT_EMAIL ).equals( "" ) )
+        if ( request.getParameter( PARAMETER_CONTACT_NAME ).equals( "" )
+                || request.getParameter( PARAMETER_CONTACT_EMAIL ).equals( "" ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -255,19 +261,20 @@ public class ContactJspBean extends PluginAdminPageJspBean
         }
 
         int nId = Integer.parseInt( request.getParameter( PARAMETER_CONTACT_ID ) );
-        Contact contact = ContactHome.findByPrimaryKey( nId, getPlugin(  ) );
+        Contact contact = ContactHome.findByPrimaryKey( nId, getPlugin( ) );
         contact.setName( request.getParameter( PARAMETER_CONTACT_NAME ) );
         contact.setEmail( request.getParameter( PARAMETER_CONTACT_EMAIL ) );
         contact.setWorkgroup( request.getParameter( PARAMETER_CONTACT_WORKGROUP ) );
-        ContactHome.update( contact, getPlugin(  ) );
+        ContactHome.update( contact, getPlugin( ) );
 
         // if the operation occurred well, redirects towards the list of the Contacts
         return JSP_REDIRECT_TO_MANAGE_CONTACTS;
     }
 
     /**
-     * Manages the removal form of a contact whose identifier is in the http request
-     *
+     * Manages the removal form of a contact whose identifier is in the http
+     * request
+     * 
      * @param request The Http request
      * @return the html code to confirm
      */
@@ -275,12 +282,12 @@ public class ContactJspBean extends PluginAdminPageJspBean
     {
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_CONTACT_ID ) );
 
-        if ( ContactListHome.countListsForContact( nIdContact, getPlugin(  ) ) > 0 )
+        if ( ContactListHome.countListsForContact( nIdContact, getPlugin( ) ) > 0 )
         {
             UrlItem url = new UrlItem( JSP_MANAGE_CONTACTS );
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CONTACT_STILL_ASSIGNED, url.getUrl(  ),
-                AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CONTACT_STILL_ASSIGNED, url.getUrl( ),
+                    AdminMessage.TYPE_STOP );
         }
         else
         {
@@ -288,14 +295,14 @@ public class ContactJspBean extends PluginAdminPageJspBean
             url.addParameter( PARAMETER_CONTACT_ID, nIdContact );
             url.addParameter( PARAMETER_ID_CONTACT_LIST, request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_CONTACT, url.getUrl(  ),
-                AdminMessage.TYPE_CONFIRMATION );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_CONTACT, url.getUrl( ),
+                    AdminMessage.TYPE_CONFIRMATION );
         }
     }
 
     /**
      * Treats the removal form of a contact
-     *
+     * 
      * @param request The Http request
      * @return the jsp URL to display the form to manage contacts
      */
@@ -303,11 +310,11 @@ public class ContactJspBean extends PluginAdminPageJspBean
     {
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_CONTACT_ID ) );
 
-        Contact contact = ContactHome.findByPrimaryKey( nIdContact, getPlugin(  ) );
+        Contact contact = ContactHome.findByPrimaryKey( nIdContact, getPlugin( ) );
 
-        ContactListHome.unassignListsForContact( contact.getId(  ), getPlugin(  ) );
-        ContactHome.remove( contact, getPlugin(  ) );
-        ContactListHome.unassignListsForContact( nIdContact, getPlugin(  ) );
+        ContactListHome.unassignListsForContact( contact.getId( ), getPlugin( ) );
+        ContactHome.remove( contact, getPlugin( ) );
+        ContactListHome.unassignListsForContact( nIdContact, getPlugin( ) );
 
         // if the operation occurred well, redirects towards the list of the Contacts
         return JSP_REDIRECT_TO_MANAGE_CONTACTS;
@@ -317,10 +324,10 @@ public class ContactJspBean extends PluginAdminPageJspBean
      * Return UrlPage Url
      * @return url
      */
-    private String getUrlPage(  )
+    private String getUrlPage( )
     {
         UrlItem url = new UrlItem( JSP_MANAGE_CONTACTS );
 
-        return url.getUrl(  );
+        return url.getUrl( );
     }
 }

@@ -40,7 +40,8 @@ import java.util.Collection;
 
 
 /**
- * This class provides instances management methods (create, find, ...) for Contact objects
+ * This class provides instances management methods (create, find, ...) for
+ * Contact objects
  */
 public final class ContactListHome
 {
@@ -51,16 +52,18 @@ public final class ContactListHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private ContactListHome(  )
+    private ContactListHome( )
     {
     }
 
     /**
      * Creation of an instance of List
-     *
-     * @param contactList The instance of the contact which contains the informations to store
+     * 
+     * @param contactList The instance of the contact which contains the
+     *            informations to store
      * @param plugin The Plugin object
-     * @return The  instance of contactList which has been created with its primary key.
+     * @return The instance of contactList which has been created with its
+     *         primary key.
      */
     public static ContactList create( ContactList contactList, Plugin plugin )
     {
@@ -71,7 +74,7 @@ public final class ContactListHome
 
     /**
      * Update of the contactList which is specified in parameter
-     * @return The instance of the  contact which has been updated
+     * @return The instance of the contact which has been updated
      * @param contactList the contactList object with updated parameters
      * @param plugin The Plugin object
      */
@@ -96,7 +99,8 @@ public final class ContactListHome
     // Finders
 
     /**
-     * Returns an instance of a contact whose identifier is specified in parameter
+     * Returns an instance of a contact whose identifier is specified in
+     * parameter
      * @param nKey The Primary key of the contact
      * @param plugin The Plugin object
      * @return An instance of contact
@@ -108,7 +112,7 @@ public final class ContactListHome
 
     /**
      * Returns a collection of contacts objects
-         * @param plugin The Plugin object
+     * @param plugin The Plugin object
      * @return A collection of contacts
      */
     public static Collection<ContactList> findAll( Plugin plugin )
@@ -252,8 +256,9 @@ public final class ContactListHome
 
     /**
      * Search the max order number of contacts for one list
-     * @return int the max order
+     * @param nIdContactList the id contact list
      * @param plugin The Plugin object
+     * @return int the max order
      */
     public static int getMaxOrderContact( int nIdContactList, Plugin plugin )
     {
@@ -262,10 +267,9 @@ public final class ContactListHome
 
     /**
      * Search the order number of contactLists
-     * @return int the id by a given order
-     * @param nIdContactList the id of the contactList
-     * @param nContactOrder the number of order of the contact
+     * @param nContactListOrder the order of contact
      * @param plugin The Plugin object
+     * @return int the id by a given order
      */
     public static int getContactListIdByOrder( int nContactListOrder, Plugin plugin )
     {
@@ -274,8 +278,7 @@ public final class ContactListHome
 
     /**
      * returns the order of a contact in a list using its Id
-     * @return int  the id by a given order
-     * @param nIdContact the id of the contact
+     * @return int the id by a given order
      * @param nIdContactList the id of the contactList
      * @param plugin The Plugin object
      */

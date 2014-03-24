@@ -61,7 +61,8 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * This class provides the user interface to manage contact features ( manage, create, modify, remove, change order of
+ * This class provides the user interface to manage contact features ( manage,
+ * create, modify, remove, change order of
  * contact )
  */
 public class ContactListJspBean extends PluginAdminPageJspBean
@@ -144,23 +145,23 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
 
-        Collection<ContactList> listContactList = ContactListHome.findAll( getPlugin(  ) );
+        Collection<ContactList> listContactList = ContactListHome.findAll( getPlugin( ) );
 
-        listContactList = AdminWorkgroupService.getAuthorizedCollection( listContactList, getUser(  ) );
+        listContactList = AdminWorkgroupService.getAuthorizedCollection( listContactList, getUser( ) );
 
-        LocalizedPaginator paginator = new LocalizedPaginator( (List<ContactList>) listContactList, _nItemsPerPage, getUrlPage(  ),
-                PARAMETER_PAGE_INDEX, _strCurrentPageIndex , getLocale() );
+        LocalizedPaginator paginator = new LocalizedPaginator( (List<ContactList>) listContactList, _nItemsPerPage,
+                getUrlPage( ), PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-        model.put( MARK_CONTACT_ORDER_LIST, getContactListOrderList(  ) );
+        model.put( MARK_CONTACT_ORDER_LIST, getContactListOrderList( ) );
         model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_LIST_CONTACT_LIST, paginator.getPageItems(  ) );
+        model.put( MARK_LIST_CONTACT_LIST, paginator.getPageItems( ) );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_CONTACT_LISTS, getLocale(  ), model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_CONTACT_LISTS, getLocale( ), model );
 
-        return getAdminPage( templateList.getHtml(  ) );
+        return getAdminPage( templateList.getHtml( ) );
     }
 
     /**
@@ -172,14 +173,14 @@ public class ContactListJspBean extends PluginAdminPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_CONTACTS );
 
-        Map<String, ReferenceList> model = new HashMap<String, ReferenceList>(  );
-        ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) );
+        Map<String, ReferenceList> model = new HashMap<String, ReferenceList>( );
+        ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
         model.put( MARK_WORKGROUPS_LIST, workgroupsList );
-        model.put( MARK_ROLES_LIST, RoleHome.getRolesList(  ) );
+        model.put( MARK_ROLES_LIST, RoleHome.getRolesList( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_CONTACT, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_CONTACT, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
@@ -189,7 +190,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      */
     public String doCreateContactList( HttpServletRequest request )
     {
-        ContactList contactList = new ContactList(  );
+        ContactList contactList = new ContactList( );
         String strLabel = request.getParameter( PARAMETER_CONTACT_LIST_LABEL );
         String strDescription = request.getParameter( PARAMETER_CONTACT_LIST_DESCRIPTION );
         String strWorkgroup = request.getParameter( PARAMETER_WORKGROUP );
@@ -204,7 +205,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         contactList.setDescription( strDescription );
         contactList.setWorkgroup( strWorkgroup );
         contactList.setRole( strRole );
-        ContactListHome.create( contactList, getPlugin(  ) );
+        ContactListHome.create( contactList, getPlugin( ) );
 
         // if the operation occurred well, redirects towards the list of the ContactList
         return JSP_MANAGE_CONTACT_LISTS;
@@ -219,20 +220,25 @@ public class ContactListJspBean extends PluginAdminPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
 
-        ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) );
-        ContactList contactList = ContactListHome.findByPrimaryKey( nId, getPlugin(  ) );
+        ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
+        ContactList contactList = ContactListHome.findByPrimaryKey( nId, getPlugin( ) );
+
+        if ( contactList == null )
+        {
+            return getManageContactLists( request );
+        }
 
         model.put( MARK_WORKGROUPS_LIST, workgroupsList );
         model.put( MARK_CONTACT_LIST, contactList );
-        model.put( MARK_ROLES_LIST, RoleHome.getRolesList(  ) );
+        model.put( MARK_ROLES_LIST, RoleHome.getRolesList( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_CONTACT_LIST, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_CONTACT_LIST, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
@@ -243,7 +249,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
     public String doModifyContactList( HttpServletRequest request )
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
-        ContactList contactList = ContactListHome.findByPrimaryKey( nId, getPlugin(  ) );
+        ContactList contactList = ContactListHome.findByPrimaryKey( nId, getPlugin( ) );
         contactList.setLabel( request.getParameter( PARAMETER_CONTACT_LIST_LABEL ) );
         contactList.setDescription( request.getParameter( PARAMETER_CONTACT_LIST_DESCRIPTION ) );
         contactList.setWorkgroup( request.getParameter( PARAMETER_WORKGROUP ) );
@@ -255,14 +261,14 @@ public class ContactListJspBean extends PluginAdminPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        ContactListHome.update( contactList, getPlugin(  ) );
+        ContactListHome.update( contactList, getPlugin( ) );
 
         return JSP_MANAGE_CONTACT_LISTS;
     }
 
     /**
      * Manages the removal form of a contact list
-     *
+     * 
      * @param request The Http request
      * @return the html code to confirm
      */
@@ -271,8 +277,8 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         UrlItem url = new UrlItem( JSP_DO_REMOVE_CONTACT_LIST );
         url.addParameter( PARAMETER_ID_CONTACT_LIST, request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_CONTACT_LIST, url.getUrl(  ),
-            AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_CONTACT_LIST, url.getUrl( ),
+                AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
@@ -283,11 +289,11 @@ public class ContactListJspBean extends PluginAdminPageJspBean
     public String doRemoveContactList( HttpServletRequest request )
     {
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
-        int nOrder = ContactListHome.getContactListOrderById( nIdContactList, getPlugin(  ) );
-        int nNewOrder = ContactListHome.getMaxOrderContactList( getPlugin(  ) );
-        ContactListHome.unassignContactsForList( nIdContactList, getPlugin(  ) );
+        int nOrder = ContactListHome.getContactListOrderById( nIdContactList, getPlugin( ) );
+        int nNewOrder = ContactListHome.getMaxOrderContactList( getPlugin( ) );
+        ContactListHome.unassignContactsForList( nIdContactList, getPlugin( ) );
         modifyContactListsOrder( nOrder, nNewOrder, nIdContactList );
-        ContactListHome.remove( nIdContactList, getPlugin(  ) );
+        ContactListHome.remove( nIdContactList, getPlugin( ) );
 
         // Go to the parent page
         return getHomeUrl( request );
@@ -304,34 +310,40 @@ public class ContactListJspBean extends PluginAdminPageJspBean
 
         String strIdContactList = request.getParameter( PARAMETER_ID_CONTACT_LIST );
         int nIdContactList = Integer.parseInt( strIdContactList );
-        ContactList contactList = ContactListHome.findByPrimaryKey( nIdContactList, getPlugin(  ) ); //The contactList object concerned -- One obecjt
-        Collection<Contact> notAssignedContacts = ContactListHome.getNotAssignedContactsFor( nIdContactList,
-                getPlugin(  ) ); //The list of contacts objects -- One list of saveral objects
-        notAssignedContacts = AdminWorkgroupService.getAuthorizedCollection( notAssignedContacts, getUser(  ) );
+        ContactList contactList = ContactListHome.findByPrimaryKey( nIdContactList, getPlugin( ) ); //The contactList object concerned -- One obecjt
 
-        ReferenceList refListNotAssigned = new ReferenceList(  );
+        if ( contactList == null )
+        {
+            return getManageContactLists( request );
+        }
+
+        Collection<Contact> notAssignedContacts = ContactListHome.getNotAssignedContactsFor( nIdContactList,
+                getPlugin( ) ); //The list of contacts objects -- One list of saveral objects
+        notAssignedContacts = AdminWorkgroupService.getAuthorizedCollection( notAssignedContacts, getUser( ) );
+
+        ReferenceList refListNotAssigned = new ReferenceList( );
 
         for ( Contact contact : notAssignedContacts )
         {
-            ReferenceItem item = new ReferenceItem(  );
-            item.setCode( Integer.toString( contact.getId(  ) ) );
-            item.setName( "[ " + contact.getWorkgroup(  ) + " ] " + contact.getName(  ) );
+            ReferenceItem item = new ReferenceItem( );
+            item.setCode( Integer.toString( contact.getId( ) ) );
+            item.setName( "[ " + contact.getWorkgroup( ) + " ] " + contact.getName( ) );
             refListNotAssigned.add( item );
         }
 
-        Collection<Contact> assignedContacts = ContactListHome.getAssignedContactsFor( nIdContactList, getPlugin(  ) );
+        Collection<Contact> assignedContacts = ContactListHome.getAssignedContactsFor( nIdContactList, getPlugin( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_CONTACT_LIST, contactList );
         model.put( MARK_LIST_CONTACTS, refListNotAssigned );
         model.put( MARK_ASSIGNED_CONTACT_LIST, assignedContacts );
-        model.put( MARK_CONTACTS_NUMBER, ContactListHome.countContactsForList( nIdContactList, getPlugin(  ) ) );
+        model.put( MARK_CONTACTS_NUMBER, ContactListHome.countContactsForList( nIdContactList, getPlugin( ) ) );
         model.put( MARK_CONTACT_ORDER_LIST, getContactOrderList( nIdContactList ) );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_LIST_ASSIGNATIONS, getLocale(  ),
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_LIST_ASSIGNATIONS, getLocale( ),
                 model );
 
-        return getAdminPage( templateList.getHtml(  ) );
+        return getAdminPage( templateList.getHtml( ) );
     }
 
     /**
@@ -360,9 +372,9 @@ public class ContactListJspBean extends PluginAdminPageJspBean
                 for ( int i = 0; i < arrayContactsIds.length; i++ )
                 {
                     if ( !ContactListHome.isAssigned( Integer.parseInt( arrayContactsIds[i] ), nIdContactList,
-                                getPlugin(  ) ) )
+                            getPlugin( ) ) )
                     {
-                        ContactListHome.assign( Integer.parseInt( arrayContactsIds[i] ), nIdContactList, getPlugin(  ) );
+                        ContactListHome.assign( Integer.parseInt( arrayContactsIds[i] ), nIdContactList, getPlugin( ) );
                     }
                 }
             }
@@ -383,10 +395,10 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );
 
-        int nOrder = ContactHome.getContactOrderById( nIdContact, nIdContactList, getPlugin(  ) );
-        int nNewOrder = ContactListHome.getMaxOrderContact( nIdContactList, getPlugin(  ) );
+        int nOrder = ContactHome.getContactOrderById( nIdContact, nIdContactList, getPlugin( ) );
+        int nNewOrder = ContactListHome.getMaxOrderContact( nIdContactList, getPlugin( ) );
         modifyContactsOrder( nIdContact, nOrder, nNewOrder, nIdContactList );
-        ContactListHome.unAssign( nIdContact, nIdContactList, getPlugin(  ) );
+        ContactListHome.unAssign( nIdContact, nIdContactList, getPlugin( ) );
 
         return JSP_MANAGE_LIST_ASSIGNATIONS + "?" + PARAMETER_ID_CONTACT_LIST + "=" + nIdContactList;
     }
@@ -400,7 +412,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
     {
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );
-        ContactListHome.unAssign( nIdContact, nIdContactList, getPlugin(  ) );
+        ContactListHome.unAssign( nIdContact, nIdContactList, getPlugin( ) );
 
         return JSP_MANAGE_CONTACT_ASSIGNATIONS + "?" + PARAMETER_ID_CONTACT + "=" + nIdContact;
     }
@@ -415,31 +427,31 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MANAGE_CONTACT_ASSIGNATIONS );
 
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );
-        Contact contact = ContactHome.findByPrimaryKey( nIdContact, getPlugin(  ) );
-        Collection<ContactList> notAssignedLists = ContactListHome.getNotAssignedListsFor( nIdContact, getPlugin(  ) );
-        notAssignedLists = AdminWorkgroupService.getAuthorizedCollection( notAssignedLists, getUser(  ) );
+        Contact contact = ContactHome.findByPrimaryKey( nIdContact, getPlugin( ) );
+        Collection<ContactList> notAssignedLists = ContactListHome.getNotAssignedListsFor( nIdContact, getPlugin( ) );
+        notAssignedLists = AdminWorkgroupService.getAuthorizedCollection( notAssignedLists, getUser( ) );
 
-        ReferenceList refListNotAssigned = new ReferenceList(  );
+        ReferenceList refListNotAssigned = new ReferenceList( );
 
         for ( ContactList contactList : notAssignedLists )
         {
-            ReferenceItem item = new ReferenceItem(  );
-            item.setCode( Integer.toString( contactList.getId(  ) ) );
-            item.setName( contactList.getLabel(  ) );
+            ReferenceItem item = new ReferenceItem( );
+            item.setCode( Integer.toString( contactList.getId( ) ) );
+            item.setName( contactList.getLabel( ) );
             refListNotAssigned.add( item );
         }
 
-        Collection<ContactList> assignedLists = ContactListHome.getAssignedListsFor( nIdContact, getPlugin(  ) );
+        Collection<ContactList> assignedLists = ContactListHome.getAssignedListsFor( nIdContact, getPlugin( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_CONTACT, contact );
         model.put( MARK_NOT_ASSIGNED_LISTS, refListNotAssigned );
         model.put( MARK_ASSIGNED_LISTS, assignedLists );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_CONTACT_ASSIGNATIONS,
-                getLocale(  ), model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_CONTACT_ASSIGNATIONS, getLocale( ),
+                model );
 
-        return getAdminPage( templateList.getHtml(  ) );
+        return getAdminPage( templateList.getHtml( ) );
     }
 
     /**
@@ -467,9 +479,9 @@ public class ContactListJspBean extends PluginAdminPageJspBean
             {
                 for ( int i = 0; i < arrayListsIds.length; i++ )
                 {
-                    if ( !ContactListHome.isAssigned( nIdContact, Integer.parseInt( arrayListsIds[i] ), getPlugin(  ) ) )
+                    if ( !ContactListHome.isAssigned( nIdContact, Integer.parseInt( arrayListsIds[i] ), getPlugin( ) ) )
                     {
-                        ContactListHome.assign( nIdContact, Integer.parseInt( arrayListsIds[i] ), getPlugin(  ) );
+                        ContactListHome.assign( nIdContact, Integer.parseInt( arrayListsIds[i] ), getPlugin( ) );
                     }
                 }
             }
@@ -481,17 +493,17 @@ public class ContactListJspBean extends PluginAdminPageJspBean
     }
 
     /**
-    * Modifies the order in the list of contacts
-    *
-    * @param request The Http request
-    * @return The Jsp URL of the process result
-    */
+     * Modifies the order in the list of contacts
+     * 
+     * @param request The Http request
+     * @return The Jsp URL of the process result
+     */
     public String doModifyContactsOrder( HttpServletRequest request )
     {
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
 
-        int nOrder = ContactHome.getContactOrderById( nIdContact, nIdContactList, getPlugin(  ) );
+        int nOrder = ContactHome.getContactOrderById( nIdContact, nIdContactList, getPlugin( ) );
         int nNewOrder = Integer.parseInt( request.getParameter( PARAMETER_CONTACTS_ORDER ) );
         modifyContactsOrder( nIdContact, nOrder, nNewOrder, nIdContactList );
 
@@ -499,14 +511,14 @@ public class ContactListJspBean extends PluginAdminPageJspBean
     }
 
     /**
-    * Builts a list of sequence numbers
-    * @param nIdContactList the id of the contactList
-    * @return the list of sequence numbers
-    */
+     * Builts a list of sequence numbers
+     * @param nIdContactList the id of the contactList
+     * @return the list of sequence numbers
+     */
     private ReferenceList getContactOrderList( int nIdContactList )
     {
-        int nMax = ContactListHome.getMaxOrderContact( nIdContactList, getPlugin(  ) );
-        ReferenceList list = new ReferenceList(  );
+        int nMax = ContactListHome.getMaxOrderContact( nIdContactList, getPlugin( ) );
+        ReferenceList list = new ReferenceList( );
 
         for ( int i = 1; i < ( nMax + 1 ); i++ )
         {
@@ -520,48 +532,48 @@ public class ContactListJspBean extends PluginAdminPageJspBean
     // Private implementation
 
     /**
-    * Modify the place in the list for a contact
-    *
-    * @param nId the contact identifier
-    * @param nOrder the actual place in the list
-    * @param nNewOrder the new place in the list
-    * @param nIdContactList the id of the contactList
-    */
+     * Modify the place in the list for a contact
+     * 
+     * @param nId the contact identifier
+     * @param nOrder the actual place in the list
+     * @param nNewOrder the new place in the list
+     * @param nIdContactList the id of the contactList
+     */
     private void modifyContactsOrder( int nId, int nOrder, int nNewOrder, int nIdContactList )
     {
         if ( nNewOrder < nOrder )
         {
             for ( int i = nOrder - 1; i > ( nNewOrder - 1 ); i-- )
             {
-                int nIdContactOrder = ContactHome.getContactIdByOrder( i, nIdContactList, getPlugin(  ) );
-                ContactHome.updateContactOrder( i + 1, nIdContactOrder, nIdContactList, getPlugin(  ) );
+                int nIdContactOrder = ContactHome.getContactIdByOrder( i, nIdContactList, getPlugin( ) );
+                ContactHome.updateContactOrder( i + 1, nIdContactOrder, nIdContactList, getPlugin( ) );
             }
 
-            ContactHome.updateContactOrder( nNewOrder, nId, nIdContactList, getPlugin(  ) );
+            ContactHome.updateContactOrder( nNewOrder, nId, nIdContactList, getPlugin( ) );
         }
         else
         {
             for ( int i = nOrder; i < ( nNewOrder + 1 ); i++ )
             {
-                int nIdContactOrder = ContactHome.getContactIdByOrder( i, nIdContactList, getPlugin(  ) );
-                ContactHome.updateContactOrder( i - 1, nIdContactOrder, nIdContactList, getPlugin(  ) );
+                int nIdContactOrder = ContactHome.getContactIdByOrder( i, nIdContactList, getPlugin( ) );
+                ContactHome.updateContactOrder( i - 1, nIdContactOrder, nIdContactList, getPlugin( ) );
             }
 
-            ContactHome.updateContactOrder( nNewOrder, nId, nIdContactList, getPlugin(  ) );
+            ContactHome.updateContactOrder( nNewOrder, nId, nIdContactList, getPlugin( ) );
         }
     }
 
     /**
-    * Modifies the order in the list of contactLists
-    *
-    * @param request The Http request
-    * @return The Jsp URL of the process result
-    */
+     * Modifies the order in the list of contactLists
+     * 
+     * @param request The Http request
+     * @return The Jsp URL of the process result
+     */
     public String doModifyContactListsOrder( HttpServletRequest request )
     {
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
 
-        int nOrder = ContactListHome.getContactListOrderById( nIdContactList, getPlugin(  ) );
+        int nOrder = ContactListHome.getContactListOrderById( nIdContactList, getPlugin( ) );
         int nNewOrder = Integer.parseInt( request.getParameter( PARAMETER_CONTACT_LIST_ORDER ) );
         modifyContactListsOrder( nOrder, nNewOrder, nIdContactList );
 
@@ -569,13 +581,13 @@ public class ContactListJspBean extends PluginAdminPageJspBean
     }
 
     /**
-    * Builts a list of sequence numbers
-    * @return the list of sequence numbers
-    */
-    private ReferenceList getContactListOrderList(  )
+     * Builts a list of sequence numbers
+     * @return the list of sequence numbers
+     */
+    private ReferenceList getContactListOrderList( )
     {
-        int nMax = ContactListHome.getMaxOrderContactList( getPlugin(  ) );
-        ReferenceList list = new ReferenceList(  );
+        int nMax = ContactListHome.getMaxOrderContactList( getPlugin( ) );
+        ReferenceList list = new ReferenceList( );
 
         for ( int i = 1; i < ( nMax + 1 ); i++ )
         {
@@ -589,34 +601,34 @@ public class ContactListJspBean extends PluginAdminPageJspBean
     // Private implementation
 
     /**
-    * Modify the place in the list for a contact
-    *
-    * @param nId the contact identifier
-    * @param nOrder the actual place in the list
-    * @param nNewOrder the new place in the list
-    * @param nIdContactList the id of the contactList
-    */
+     * Modify the place in the list for a contact
+     * 
+     * @param nId the contact identifier
+     * @param nOrder the actual place in the list
+     * @param nNewOrder the new place in the list
+     * @param nIdContactList the id of the contactList
+     */
     private void modifyContactListsOrder( int nOrder, int nNewOrder, int nIdContactList )
     {
         if ( nNewOrder < nOrder )
         {
             for ( int i = nOrder - 1; i > ( nNewOrder - 1 ); i-- )
             {
-                int nIdContactListOrder = ContactListHome.getContactListIdByOrder( i, getPlugin(  ) );
-                ContactListHome.updateContactListOrder( i + 1, nIdContactListOrder, getPlugin(  ) );
+                int nIdContactListOrder = ContactListHome.getContactListIdByOrder( i, getPlugin( ) );
+                ContactListHome.updateContactListOrder( i + 1, nIdContactListOrder, getPlugin( ) );
             }
 
-            ContactListHome.updateContactListOrder( nNewOrder, nIdContactList, getPlugin(  ) );
+            ContactListHome.updateContactListOrder( nNewOrder, nIdContactList, getPlugin( ) );
         }
         else
         {
             for ( int i = nOrder; i < ( nNewOrder + 1 ); i++ )
             {
-                int nIdContactListOrder = ContactListHome.getContactListIdByOrder( i, getPlugin(  ) );
-                ContactListHome.updateContactListOrder( i - 1, nIdContactListOrder, getPlugin(  ) );
+                int nIdContactListOrder = ContactListHome.getContactListIdByOrder( i, getPlugin( ) );
+                ContactListHome.updateContactListOrder( i - 1, nIdContactListOrder, getPlugin( ) );
             }
 
-            ContactListHome.updateContactListOrder( nNewOrder, nIdContactList, getPlugin(  ) );
+            ContactListHome.updateContactListOrder( nNewOrder, nIdContactList, getPlugin( ) );
         }
     }
 
@@ -624,10 +636,10 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * Return UrlPage Url
      * @return url
      */
-    private String getUrlPage(  )
+    private String getUrlPage( )
     {
         UrlItem url = new UrlItem( JSP_MANAGE_CONTACTS_LISTS );
 
-        return url.getUrl(  );
+        return url.getUrl( );
     }
 }
