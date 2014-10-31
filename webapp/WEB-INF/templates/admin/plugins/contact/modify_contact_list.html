@@ -1,40 +1,48 @@
-<div class="row-fluid">
-	<div class="span12">
-<form class="form-horizontal" method="post"  name="modify_contact" action="jsp/admin/plugins/contact/DoModifyContactList.jsp">
-        <fieldset>
-        <legend>#i18n{contact.modify_contact_list.tableLabel}</legend>
-            <div class="control-group">
-                <label class="control-label" for="contact_list_label" >#i18n{contact.modify_contact_list.rowTitleLabel} * : </label> 
-                <div class="controls">
-                    <input type="text" id="contact_list_label" name="contact_list_label" value="${contact_list.label}" size="60" maxlength="50" tabindex="1" />
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="contact_list_description" >#i18n{contact.modify_contact_list.rowTitleDescription} * :</label>  
-                <div class="controls">
-                    <input type="text" id="contact_list_description" name="contact_list_description" value="${contact_list .description}" size="60" maxlength="100" tabindex="2" />
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="workgroup" >#i18n{contact.modify_contact_list.labelWorkgroupKey}*:</label>
-                <div class="controls">
-                    <@combo name="workgroup" default_value="${contact_list.workgroup}" items=workgroups_list />
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="direction_workgroup" >#i18n{contact.modify_contact_list.labelRole}*:</label>
-                <div class="controls">
-                    <@combo name="role" default_value="${contact_list.role}" items=roles_list />
-                </div>
-            </div>
-            <div class="form-actions">
-                <button class="btn btn-primary btn-small" type="submit" >#i18n{contact.modify_contact_list.buttonValidate}</button>
-                <a class="btn btn-primary btn-small" href="jsp/admin/plugins/contact/ManageContactLists.jsp" title="#i18n{portal.util.labelCancel}">
-					<i class="icon-remove-circle icon-white"></i>&nbsp;#i18n{portal.util.labelCancel}
-				</a>
-            </div>
-            <input type="hidden" name="id_contact_list" value="${contact_list.id}">
-        </fieldset>
-    </form>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="box box-solid box-primary">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{contact.modify_contact_list.tableLabel}</h3>
+			</div>
+			<div class="box-body">		
+				<form class="form-horizontal" method="post"  name="modify_contact" action="jsp/admin/plugins/contact/DoModifyContactList.jsp">
+					<input type="hidden" name="id_contact_list" value="${contact_list.id}">
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="contact_list_label" >#i18n{contact.modify_contact_list.rowTitleLabel} *</label> 
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<input type="text" required id="contact_list_label" class="form-control" name="contact_list_label" value="${contact_list.label}" maxlength="50" tabindex="1" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="contact_list_description" >#i18n{contact.modify_contact_list.rowTitleDescription} * </label>  
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<input type="text" required id="contact_list_description" class="form-control" name="contact_list_description" value="${contact_list .description}" maxlength="100" tabindex="2" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="workgroup" >#i18n{contact.modify_contact_list.labelWorkgroupKey}*</label>
+						<div class="col-xs-12 col-sm-2 col-md-2">
+							<@comboWithParams name="workgroup" default_value="${contact_list.workgroup}" additionalParameters="class=\"form-control\"" items=workgroups_list />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="direction_workgroup" >#i18n{contact.modify_contact_list.labelRole}*</label>
+						<div class="col-xs-12 col-sm-2 col-md-2">
+							<@comboWithParams name="role" default_value="${contact_list.role}" additionalParameters="class=\"form-control\"" items=roles_list />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-2 col-md-10">
+							<button class="btn btn-primary btn-flat" type="submit">
+								<i class="fa fa-check"></i>&nbsp;#i18n{contact.modify_contact_list.buttonValidate}
+							</button>
+							<a class="btn btn-default btn-flat" href="jsp/admin/plugins/contact/ManageContactLists.jsp" title="#i18n{portal.util.labelCancel}">
+								<i class="fa fa-close"></i>&nbsp;#i18n{portal.util.labelCancel}
+							</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>

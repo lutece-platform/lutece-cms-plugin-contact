@@ -1,36 +1,42 @@
-<div class="row-fluid">
-	<div class="span12">
-    <fieldset>
-    <legend>#i18n{contact.modify_contact.tableLabel}</legend>
-		<form class="form-horizontal" method="post"  name="modify_contact" action="jsp/admin/plugins/contact/DoModifyContact.jsp">
-		<input type="hidden" name="id_contact" value="${contact.id}">
-            <div class="control-group">
-                <label class="control-label" for="contact_name" >#i18n{contact.modify_contact.rowTitleLabel} * :</label>
-                <div class="controls">
-                    <input type="text" id="contact_name" name="contact_name" size="60" maxlength="50" value="${contact.name}" tabindex="1" />
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="contact_email" >#i18n{contact.modify_contact.rowTitleEmail} * </label>
-                <div class="controls">
-                    <input type="text" id="contact_email" name="contact_email" size="60" maxlength="100" value="${contact.email}" tabindex="2" />
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="workgroup" >#i18n{contact.modify_contact.labelWorkgroupKey}*:</label>
-                <div class="controls">
-                    <@combo name="workgroup" default_value="${contact.workgroup}" items=workgroups_list />
-                </div>
-            </div>
-            <div class="form-actions">
-                <button class="btn btn-primary btn-small" type="submit" >
-					<i class="icon-ok icon-white"></i>&nbsp;#i18n{contact.modify_contact.buttonValidate}
-				</button>
-				<a class="btn btn-primary btn-small" href="jsp/admin/plugins/contact/ManageContacts.jsp" title="#i18n{portal.util.labelCancel}">
-					<i class="icon-remove-circle icon-white"></i>&nbsp;#i18n{portal.util.labelCancel}
-				</a>
-            </div>
-		</form>
-    </fieldset>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="box box-solid box-primary">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{contact.modify_contact.tableLabel}</h3>
+			</div>
+			<div class="box-body">		
+				<form class="form-horizontal" method="post"  name="modify_contact" action="jsp/admin/plugins/contact/DoModifyContact.jsp">
+					<input type="hidden" name="id_contact" value="${contact.id}">
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="contact_name" >#i18n{contact.modify_contact.rowTitleLabel} *</label>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<input type="text" required id="contact_name" name="contact_name" class="form-control" maxlength="50" value="${contact.name}" tabindex="1">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="contact_email" >#i18n{contact.modify_contact.rowTitleEmail} * </label>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<input type="email" required id="contact_email" name="contact_email" class="form-control" maxlength="100" value="${contact.email}" tabindex="2">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="workgroup" >#i18n{contact.modify_contact.labelWorkgroupKey}*</label>
+						<div class="col-xs-12 col-sm-2 col-md-2">
+							<@comboWithParams name="workgroup" default_value="${contact.workgroup}" additionalParameters="class=\"form-control\"" items=workgroups_list />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-2 col-md-10">
+							<button class="btn btn-primary btn-flat" type="submit" >
+								<i class="fa fa-check"></i>&nbsp;#i18n{contact.modify_contact.buttonValidate}
+							</button>
+							<a class="btn btn-default btn-flat" href="jsp/admin/plugins/contact/ManageContacts.jsp" title="#i18n{portal.util.labelCancel}">
+								<i class="fa fa-close"></i>&nbsp;#i18n{portal.util.labelCancel}
+							</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>
