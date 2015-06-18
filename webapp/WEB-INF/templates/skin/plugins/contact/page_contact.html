@@ -1,55 +1,55 @@
-<div class="row-fluid">
-    <div class="span12">
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h3>#i18n{contact.page_contact.pageTitle}</h3> 
-            <form class="form-horizontal" id="contact_form" action="jsp/site/plugins/contact/DoSendMessage.jsp" method="post" >
-                <input type="hidden" name="page" value="contact" />
-                <input type="hidden" name="portal_url" value="${portal_url}" />
-                <input type="hidden" name="id_contact_list" value="${id_contact_list}" />
-                <div class="control-group">
-                <label class="control-label"  for="visitor_email">#i18n{contact.page_contact.visitorEmail} * :</label>
-                    <div class="controls">
-                    <input type="text" name="visitor_email" id="visitor_email" class="input-large" maxlength="100" value="${visitor_email}" class=" " />
+            <form class="form-horizontal" id="contact_form" action="jsp/site/plugins/contact/DoSendMessage.jsp" method="post">
+                <input type="hidden" name="page" value="contact">
+                <input type="hidden" name="portal_url" value="${portal_url}">
+                <input type="hidden" name="id_contact_list" value="${id_contact_list}">
+                <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="visitor_email">#i18n{contact.page_contact.visitorEmail} * :</label>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <input type="text" name="visitor_email" id="visitor_email" class="form-control input-sm" maxlength="100" value="${visitor_email}">
                     </div>
                 </div>
-                <div class="control-group">
-                <label class="control-label"  for="visitor_last_name">#i18n{contact.page_contact.visitorLastName} * :</label>
-                    <div class="controls">
-                        <input type="text" name="visitor_last_name" id="visitor_last_name" class="input-large" maxlength="50" <#if mylutece_user??>value="${mylutece_user.getUserInfo( 'user.name.family' )}"<#else>value="${visitor_last_name}"</#if>/> 
+                <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="visitor_last_name">#i18n{contact.page_contact.visitorLastName} * :</label>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <input type="text" name="visitor_last_name" id="visitor_last_name" class="form-control input-sm" maxlength="50" <#if mylutece_user??>value="${mylutece_user.getUserInfo( 'user.name.family' )}"<#else>value="${visitor_last_name}"</#if>/> 
                     </div>
                 </div>
-                <div class="control-group">
-                <label class="control-label"  for="visitor_first_name">#i18n{contact.page_contact.visitorFirstName} * :</label>
-                    <div class="controls">
-                        <input type="text" name="visitor_first_name" id="visitor_first_name" class="input-large" maxlength="50" <#if mylutece_user??>value="${mylutece_user.getUserInfo( 'user.name.given' )}"<#else>value="${visitor_first_name}"</#if> />
+                <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="visitor_first_name">#i18n{contact.page_contact.visitorFirstName} * :</label>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <input type="text" name="visitor_first_name" id="visitor_first_name" class="form-control input-sm" maxlength="50" <#if mylutece_user??>value="${mylutece_user.getUserInfo( 'user.name.given' )}"<#else>value="${visitor_first_name}"</#if> />
                     </div>
                 </div>
-                <div class="control-group">
-                <label class="control-label"  for="visitor_address" >#i18n{contact.page_contact.visitorAddress} :</label>
-                    <div class="controls">
-                        <input type="text" name="visitor_address" id="visitor_address" value="${visitor_address}"  maxlength="120" class="input-xxlarge"" />
+                <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="visitor_address" >#i18n{contact.page_contact.visitorAddress} :</label>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <input type="text" name="visitor_address" id="visitor_address" value="${visitor_address}"  maxlength="120" class="form-control input-sm">
                     </div>
                 </div>
-                <div class="control-group">
-                <label class="control-label" for="" >#i18n{contact.page_contact.comboLabel} * :</label>
-                    <div class="controls">
+                <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="" >#i18n{contact.page_contact.comboLabel} * :</label>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <#assign cssComboParams>class="${style_contact?if_exists} input-xlarge"</#assign>      
                     <@comboWithParams name="contact" default_value="${default_contact}" additionalParameters="${cssComboParams}" items=contacts_list/>
                     </div>
                 </div>
-                <div class="control-group">
-                <label class="control-label"  for="message_object">#i18n{contact.page_contact.messageObject} * :</label>
-                    <div class="controls">
-                        <input type="text" name="message_object" id="message_object" value="${message_object}"  maxlength="120" class="input-xxlarge" />
+                <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="message_object">#i18n{contact.page_contact.messageObject} * :</label>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <input type="text" name="message_object" id="message_object" value="${message_object}" maxlength="120" class="form-control input-sm">
                     </div>
                 </div>
-                <div class="control-group">
-                <label class="control-label" for="message">#i18n{contact.page_contact.message} * #i18n{contact.page_contact.characterMax}</label><br />
-                    <div class="controls">
-                        <textarea name="message" maxlength="1000" id="message" class="span6" rows="6" class="${style_message?if_exists}">${message}</textarea>
+                <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="message">#i18n{contact.page_contact.message} * #i18n{contact.page_contact.characterMax}</label><br>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <textarea name="message" maxlength="1000" id="message" rows="6" class="form-control input-sm ${style_message?if_exists}">${message}</textarea>
                     </div>  
                 </div>
                 <#if is_active_captcha>
-                    <div class="control-group">             
+                    <div class="form-group">             
                     ${captcha}
                     </div>
                 </#if>
@@ -58,11 +58,11 @@
                 </#if>
             <p class="help-block">* #i18n{contact.page_contact.mandatoryFields}</p>
             <div class="form-actions">
-                <button class="btn btn-primary btn-small" type="submit" name="save">
-                    <i class="icon-envelope icon-white"></i>&nbsp;#i18n{contact.page_contact.buttonSend}
+                <button class="btn btn-primary btn-sm" type="submit" name="save">
+                    <i class="glyphicon glyphicon-envelope"></i>&nbsp;#i18n{contact.page_contact.buttonSend}
                 </button>
-                <button class="btn btn-primary btn-small"  type="reset" name="Reset">
-                    <i class="icon-refresh icon-white"></i>&nbsp;#i18n{contact.page_contact.buttonReset}
+                <button class="btn btn-primary btn-sm" type="reset" name="Reset">
+                    <i class="glyphicon glyphicon-refresh"></i>&nbsp;#i18n{contact.page_contact.buttonReset}
                 </button>
             </div>
         </form>
