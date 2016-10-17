@@ -1,7 +1,7 @@
 --
 -- Initialization for table contact_list
 --
-INSERT INTO contact_list(id_contact_list,label_contact_list,description_contact_list,contact_list_order) VALUES (1,'Liste de contacts','Ceci est une liste de contacts',1);
+INSERT INTO contact_list(id_contact_list,label_contact_list,description_contact_list,contact_list_order,is_tos_active,tos_message) VALUES (1,'Liste de contacts','Ceci est une liste de contacts',1,0,'');
 
 --
 -- Initialization for table contact

@@ -103,6 +103,8 @@ public class ContactApp implements XPageApplication
     private static final String MARK_CURRENT_DATE = "current_date";
     private static final String MARK_CAPTCHA = "captcha";
     private static final String MARK_IS_ACTIVE_CAPTCHA = "is_active_captcha";
+    private static final String MARK_IS_TOS_REQUIRED = "is_tos_required";
+    private static final String MARK_TOS_MESSAGE = "tos_message";
     //private static final String MARK_ROLE = "role";
     private static final String MARK_LIST_OF_LISTS = "list_of_lists";
     private static final String MARK_ID_CONTACT_LIST = "id_contact_list";
@@ -118,6 +120,7 @@ public class ContactApp implements XPageApplication
     private static final String PARAMETER_SEND = "send";
     private static final String PARAMETER_PORTAL_URL = "portal_url";
     private static final String PARAMETER_ID_CONTACT_LIST = "id_contact_list";
+    private static final String PARAMETER_TOS_ACCEPTED = "accept_tos";
     private static final String PROPERTY_SENDING_OK = "contact.message_contact.sending.ok";
     private static final String PROPERTY_MANDATORY_FIELD_MISSING = "contact.message_contact.mandatory.field";
     private static final String PROPERTY_SENDING_NOK = "contact.message_contact.sending.nok";
@@ -125,6 +128,7 @@ public class ContactApp implements XPageApplication
     private static final String PROPERTY_ERROR_EMAIL = "contact.message_contact.error.email";
     private static final String PROPERTY_COMBO_CHOOSE = "contact.message_contact.comboChoose";
     private static final String PROPERTY_CAPTCHA_ERROR = "contact.message_contact.captchaError";
+    private static final String PROPERTY_TOS_ERROR = "contact.message_contact.tosRequired";
     private static final String PROPERTY_PAGE_TITLE = "contact.pageTitle";
     private static final String PROPERTY_PAGE_PATH = "contact.pagePathLabel";
     //private static final String PROPERTY_NO_ID_FOUND = "contact.message_contact.noIdFound";
@@ -267,6 +271,11 @@ public class ContactApp implements XPageApplication
                 strAlert = I18nService.getLocalizedString( PROPERTY_CAPTCHA_ERROR, request.getLocale( ) );
             }
 
+            else if ( strSendMessage.equals( "error_tos" ) )
+            {
+                strAlert = I18nService.getLocalizedString( PROPERTY_TOS_ERROR, request.getLocale( ) );
+            }
+            
             else if ( strSendMessage.equals( "error_field" ) )
             {
                 strAlert = I18nService.getLocalizedString( PROPERTY_MANDATORY_FIELD_MISSING, request.getLocale( ) );
@@ -327,6 +336,15 @@ public class ContactApp implements XPageApplication
         model.put( MARK_OBJECT, strObject );
         model.put( MARK_MESSAGE, strMessage );
         model.put( MARK_ID_CONTACT_LIST, nIdContactList );
+        
+        boolean bIsTosRequired = contactList.getTos(  );
+        model.put( MARK_IS_TOS_REQUIRED, bIsTosRequired );
+
+        if ( bIsTosRequired )
+        {
+            String strTosMessage = contactList.getTosMessage(  );
+            model.put( MARK_TOS_MESSAGE , strTosMessage );
+        }
 
         model.put( MARK_DEFAULT_CONTACT, ( ( strContact == null ) || ( strContact.equals( "" ) ) ) ? "0" : strContact );
 
@@ -415,6 +433,8 @@ public class ContactApp implements XPageApplication
         String strContact = request.getParameter( PARAMETER_CONTACT );
         int nContact = ( strContact == null ) ? 0 : Integer.parseInt( strContact );
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
+        boolean bIsTosRequired;
+        boolean bTosAccepted = request.getParameter( PARAMETER_TOS_ACCEPTED ) != null;
 
         //test the captcha
         if ( PluginService.isPluginEnable( JCAPTCHA_PLUGIN ) )
@@ -474,6 +494,22 @@ public class ContactApp implements XPageApplication
                     + strVisitorFirstName + "&visitor_email=" + strVisitorEmail + "&visitor_address="
                     + strVisitorAddress + "&contact=" + strContact + "&message_object=" + strObject + "&message="
                     + strMessage;
+        }
+
+        ContactList contactlist = ContactListHome.findByPrimaryKey( nIdContactList, _plugin);
+        bIsTosRequired = contactlist.getTos(  );
+
+        //test the checking of the terms of service
+        if ( bIsTosRequired )
+        {
+            if ( !bTosAccepted )
+            {
+                return strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList
+                        + "&send=error_tos&visitor_last_name=" + strVisitorLastName + "&visitor_first_name="
+                        + strVisitorFirstName + "&visitor_email=" + strVisitorEmail + "&visitor_address="
+                        + strVisitorAddress + "&contact=" + strContact + "&message_object=" + strObject + "&message="
+                        + strMessage;
+            }
         }
 
         Map<String, String> model = new HashMap<String, String>( );

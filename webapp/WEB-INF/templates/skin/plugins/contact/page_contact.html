@@ -53,6 +53,17 @@
                     ${captcha}
                     </div>
                 </#if>
+                <#if is_tos_required>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-9">
+                            <div class="chechbox">
+                                <label for="accept_tos">
+                                    <input type="checkbox" name="accept_tos" id="accept_tos" value="1">  ${tos_message} *
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </#if>
                 <#if alert?exists>
                     <div class="alert alert-error">${alert}</div>
                 </#if>

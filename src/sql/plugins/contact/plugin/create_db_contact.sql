@@ -24,6 +24,8 @@ CREATE TABLE contact_list (
   workgroup_key varchar(50) DEFAULT 'all' NOT NULL,
   role varchar(50) DEFAULT 'none' NOT NULL,
   contact_list_order int DEFAULT '0' NOT NULL,
+  is_tos_active smallint DEFAULT '0' NOT NULL,
+  tos_message long varchar NOT NULL,
   PRIMARY KEY  (id_contact_list)
 );
 
