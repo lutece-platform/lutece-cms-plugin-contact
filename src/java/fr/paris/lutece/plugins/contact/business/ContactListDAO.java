@@ -47,10 +47,10 @@ public final class ContactListDAO implements IContactListDAO
 {
     // Constants
     private static final String SQL_QUERY_NEWPK = "SELECT max( id_contact_list ) FROM contact_list ";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO contact_list VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String SQL_QUERY_SELECT = "SELECT id_contact_list, label_contact_list, description_contact_list, workgroup_key, role FROM contact_list WHERE id_contact_list = ?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO contact_list VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_QUERY_SELECT = "SELECT id_contact_list, label_contact_list, description_contact_list, workgroup_key, role, is_tos_active, tos_message FROM contact_list WHERE id_contact_list = ?";
     private static final String SQL_QUERY_DELETE = "DELETE FROM contact_list WHERE id_contact_list = ?";
-    private static final String SQL_QUERY_UPDATE = "UPDATE contact_list SET label_contact_list = ?, description_contact_list = ?, workgroup_key = ?, role = ? WHERE id_contact_list = ?";
+    private static final String SQL_QUERY_UPDATE = "UPDATE contact_list SET label_contact_list = ?, description_contact_list = ?, workgroup_key = ?, role = ?, is_tos_active = ?, tos_message = ? WHERE id_contact_list = ?";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_contact_list, label_contact_list, description_contact_list,workgroup_key, role, contact_list_order FROM contact_list ORDER BY contact_list_order";
     private static final String SQL_QUERY_COUNT_CONTACTS_FOR_LIST = "SELECT COUNT(*) FROM contact_list_contact WHERE id_contact_list = ?";
     private static final String SQL_QUERY_COUNT_LISTS_FOR_CONTACT = "SELECT COUNT(*) FROM contact_list_contact WHERE id_contact = ?";
@@ -119,6 +119,8 @@ public final class ContactListDAO implements IContactListDAO
         daoUtil.setString( 4, contactList.getWorkgroup(  ) );
         daoUtil.setString( 5, contactList.getRole(  ) );
         daoUtil.setInt( 6, maxOrderContactList( plugin ) + 1 );
+        daoUtil.setBoolean( 7, contactList.getTos(  ) );
+        daoUtil.setString( 8, contactList.getTosMessage(  ) );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
@@ -145,6 +147,8 @@ public final class ContactListDAO implements IContactListDAO
             contactList.setDescription( daoUtil.getString( 3 ) );
             contactList.setWorkgroup( daoUtil.getString( 4 ) );
             contactList.setRole( daoUtil.getString( 5 ) );
+            contactList.setTos( daoUtil.getBoolean( 6 ) );
+            contactList.setTosMessage( daoUtil.getString( 7 ) );
         }
 
         daoUtil.free(  );
@@ -520,7 +524,9 @@ public final class ContactListDAO implements IContactListDAO
         daoUtil.setString( 2, contactList.getDescription(  ) );
         daoUtil.setString( 3, contactList.getWorkgroup(  ) );
         daoUtil.setString( 4, contactList.getRole(  ) );
-        daoUtil.setInt( 5, nContactListId );
+        daoUtil.setBoolean( 5, contactList.getTos(  ) );
+        daoUtil.setString( 6, contactList.getTosMessage(  ) );
+        daoUtil.setInt( 7, nContactListId );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );

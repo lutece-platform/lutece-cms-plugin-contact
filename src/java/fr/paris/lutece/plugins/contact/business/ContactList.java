@@ -60,6 +60,8 @@ public class ContactList implements AdminWorkgroupResource
     private String _strAdminWorkgroup;
     private String _strRole;
     private int _nContactListOrder;
+    private boolean _bActiveTos;
+    private String _strTosMessage;
 
     /**
      * Initialize the ContactList
@@ -212,4 +214,25 @@ public class ContactList implements AdminWorkgroupResource
     {
         _nContactListOrder = nContactListOrder;
     }
+    
+    public boolean getTos()
+    {
+        return _bActiveTos;
+    }
+
+    public void setTos( boolean bActiveTos )
+    {
+        _bActiveTos = bActiveTos;
+    }
+
+    public String getTosMessage()
+    {
+        return _strTosMessage;
+    }
+
+    public void setTosMessage( String strTosMessage )
+    {
+        _strTosMessage = strTosMessage;
+    }
+
 }

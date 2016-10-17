@@ -31,6 +31,22 @@
 							<@comboWithParams name="role" default_value="${contact_list.role}" additionalParameters="class=\"form-control\"" items=roles_list />
 						</div>
 					</div>
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="active_tos">#i18n{contact.modify_contact_list.labelActiveTos}  </label>
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                <div class="chechbox">
+                                                    <label for="active_tos">
+                                                        <input type="checkbox" name="active_tos" id="active_tos" value="1" <#if contact_list.tos==true>checked="checked"</#if>> #i18n{contact.modify_contact_list.labelActiveTosComment}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-12 col-sm-3" for="tos_message" ></label>
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                <textarea class="richtext form-control" name="tos_message" id="tos_message" rows="5" >${contact_list.tosMessage}</textarea>
+                                            </div>
+                                        </div>
 					<div class="form-group">
 						<div class="col-xs-12 col-sm-12 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
 							<button class="btn btn-primary btn-flat" type="submit">
@@ -46,3 +62,5 @@
 		</div>
 	</div>
 </div>
+<#include "/util/editor/editor.html" />
+<@initEditor />

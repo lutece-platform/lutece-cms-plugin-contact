@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
@@ -98,6 +99,8 @@ public class ContactListJspBean extends PluginAdminPageJspBean
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_ROLES_LIST = "roles_list";
+    private static final String MARK_WEBAPP_URL = "webapp_url";
+    private static final String MARK_LOCALE = "locale";
 
     //Parameters
     private static final String PARAMETER_CONTACT_LIST_LABEL = "contact_list_label";
@@ -110,6 +113,8 @@ public class ContactListJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_CONTACT_LIST_ORDER = "contact_list_order";
     private static final String PARAMETER_WORKGROUP = "workgroup";
     private static final String PARAMETER_ROLE = "role";
+    private static final String PARAMETER_TOS = "active_tos";
+    private static final String PARAMETER_TOS_MESSAGE = "tos_message";
     private static final String PARAMETER_CANCEL = "cancel";
 
     // Properties
@@ -173,8 +178,10 @@ public class ContactListJspBean extends PluginAdminPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_CONTACTS );
 
-        Map<String, ReferenceList> model = new HashMap<String, ReferenceList>( );
+        Map<String, Object> model = new HashMap<String, Object>( );
         ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
+        model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
+        model.put( MARK_LOCALE, getLocale( ).getLanguage( ) );
         model.put( MARK_WORKGROUPS_LIST, workgroupsList );
         model.put( MARK_ROLES_LIST, RoleHome.getRolesList( ) );
 
@@ -195,6 +202,8 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         String strDescription = request.getParameter( PARAMETER_CONTACT_LIST_DESCRIPTION );
         String strWorkgroup = request.getParameter( PARAMETER_WORKGROUP );
         String strRole = request.getParameter( PARAMETER_ROLE );
+        boolean bTos = request.getParameter( PARAMETER_TOS ) != null;
+        String strTosMessage = request.getParameter( PARAMETER_TOS_MESSAGE );
 
         if ( ( strLabel.equals( "" ) ) || ( strDescription.equals( "" ) ) )
         {
@@ -205,6 +214,8 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         contactList.setDescription( strDescription );
         contactList.setWorkgroup( strWorkgroup );
         contactList.setRole( strRole );
+        contactList.setTos( bTos );
+        contactList.setTosMessage( strTosMessage );
         ContactListHome.create( contactList, getPlugin( ) );
 
         // if the operation occurred well, redirects towards the list of the ContactList
@@ -232,6 +243,8 @@ public class ContactListJspBean extends PluginAdminPageJspBean
             return getManageContactLists( request );
         }
 
+        model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
+        model.put( MARK_LOCALE, getLocale( ).getLanguage( ) );
         model.put( MARK_WORKGROUPS_LIST, workgroupsList );
         model.put( MARK_CONTACT_LIST, contactList );
         model.put( MARK_ROLES_LIST, RoleHome.getRolesList( ) );
@@ -254,6 +267,8 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         contactList.setDescription( request.getParameter( PARAMETER_CONTACT_LIST_DESCRIPTION ) );
         contactList.setWorkgroup( request.getParameter( PARAMETER_WORKGROUP ) );
         contactList.setRole( request.getParameter( PARAMETER_ROLE ) );
+        contactList.setTos( request.getParameter( PARAMETER_TOS ) != null );
+        contactList.setTosMessage( request.getParameter( PARAMETER_TOS_MESSAGE ) );
 
         // Mandatory fields
         if ( request.getParameter( PARAMETER_CONTACT_LIST_LABEL ).equals( "" ) )
