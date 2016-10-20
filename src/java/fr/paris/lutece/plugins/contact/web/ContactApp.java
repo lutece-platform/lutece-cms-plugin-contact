@@ -49,8 +49,14 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
+import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
+import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.util.ReferenceList;
@@ -63,6 +69,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -73,7 +80,8 @@ import org.apache.commons.lang.StringUtils;
 /**
  * This class manages Contact page.
  */
-public class ContactApp implements XPageApplication
+@Controller( xpageName = "contact", pageTitleI18nKey = "contact.pagePathLabel", pagePathI18nKey = "subscribe.pageTitle" )
+public class ContactApp extends MVCApplication
 {
     /** Serial id */
     private static final long serialVersionUID = 6553298772139973292L;
@@ -118,7 +126,6 @@ public class ContactApp implements XPageApplication
     private static final String PARAMETER_MESSAGE_OBJECT = "message_object";
     private static final String PARAMETER_MESSAGE = "message";
     private static final String PARAMETER_SEND = "send";
-    private static final String PARAMETER_PORTAL_URL = "portal_url";
     private static final String PARAMETER_ID_CONTACT_LIST = "id_contact_list";
     private static final String PARAMETER_TOS_ACCEPTED = "accept_tos";
     private static final String PROPERTY_SENDING_OK = "contact.message_contact.sending.ok";
@@ -129,14 +136,15 @@ public class ContactApp implements XPageApplication
     private static final String PROPERTY_COMBO_CHOOSE = "contact.message_contact.comboChoose";
     private static final String PROPERTY_CAPTCHA_ERROR = "contact.message_contact.captchaError";
     private static final String PROPERTY_TOS_ERROR = "contact.message_contact.tosRequired";
-    private static final String PROPERTY_PAGE_TITLE = "contact.pageTitle";
-    private static final String PROPERTY_PAGE_PATH = "contact.pagePathLabel";
     //private static final String PROPERTY_NO_ID_FOUND = "contact.message_contact.noIdFound";
     private static final String PROPERTY_LIST_NOT_EXISTS = "contact.message_contact.listNotExists";
     private static final String PROPERTY_NOT_AUTHORIZED = "contact.message_contact.notauthorized";
     private static final String PROPERTY_NO_LIST_VISIBLE = "contact.message_contact.noListVisible";
     private static final String JCAPTCHA_PLUGIN = "jcaptcha";
     private static final String EMPTY_STRING = "";
+    private static final String ACTION_SEND_MESSAGE = "actionSendMessage";
+    private static final String VIEW_CONTACT_LISTS = "viewContactLists";
+    private static final String VIEW_CONTACT_PAGE = "viewContactPage";
 
     //Captcha
     private CaptchaSecurityService _captchaService;
@@ -145,39 +153,24 @@ public class ContactApp implements XPageApplication
     private Plugin _plugin;
 
     /**
-     * Returns the content of the page Contact. It is composed by a form which
-     * to capture the data to send a message to
-     * a contact of the portal.
-     * @return the Content of the page Contact
+     * Returns the content of the page
+     *
      * @param request The http request
      * @param nMode The current mode
      * @param plugin The plugin object
+     * @return The XPage
      * @throws fr.paris.lutece.portal.service.message.SiteMessageException
-     *             Message displayed if an exception occures
+     *             Message displayed if an exception occurs
+     * @throws UserNotSignedException if an authentication is required by a view
      */
-    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin ) throws SiteMessageException
+    @Override
+    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
+        throws SiteMessageException, UserNotSignedException
     {
-        XPage page = new XPage( );
-
         String strPluginName = request.getParameter( PARAMETER_PAGE );
         _plugin = PluginService.getPlugin( strPluginName );
-
-        page.setTitle( AppPropertiesService.getProperty( PROPERTY_PAGE_TITLE ) );
-        page.setPathLabel( AppPropertiesService.getProperty( PROPERTY_PAGE_PATH ) );
-
-        String strSendMessage = request.getParameter( PARAMETER_SEND );
-        String strIdContactList = request.getParameter( PARAMETER_ID_CONTACT_LIST );
-
-        if ( strIdContactList != null )
-        {
-            page.setContent( getForm( request, strIdContactList, strSendMessage ) );
-        }
-        else
-        {
-            page.setContent( getLists( request ) );
-        }
-
-        return page;
+        
+        return super.getPage( request, nMode, plugin );
     }
 
     /**
@@ -210,11 +203,12 @@ public class ContactApp implements XPageApplication
      * @return the corresponding form
      * @throws SiteMessageException occurs during treatment
      */
-    private String getForm( HttpServletRequest request, String strIdContactList, String strSendMessage )
+    @View( VIEW_CONTACT_PAGE )
+    public XPage getForm( HttpServletRequest request )
             throws SiteMessageException
     {
         String strPortalUrl = request.getRequestURI( );
-        Map<String, Serializable> model = new HashMap<String, Serializable>( );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         model.put( MARK_PORTAL_URL, strPortalUrl );
 
@@ -227,6 +221,8 @@ public class ContactApp implements XPageApplication
             model.put( MARK_CAPTCHA, _captchaService.getHtmlCode( ) );
         }
 
+        String strIdContactList = request.getParameter( PARAMETER_ID_CONTACT_LIST );
+        String strSendMessage = request.getParameter( PARAMETER_SEND );
         String strVisitorLastName = ( request.getParameter( PARAMETER_VISITOR_LASTNAME ) != null ) ? request
                 .getParameter( PARAMETER_VISITOR_LASTNAME ) : "";
         String strVisitorFirstName = ( request.getParameter( PARAMETER_VISITOR_FIRSTNAME ) != null ) ? request
@@ -257,6 +253,7 @@ public class ContactApp implements XPageApplication
             {
                 UrlItem url = new UrlItem( strPortalUrl );
                 url.addParameter( XPageAppService.PARAM_XPAGE_APP, ContactPlugin.PLUGIN_NAME );
+                url.addParameter( MVCUtils.PARAMETER_VIEW, VIEW_CONTACT_PAGE );
                 url.addParameter( PARAMETER_ID_CONTACT_LIST, strIdContactList );
                 SiteMessageService.setMessage( request, PROPERTY_SENDING_OK, SiteMessage.TYPE_INFO, url.getUrl( ) );
             }
@@ -348,9 +345,7 @@ public class ContactApp implements XPageApplication
 
         model.put( MARK_DEFAULT_CONTACT, ( ( strContact == null ) || ( strContact.equals( "" ) ) ) ? "0" : strContact );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_XPAGE_CONTACT, request.getLocale( ), model );
-
-        return template.getHtml( );
+        return getXPage( TEMPLATE_XPAGE_CONTACT, request.getLocale( ), model );
     }
 
     /**
@@ -359,10 +354,10 @@ public class ContactApp implements XPageApplication
      * @return the lists
      * @throws SiteMessageException occurs during treatment
      */
-    private String getLists( HttpServletRequest request ) throws SiteMessageException
+    @View( value = VIEW_CONTACT_LISTS, defaultView = true )
+    public XPage getLists( HttpServletRequest request ) throws SiteMessageException
     {
-        String strTemplate = "";
-        Map<String, Collection<ContactList>> model = new HashMap<String, Collection<ContactList>>( );
+        Map<String, Object> model = new HashMap<String, Object>( );
         Collection<ContactList> listOfLists = ContactListHome.findAll( _plugin );
 
         Collection<ContactList> visibleList = new ArrayList<ContactList>( ); // filter the list of lists by role
@@ -387,19 +382,16 @@ public class ContactApp implements XPageApplication
             {
                 strContactListId = Integer.toString( onlyList.getId( ) );
             }
+            
+            Map<String, String> mapParameters = new HashMap<String, String>( );
+            mapParameters.put( PARAMETER_ID_CONTACT_LIST, strContactListId );
 
-            return getForm( request, strContactListId, null );
+            return redirect( request, VIEW_CONTACT_PAGE, mapParameters );
         }
-        else
-        {
-            model.put( MARK_LIST_OF_LISTS, visibleList );
-            strTemplate = TEMPLATE_XPAGE_LISTS;
-        }
-
-        HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, request.getLocale( ), model );
+        
         model.put( MARK_LIST_OF_LISTS, visibleList );
 
-        return template.getHtml( );
+        return getXPage( TEMPLATE_XPAGE_LISTS, request.getLocale( ), model );
     }
 
     /**
@@ -411,12 +403,10 @@ public class ContactApp implements XPageApplication
      * @throws fr.paris.lutece.portal.service.message.SiteMessageException
      *             Message displayed if an exception occures
      */
-    public String doSendMessage( HttpServletRequest request ) throws SiteMessageException
+    @Action( ACTION_SEND_MESSAGE )
+    public XPage doSendMessage( HttpServletRequest request ) throws SiteMessageException
     {
-        String strPortalUrl = request.getParameter( PARAMETER_PORTAL_URL );
         String strIdContactList = request.getParameter( PARAMETER_ID_CONTACT_LIST );
-
-        String strUrl = strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList + "&send=done";
         String strVisitorLastName = ( request.getParameter( PARAMETER_VISITOR_LASTNAME ) == null ) ? "" : request
                 .getParameter( PARAMETER_VISITOR_LASTNAME );
         String strVisitorFirstName = ( request.getParameter( PARAMETER_VISITOR_FIRSTNAME ) == null ) ? "" : request
@@ -432,9 +422,17 @@ public class ContactApp implements XPageApplication
         String strDateOfDay = DateUtil.getCurrentDateString( request.getLocale( ) );
         String strContact = request.getParameter( PARAMETER_CONTACT );
         int nContact = ( strContact == null ) ? 0 : Integer.parseInt( strContact );
-        int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
-        boolean bIsTosRequired;
-        boolean bTosAccepted = request.getParameter( PARAMETER_TOS_ACCEPTED ) != null;
+        int nIdContactList = Integer.parseInt( strIdContactList );
+        
+        Map<String, String> mapParamError = new HashMap<String, String>( );
+        mapParamError.put( PARAMETER_ID_CONTACT_LIST, strIdContactList );
+        mapParamError.put( PARAMETER_VISITOR_LASTNAME, strVisitorLastName );
+        mapParamError.put( PARAMETER_VISITOR_FIRSTNAME, strVisitorFirstName );
+        mapParamError.put( PARAMETER_VISITOR_ADDRESS, strVisitorAddress );
+        mapParamError.put( PARAMETER_VISITOR_EMAIL, strVisitorEmail );
+        mapParamError.put( PARAMETER_CONTACT, strContact );
+        mapParamError.put( PARAMETER_MESSAGE_OBJECT, strObject );
+        mapParamError.put( PARAMETER_MESSAGE, strMessage );
 
         //test the captcha
         if ( PluginService.isPluginEnable( JCAPTCHA_PLUGIN ) )
@@ -443,26 +441,19 @@ public class ContactApp implements XPageApplication
 
             if ( !_captchaService.validate( request ) )
             {
-                return strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList
-                        + "&send=error_captcha&visitor_last_name=" + strVisitorLastName + "&visitor_first_name="
-                        + strVisitorFirstName + "&visitor_email=" + strVisitorEmail + "&visitor_address="
-                        + strVisitorAddress + "&contact=" + strContact + "&message_object=" + strObject + "&message="
-                        + strMessage;
+                mapParamError.put( PARAMETER_SEND, "error_captcha" );
+                
+                return redirect( request, VIEW_CONTACT_PAGE, mapParamError );
             }
         }
 
         //test the selection of the contact
         if ( nContact == 0 )
         {
-            return strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList
-                    + "&send=error_recipient&visitor_last_name=" + strVisitorLastName + "&visitor_first_name="
-                    + strVisitorFirstName + "&visitor_email=" + strVisitorEmail + "&visitor_address="
-                    + strVisitorAddress + "&contact=" + strContact + "&message_object=" + strObject + "&message="
-                    + strMessage;
+            mapParamError.put( PARAMETER_SEND, "error_recipient" );
+            
+            return redirect( request, VIEW_CONTACT_PAGE, mapParamError );
         }
-
-        String strPluginName = request.getParameter( PARAMETER_PAGE );
-        _plugin = PluginService.getPlugin( strPluginName );
 
         Contact contact = ContactHome.findByPrimaryKey( nContact, _plugin );
         String strEmailContact = contact.getEmail( );
@@ -478,37 +469,31 @@ public class ContactApp implements XPageApplication
         if ( strVisitorLastName.equals( "" ) || strVisitorFirstName.equals( "" ) || strVisitorEmail.equals( "" )
                 || strContact.equals( "" ) || strObject.equals( "" ) || strMessage.equals( "" ) )
         {
-            return strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList
-                    + "&send=error_field&visitor_last_name=" + strVisitorLastName + "&visitor_first_name="
-                    + strVisitorFirstName + "&visitor_email=" + strVisitorEmail + "&visitor_address="
-                    + strVisitorAddress + "&contact=" + strContact + "&message_object=" + strObject + "&message="
-                    + strMessage;
+            mapParamError.put( PARAMETER_SEND, "error_field" );
+            
+            return redirect( request, VIEW_CONTACT_PAGE, mapParamError );
         }
 
         //test the email of the visitor
         //Checking of the presence of the email address and of its format (@ caracter in the address).
         if ( StringUtil.checkEmail( strVisitorEmail ) != true )
         {
-            return strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList
-                    + "&send=error_email&visitor_last_name=" + strVisitorLastName + "&visitor_first_name="
-                    + strVisitorFirstName + "&visitor_email=" + strVisitorEmail + "&visitor_address="
-                    + strVisitorAddress + "&contact=" + strContact + "&message_object=" + strObject + "&message="
-                    + strMessage;
+            mapParamError.put( PARAMETER_SEND, "error_email" );
+            
+            return redirect( request, VIEW_CONTACT_PAGE, mapParamError );
         }
 
         ContactList contactlist = ContactListHome.findByPrimaryKey( nIdContactList, _plugin);
-        bIsTosRequired = contactlist.getTos(  );
+        boolean bIsTosRequired = contactlist.getTos(  );
+        boolean bTosAccepted = request.getParameter( PARAMETER_TOS_ACCEPTED ) != null;
 
         //test the checking of the terms of service
         if ( bIsTosRequired )
         {
-            if ( !bTosAccepted )
-            {
-                return strPortalUrl + "?page=contact&id_contact_list=" + strIdContactList
-                        + "&send=error_tos&visitor_last_name=" + strVisitorLastName + "&visitor_first_name="
-                        + strVisitorFirstName + "&visitor_email=" + strVisitorEmail + "&visitor_address="
-                        + strVisitorAddress + "&contact=" + strContact + "&message_object=" + strObject + "&message="
-                        + strMessage;
+            if ( !bTosAccepted ) {
+                mapParamError.put( PARAMETER_SEND, "error_tos" );
+
+                return redirect( request, VIEW_CONTACT_PAGE, mapParamError );
             }
         }
 
@@ -527,7 +512,11 @@ public class ContactApp implements XPageApplication
 
         MailService.sendMailHtml( strEmailContact, strVisitorLastName, strVisitorEmail, strObject, strMessageText );
         ContactHome.updateHits( nContact, nIdContactList, _plugin );
+        
+        Map<String, String> mapParamSuccess = new HashMap<String, String>( );
+        mapParamSuccess.put( PARAMETER_ID_CONTACT_LIST, strIdContactList );
+        mapParamSuccess.put( PARAMETER_SEND, "done" );
 
-        return strUrl;
+        return redirect( request, VIEW_CONTACT_PAGE, mapParamSuccess );
     }
 }

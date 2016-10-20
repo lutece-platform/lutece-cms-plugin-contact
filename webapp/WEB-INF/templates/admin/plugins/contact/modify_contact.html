@@ -5,8 +5,9 @@
 				<h3 class="box-title">#i18n{contact.modify_contact.tableLabel}</h3>
 			</div>
 			<div class="box-body">		
-				<form class="form-horizontal" method="post"  name="modify_contact" action="jsp/admin/plugins/contact/DoModifyContact.jsp">
-					<input type="hidden" name="id_contact" value="${contact.id}">
+				<form class="form-horizontal" method="post"  name="modify_contact" action="jsp/admin/plugins/contact/ManageContacts.jsp">
+					<input type="hidden" name="action" value="actionModifyContact">
+                                        <input type="hidden" name="id_contact" value="${contact.id}">
 					<div class="form-group">
 						<label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="contact_name">#i18n{contact.modify_contact.rowTitleLabel} *</label>
 						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">

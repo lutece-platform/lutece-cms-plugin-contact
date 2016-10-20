@@ -1,13 +1,9 @@
-<%@ page errorPage="../../ErrorPage.jsp" %>
+<jsp:useBean id="contactList" scope="session" class="fr.paris.lutece.plugins.contact.web.ContactListJspBean" />
+<% String strContent = contactList.processController ( request, response ); %>
 
+<%@ page errorPage="../../ErrorPage.jsp" %>
 <jsp:include page="../../AdminHeader.jsp" />
 
-
-<jsp:useBean id="contactList" scope="session" class="fr.paris.lutece.plugins.contact.web.ContactListJspBean" />
-
-
-<% contactList.init( request, contactList.RIGHT_MANAGE_CONTACT ); %>
-<%= contactList.getManageContactLists ( request ) %>
-
+<%= strContent %>
 
 <%@ include file="../../AdminFooter.jsp" %>

@@ -5,8 +5,9 @@
 				<h3 class="box-title">#i18n{contact.create_contact_list.tableLabel}</h3>
 			</div>
 			<div class="box-body">			
-				<form class="form-horizontal" method="post"  name="create_contact_list" id="create_contact_list" action="jsp/admin/plugins/contact/DoCreateContactList.jsp">
-					<div class="form-group">
+				<form class="form-horizontal" method="post"  name="create_contact_list" id="create_contact_list" action="jsp/admin/plugins/contact/ManageContactLists.jsp">
+					<input type="hidden" name="action" value="actionCreateContactList">
+                                        <div class="form-group">
 					<label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="contact_list_label" >#i18n{contact.create_contact_list.rowTitleLabel} *</label> 
 						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 							<input type="text" required class="form-control input-sm" id="contact_list_label" name="contact_list_label" size="60" maxlength="50" tabindex="1">

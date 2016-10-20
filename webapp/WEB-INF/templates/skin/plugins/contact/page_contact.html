@@ -1,8 +1,9 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h3>#i18n{contact.page_contact.pageTitle}</h3> 
-            <form class="form-horizontal" id="contact_form" action="jsp/site/plugins/contact/DoSendMessage.jsp" method="post">
+            <form class="form-horizontal" id="contact_form" action="jsp/site/Portal.jsp" method="post">
                 <input type="hidden" name="page" value="contact">
+                <input type="hidden" name="action" value="actionSendMessage">
                 <input type="hidden" name="portal_url" value="${portal_url}">
                 <input type="hidden" name="id_contact_list" value="${id_contact_list}">
                 <div class="form-group">
