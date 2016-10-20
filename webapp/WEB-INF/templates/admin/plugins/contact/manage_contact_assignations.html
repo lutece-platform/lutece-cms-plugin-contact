@@ -4,20 +4,21 @@
 			<div class="box-header">
 				<h3 class="box-title">#i18n{contact.contact_assignations.ContactAssignationTitle} ${contact.name} (${contact.email})</h3>
 				<div class="box-tools pull-right">
-					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContactLists.jsp?id_contact=${contact.id}" title="#i18n{contact.contact_list_assignations.goManageLists}">
+					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContactLists.jsp?" title="#i18n{contact.contact_list_assignations.goManageLists}">
 						<i class="glyphicon glyphicon-user"></i>
 					</a>
-					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ModifyContact.jsp?id_contact=${contact.id}" title="#i18n{contact.contact_assignations.actionModify}">
+					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContacts.jsp?action=actionModifyContact&amp;id_contact=${contact.id}" title="#i18n{contact.contact_assignations.actionModify}">
 						<i class="glyphicon glyphicon-edit"></i>
 					</a>
-					<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/plugins/contact/RemoveContact.jsp?id_contact=${contact.id}" title="#i18n{contact.contact_assignations.actionDelete}" >
+                                        <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContacts.jsp?action=actionRemoveContact&amp;id_contact=${contact.id}" title="#i18n{contact.contact_assignations.actionDelete}" >
 						<i class="glyphicon glyphicon-trash"></i>
 					</a>
 				</div>
 			</div>
 			<div class="box-body">
-				<form  name="assignContact" method="post" action="jsp/admin/plugins/contact/DoAssignListsToContact.jsp">
-				<input type="hidden" name="id_contact" value="${contact.id}">
+				<form  name="assignContact" method="post" action="jsp/admin/plugins/contact/ManageContactLists.jsp">
+				<input type="hidden" name="action" value="actionAssignListsToContact">
+                                <input type="hidden" name="id_contact" value="${contact.id}">
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
 						<div class="box">
@@ -58,11 +59,11 @@
 										<tr>
 											<td>${assigned_list.label} ( ${assigned_list.contactsNumber} #i18n{contact.contact_list_assignations.contacts} )</td>
 											<td>
-												<a class="btn btn-primary btn-flat btn-xs" href="jsp/admin/plugins/contact/ModifyContactList.jsp?id_contact_list=${assigned_list.id}&amp;id_contact=${contact.id}"
+                                                                                            <a class="btn btn-primary btn-flat btn-xs" href="jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&amp;id_contact_list=${assigned_list.id}&amp;id_contact=${contact.id}"
 												   title="#i18n{contact.manage_contact_lists.actionModifyContactList}">
 													<i class="glyphicon glyphicon-edit"></i>
 												</a>
-												<a class="btn btn-danger btn-flat btn-xs" href="jsp/admin/plugins/contact/DoUnassignList.jsp?id_contact_list=${assigned_list.id}&amp;id_contact=${contact.id}"
+                                                                                            <a class="btn btn-danger btn-flat btn-xs" href="jsp/admin/plugins/contact/ManageContactLists.jsp?action=actionRevokeListsFromContact&amp;id_contact_list=${assigned_list.id}&amp;id_contact=${contact.id}"
 												   title="#i18n{contact.contact.actionUnassign}" >
 													<i class="glyphicon glyphicon-trash"></i>
 												</a>

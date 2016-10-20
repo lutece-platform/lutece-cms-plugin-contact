@@ -4,20 +4,21 @@
 			<div class="box-header">
 				<h3 class="box-title">#i18n{contact.contact_list_assignations.listAssignationTitle} "${contact_list.label}" ( #i18n{contact.contact_list_assignations.contactsNumer} : ${contacts_number} )</h3>
 				<div class="box-tools pull-right">
-					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContacts.jsp?id_contact_list=${contact_list.id}" title="#i18n{contact.contact_list_assignations.goManageContacts}">
+					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContacts.jsp?" title="#i18n{contact.contact_list_assignations.goManageContacts}">
 						<i class="fa fa-user"></i>
 					</a>                    
-					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ModifyContactList.jsp?id_contact_list=${contact_list.id}" title="#i18n{contact.manage_contact_lists.actionModifyContactList}">
+					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&amp;id_contact_list=${contact_list.id}" title="#i18n{contact.manage_contact_lists.actionModifyContactList}">
 						<i class="fa fa-pencil"></i>
 					</a>                    
-					<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/plugins/contact/RemoveContactList.jsp?id_contact_list=${contact_list.id}" title="#i18n{contact.manage_contact_lists.actionDeleteContactList}">
+					<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewConfirmRemoveContactList&amp;id_contact_list=${contact_list.id}" title="#i18n{contact.manage_contact_lists.actionDeleteContactList}">
 						<i class="fa fa-trash"></i>
 					</a>                    
 				</div>
 			</div>
 			<div class="box-body">
-				<form name="assignContact" method="post" action="jsp/admin/plugins/contact/DoAssignContactsToList.jsp">
-				<input type="hidden" name="id_contact_list" value="${contact_list.id}" />
+				<form name="assignContact" method="post" action="jsp/admin/plugins/contact/ManageContactLists.jsp">
+				<input type="hidden" name="action" value="actionAssignContactsToList">
+                                <input type="hidden" name="id_contact_list" value="${contact_list.id}" />
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
 						<div class="box">
@@ -61,8 +62,9 @@
 									<td>${assigned_contact.name}</td>
 									<td>${assigned_contact.email}</td>
 									<td>
-										<form class="inline" action="jsp/admin/plugins/contact/DoModifyContactsOrder.jsp">
-											<input type="hidden" name="id_contact" value="${assigned_contact.id}" />	
+										<form class="inline" action="jsp/admin/plugins/contact/ManageContactLists.jsp">
+											<input type="hidden" name="action" value="actionModifyContactOrder">
+                                                                                        <input type="hidden" name="id_contact" value="${assigned_contact.id}" />	
 											<input type="hidden" name="id_contact_list" value="${contact_list.id}" />
 											<@comboWithParams name="contacts_order" default_value="${assigned_contact.contactOrder}" additionalParameters="class=\"input-xs\"" items=order_list />
 											<button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{contact.manage_contacts.buttonChangeOrder}">
@@ -71,10 +73,10 @@
 										</form>
 									</td>
 									<td>
-										<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ModifyContact.jsp?id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}" title="#i18n{contact.contact.actionModify}">
+										<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}" title="#i18n{contact.contact.actionModify}">
 											<i class="fa fa-pencil"></i>
 										</a>
-										<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/plugins/contact/DoUnassignContact.jsp?id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}" title="#i18n{contact.contact.actionUnassign}">
+										<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContactLists.jsp?action=actionRevokeContactsFromList&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}" title="#i18n{contact.contact.actionUnassign}">
 											<i class="fa fa-trash"></i>
 										</a>
 									</td>

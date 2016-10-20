@@ -4,8 +4,9 @@
 			<div class="box-header">
 				<h3 class="box-title">#i18n{contact.manage_contacts.tableLabel}</h3>
 				<div class="box-tools pull-right">
-					<form class="form-inline spaced" method="post"  action="jsp/admin/plugins/contact/CreateContact.jsp">
-						<button class="btn btn-primary btn-xs btn-flat" type="submit" >
+					<form class="form-inline spaced" method="post"  action="jsp/admin/plugins/contact/ManageContacts.jsp">
+						<input type="hidden" name="view" value="viewCreateContact">
+                                                <button class="btn btn-primary btn-xs btn-flat" type="submit" >
 							<i class="fa fa-plus"></i>
 								<span class="hidden-xs">
 								#i18n{contact.manage_contacts.buttonAddContact}
@@ -35,13 +36,13 @@
 							<td>${contact.email}</td>
 							<td>${contact.workgroup}</td>     
 							<td>
-								<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ModifyContact.jsp?id_contact=${contact.id}"  title="#i18n{portal.util.labelModify}" >
+                                                                <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact=${contact.id}"  title="#i18n{portal.util.labelModify}" >
 									<i class="fa fa-pencil"></i>
 								</a>
-								<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContactAssignations.jsp?id_contact=${contact.id}" title="#i18n{contact.contact_assignations.actionAssign}">
+                                                                <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewManageContactAssignation&amp;id_contact=${contact.id}" title="#i18n{contact.contact_assignations.actionAssign}">
 									<i class="fa fa-user"></i>
 								</a>
-								<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/plugins/contact/RemoveContact.jsp?id_contact=${contact.id}" title="#i18n{contact.contact.actionDelete}">
+								<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContacts.jsp?view=viewConfirmRemoveContact&amp;id_contact=${contact.id}" title="#i18n{contact.contact.actionDelete}">
 									<i class="fa fa-trash"></i>
 								</a>
 							</td>

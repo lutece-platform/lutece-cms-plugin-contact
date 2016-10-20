@@ -44,6 +44,10 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
@@ -66,7 +70,8 @@ import javax.servlet.http.HttpServletRequest;
  * create, modify, remove, change order of
  * contact )
  */
-public class ContactListJspBean extends PluginAdminPageJspBean
+@Controller( controllerJsp = "ManageContactLists.jsp", controllerPath = "jsp/admin/plugins/contact/", right = ContactListJspBean.RIGHT_MANAGE_CONTACT )
+public class ContactListJspBean extends MVCAdminJspBean
 {
     // Right
     public static final String RIGHT_MANAGE_CONTACT = "CONTACT_MANAGEMENT";
@@ -123,13 +128,24 @@ public class ContactListJspBean extends PluginAdminPageJspBean
     //messages
     private static final String MESSAGE_CONFIRM_REMOVE_CONTACT_LIST = "contact.message.confirmRemoveContactList";
 
-    //JSP
-    private static final String JSP_MANAGE_LIST_ASSIGNATIONS = "ManageListAssignations.jsp";
-    private static final String JSP_MANAGE_CONTACT_ASSIGNATIONS = "ManageContactAssignations.jsp";
-    private static final String JSP_MANAGE_CONTACT_LISTS = "ManageContactLists.jsp";
-    private static final String JSP_MANAGE_CONTACTS = "ManageContacts.jsp";
-    private static final String JSP_MANAGE_CONTACTS_LISTS = "jsp/admin/plugins/contact/ManageContactLists.jsp";
-    private static final String JSP_DO_REMOVE_CONTACT_LIST = "jsp/admin/plugins/contact/DoRemoveContactList.jsp";
+    //Views
+    private static final String VIEW_CREATE_CONTACT_LIST = "viewCreateContactList";
+    private static final String VIEW_MODIFY_CONTACT_LIST = "viewModifyContactList";
+    private static final String VIEW_MANAGE_CONTACT_LISTS = "viewManageContactLists";
+    private static final String VIEW_CONFIRM_REMOVE_CONTACT_LIST = "viewConfirmRemoveContactList";
+    private static final String VIEW_MANAGE_CONTACT_LIST_ASSIGNATIONS = "viewManageContactListAssignation";
+    private static final String VIEW_MANAGE_CONTACT_ASSIGNATIONS = "viewManageContactAssignation";
+    
+    //Actions
+    private static final String ACTION_CREATE_CONTACT_LIST = "actionCreateContactList";
+    private static final String ACTION_MODIFY_CONTACT_LIST = "actionModifyContactList";
+    private static final String ACTION_REMOVE_CONTACT_LIST = "actionRemoveContactList";
+    private static final String ACTION_MODIFY_CONTACT_LIST_ORDER = "actionModifyContactListOrder";
+    private static final String ACTION_MODIFY_CONTACT_ORDER = "actionModifyContactOrder";
+    private static final String ACTION_ASSIGN_LISTS_TO_CONTACT = "actionAssignListsToContact";
+    private static final String ACTION_REVOKE_LISTS_FROM_CONTACT = "actionRevokeListsFromContact";
+    private static final String ACTION_ASSIGN_CONTACTS_TO_LIST = "actionAssignContactsToList";
+    private static final String ACTION_REVOKE_CONTACTS_FROM_LIST = "actionRevokeContactsFromList";
 
     //Variables
     private int _nDefaultItemsPerPage;
@@ -141,10 +157,9 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * @param request The HttpRequest
      * @return template of lists management
      */
+    @View( value = VIEW_MANAGE_CONTACT_LISTS, defaultView = true )
     public String getManageContactLists( HttpServletRequest request )
     {
-        setPageTitleProperty( PROPERTY_PAGE_TITLE_CONTACTS );
-
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_CONTACT_LIST_PER_PAGE, 50 );
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
@@ -155,7 +170,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         listContactList = AdminWorkgroupService.getAuthorizedCollection( listContactList, getUser( ) );
 
         LocalizedPaginator paginator = new LocalizedPaginator( (List<ContactList>) listContactList, _nItemsPerPage,
-                getUrlPage( ), PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
+                getViewUrl( VIEW_MANAGE_CONTACT_LISTS ), PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         Map<String, Object> model = new HashMap<String, Object>( );
 
@@ -164,9 +179,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_LIST_CONTACT_LIST, paginator.getPageItems( ) );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_CONTACT_LISTS, getLocale( ), model );
-
-        return getAdminPage( templateList.getHtml( ) );
+        return getPage( PROPERTY_PAGE_TITLE_CONTACTS, TEMPLATE_MANAGE_CONTACT_LISTS, model );
     }
 
     /**
@@ -174,10 +187,9 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * @param request The HttpRequest
      * @return the HTML code of contactList form
      */
+    @View( VIEW_CREATE_CONTACT_LIST )
     public String getCreateContactList( HttpServletRequest request )
     {
-        setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_CONTACTS );
-
         Map<String, Object> model = new HashMap<String, Object>( );
         ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
@@ -185,9 +197,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         model.put( MARK_WORKGROUPS_LIST, workgroupsList );
         model.put( MARK_ROLES_LIST, RoleHome.getRolesList( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_CONTACT, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
+        return getPage( PROPERTY_PAGE_TITLE_CREATE_CONTACTS, TEMPLATE_CREATE_CONTACT, model );
     }
 
     /**
@@ -195,6 +205,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * @param request The HttpRequest
      * @return the lsit of contactLists
      */
+    @Action( ACTION_CREATE_CONTACT_LIST )
     public String doCreateContactList( HttpServletRequest request )
     {
         ContactList contactList = new ContactList( );
@@ -207,7 +218,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
 
         if ( ( strLabel.equals( "" ) ) || ( strDescription.equals( "" ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
 
         contactList.setLabel( strLabel );
@@ -219,7 +230,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         ContactListHome.create( contactList, getPlugin( ) );
 
         // if the operation occurred well, redirects towards the list of the ContactList
-        return JSP_MANAGE_CONTACT_LISTS;
+        return redirectView( request, VIEW_MANAGE_CONTACT_LISTS );
     }
 
     /**
@@ -227,10 +238,9 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * @param request The HttpRequest
      * @return the HTML code of modify contactList form
      */
+    @View( VIEW_MODIFY_CONTACT_LIST )
     public String getModifyContactList( HttpServletRequest request )
     {
-        setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY );
-
         Map<String, Object> model = new HashMap<String, Object>( );
 
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
@@ -249,9 +259,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         model.put( MARK_CONTACT_LIST, contactList );
         model.put( MARK_ROLES_LIST, RoleHome.getRolesList( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_CONTACT_LIST, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
+        return getPage( PROPERTY_PAGE_TITLE_MODIFY, TEMPLATE_MODIFY_CONTACT_LIST, model );
     }
 
     /**
@@ -259,6 +267,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * @param request The HttpRequest
      * @return the contactList list
      */
+    @Action( ACTION_MODIFY_CONTACT_LIST )
     public String doModifyContactList( HttpServletRequest request )
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
@@ -273,12 +282,12 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         // Mandatory fields
         if ( request.getParameter( PARAMETER_CONTACT_LIST_LABEL ).equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
 
         ContactListHome.update( contactList, getPlugin( ) );
 
-        return JSP_MANAGE_CONTACT_LISTS;
+        return redirectView( request, VIEW_MANAGE_CONTACT_LISTS );
     }
 
     /**
@@ -287,13 +296,14 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * @param request The Http request
      * @return the html code to confirm
      */
+    @View( VIEW_CONFIRM_REMOVE_CONTACT_LIST )
     public String getConfirmRemoveContactList( HttpServletRequest request )
     {
-        UrlItem url = new UrlItem( JSP_DO_REMOVE_CONTACT_LIST );
+        UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_CONTACT_LIST ) );
         url.addParameter( PARAMETER_ID_CONTACT_LIST, request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_CONTACT_LIST, url.getUrl( ),
-                AdminMessage.TYPE_CONFIRMATION );
+        return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_CONTACT_LIST, url.getUrl( ),
+                AdminMessage.TYPE_CONFIRMATION ) );
     }
 
     /**
@@ -301,6 +311,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * @param request The HttpRequest
      * @return the contactList list
      */
+    @Action( ACTION_REMOVE_CONTACT_LIST )
     public String doRemoveContactList( HttpServletRequest request )
     {
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
@@ -311,7 +322,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         ContactListHome.remove( nIdContactList, getPlugin( ) );
 
         // Go to the parent page
-        return getHomeUrl( request );
+        return redirectView( request, VIEW_MANAGE_CONTACT_LISTS );
     }
 
     /**
@@ -319,10 +330,9 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * @param request The HttpRequest
      * @return the HTML code of list assignations
      */
+    @View( VIEW_MANAGE_CONTACT_LIST_ASSIGNATIONS )
     public String getManageListAssignations( HttpServletRequest request )
     {
-        setPageTitleProperty( PROPERTY_PAGE_TITLE_MANAGE_LIST_ASSIGNATIONS );
-
         String strIdContactList = request.getParameter( PARAMETER_ID_CONTACT_LIST );
         int nIdContactList = Integer.parseInt( strIdContactList );
         ContactList contactList = ContactListHome.findByPrimaryKey( nIdContactList, getPlugin( ) ); //The contactList object concerned -- One obecjt
@@ -355,10 +365,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         model.put( MARK_CONTACTS_NUMBER, ContactListHome.countContactsForList( nIdContactList, getPlugin( ) ) );
         model.put( MARK_CONTACT_ORDER_LIST, getContactOrderList( nIdContactList ) );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_LIST_ASSIGNATIONS, getLocale( ),
-                model );
-
-        return getAdminPage( templateList.getHtml( ) );
+        return getPage( PROPERTY_PAGE_TITLE_MANAGE_LIST_ASSIGNATIONS, TEMPLATE_MANAGE_LIST_ASSIGNATIONS, model );
     }
 
     /**
@@ -366,38 +373,33 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * @param request The HttpRequest
      * @return the template of list assignations
      */
+    @Action( ACTION_ASSIGN_CONTACTS_TO_LIST )
     public String doAssignContactsToList( HttpServletRequest request )
     {
-        String strReturn;
-
         String strActionCancel = request.getParameter( PARAMETER_CANCEL );
 
         if ( strActionCancel != null )
         {
-            strReturn = JSP_MANAGE_CONTACT_LISTS;
+            return redirectView( request, VIEW_MANAGE_CONTACT_LISTS );
         }
-        else
-        {
-            //retrieve the selected portlets ids
-            String[] arrayContactsIds = request.getParameterValues( PARAMETER_CONTACT_LIST );
-            int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
 
-            if ( ( arrayContactsIds != null ) )
+        //retrieve the selected portlets ids
+        String[] arrayContactsIds = request.getParameterValues( PARAMETER_CONTACT_LIST );
+        int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
+
+        if ( ( arrayContactsIds != null ) )
+        {
+            for ( int i = 0; i < arrayContactsIds.length; i++ )
             {
-                for ( int i = 0; i < arrayContactsIds.length; i++ )
+                if ( !ContactListHome.isAssigned( Integer.parseInt( arrayContactsIds[i] ), nIdContactList,
+                        getPlugin( ) ) )
                 {
-                    if ( !ContactListHome.isAssigned( Integer.parseInt( arrayContactsIds[i] ), nIdContactList,
-                            getPlugin( ) ) )
-                    {
-                        ContactListHome.assign( Integer.parseInt( arrayContactsIds[i] ), nIdContactList, getPlugin( ) );
-                    }
+                    ContactListHome.assign( Integer.parseInt( arrayContactsIds[i] ), nIdContactList, getPlugin( ) );
                 }
             }
-
-            strReturn = JSP_MANAGE_LIST_ASSIGNATIONS + "?" + PARAMETER_ID_CONTACT_LIST + "=" + nIdContactList;
         }
 
-        return strReturn;
+        return redirect( request, VIEW_MANAGE_CONTACT_LIST_ASSIGNATIONS, PARAMETER_ID_CONTACT_LIST, nIdContactList );
     }
 
     /**
@@ -405,6 +407,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * @param request The HttpRequest
      * @return the HTML code of list assignations
      */
+    @Action( ACTION_REVOKE_CONTACTS_FROM_LIST )
     public String doUnAssignContact( HttpServletRequest request )
     {
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
@@ -415,7 +418,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         modifyContactsOrder( nIdContact, nOrder, nNewOrder, nIdContactList );
         ContactListHome.unAssign( nIdContact, nIdContactList, getPlugin( ) );
 
-        return JSP_MANAGE_LIST_ASSIGNATIONS + "?" + PARAMETER_ID_CONTACT_LIST + "=" + nIdContactList;
+        return redirect( request, VIEW_MANAGE_CONTACT_LIST_ASSIGNATIONS, PARAMETER_ID_CONTACT_LIST, nIdContactList );
     }
 
     /**
@@ -423,13 +426,14 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * @param request The HttpRequest
      * @return the html code of contact assignations
      */
+    @Action( ACTION_REVOKE_LISTS_FROM_CONTACT )
     public String doUnAssignList( HttpServletRequest request )
     {
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );
         ContactListHome.unAssign( nIdContact, nIdContactList, getPlugin( ) );
 
-        return JSP_MANAGE_CONTACT_ASSIGNATIONS + "?" + PARAMETER_ID_CONTACT + "=" + nIdContact;
+        return redirect( request, VIEW_MANAGE_CONTACT_ASSIGNATIONS, PARAMETER_ID_CONTACT, nIdContact);
     }
 
     /**
@@ -437,10 +441,9 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * @param request The HttpRequest
      * @return the HTML code of contact assignations
      */
+    @View( VIEW_MANAGE_CONTACT_ASSIGNATIONS )
     public String getManageContactAssignations( HttpServletRequest request )
     {
-        setPageTitleProperty( PROPERTY_PAGE_TITLE_MANAGE_CONTACT_ASSIGNATIONS );
-
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );
         Contact contact = ContactHome.findByPrimaryKey( nIdContact, getPlugin( ) );
         Collection<ContactList> notAssignedLists = ContactListHome.getNotAssignedListsFor( nIdContact, getPlugin( ) );
@@ -463,10 +466,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         model.put( MARK_NOT_ASSIGNED_LISTS, refListNotAssigned );
         model.put( MARK_ASSIGNED_LISTS, assignedLists );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_CONTACT_ASSIGNATIONS, getLocale( ),
-                model );
-
-        return getAdminPage( templateList.getHtml( ) );
+        return getPage( PROPERTY_PAGE_TITLE_MANAGE_CONTACT_ASSIGNATIONS, TEMPLATE_MANAGE_CONTACT_ASSIGNATIONS, model );
     }
 
     /**
@@ -474,37 +474,32 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * @param request The HttpRequest
      * @return the HTML code of contact assignations
      */
+    @Action( ACTION_ASSIGN_LISTS_TO_CONTACT )
     public String doAssignListsToContact( HttpServletRequest request )
     {
-        String strReturn;
-
         String strActionCancel = request.getParameter( PARAMETER_CANCEL );
 
         if ( strActionCancel != null )
         {
-            strReturn = JSP_MANAGE_CONTACTS;
+            return redirectView( request, VIEW_MANAGE_CONTACT_LISTS );
         }
-        else
-        {
-            //retrieve the selected portlets ids
-            String[] arrayListsIds = request.getParameterValues( PARAMETER_CONTACT_LIST );
-            int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );
 
-            if ( ( arrayListsIds != null ) )
+        //retrieve the selected portlets ids
+        String[] arrayListsIds = request.getParameterValues( PARAMETER_CONTACT_LIST );
+        int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );
+
+        if ( ( arrayListsIds != null ) )
+        {
+            for ( int i = 0; i < arrayListsIds.length; i++ )
             {
-                for ( int i = 0; i < arrayListsIds.length; i++ )
+                if ( !ContactListHome.isAssigned( nIdContact, Integer.parseInt( arrayListsIds[i] ), getPlugin( ) ) )
                 {
-                    if ( !ContactListHome.isAssigned( nIdContact, Integer.parseInt( arrayListsIds[i] ), getPlugin( ) ) )
-                    {
-                        ContactListHome.assign( nIdContact, Integer.parseInt( arrayListsIds[i] ), getPlugin( ) );
-                    }
+                    ContactListHome.assign( nIdContact, Integer.parseInt( arrayListsIds[i] ), getPlugin( ) );
                 }
             }
-
-            strReturn = JSP_MANAGE_CONTACT_ASSIGNATIONS + "?" + PARAMETER_ID_CONTACT + "=" + nIdContact;
         }
 
-        return strReturn;
+        return redirect( request, VIEW_MANAGE_CONTACT_ASSIGNATIONS, PARAMETER_ID_CONTACT, nIdContact );
     }
 
     /**
@@ -513,6 +508,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * @param request The Http request
      * @return The Jsp URL of the process result
      */
+    @Action( ACTION_MODIFY_CONTACT_ORDER )
     public String doModifyContactsOrder( HttpServletRequest request )
     {
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );
@@ -522,7 +518,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         int nNewOrder = Integer.parseInt( request.getParameter( PARAMETER_CONTACTS_ORDER ) );
         modifyContactsOrder( nIdContact, nOrder, nNewOrder, nIdContactList );
 
-        return JSP_MANAGE_LIST_ASSIGNATIONS + "?" + PARAMETER_ID_CONTACT_LIST + "=" + nIdContactList;
+        return redirect( request, VIEW_MANAGE_CONTACT_LIST_ASSIGNATIONS, PARAMETER_ID_CONTACT_LIST, nIdContactList );
     }
 
     /**
@@ -584,6 +580,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
      * @param request The Http request
      * @return The Jsp URL of the process result
      */
+    @Action( ACTION_MODIFY_CONTACT_LIST_ORDER )
     public String doModifyContactListsOrder( HttpServletRequest request )
     {
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
@@ -592,7 +589,7 @@ public class ContactListJspBean extends PluginAdminPageJspBean
         int nNewOrder = Integer.parseInt( request.getParameter( PARAMETER_CONTACT_LIST_ORDER ) );
         modifyContactListsOrder( nOrder, nNewOrder, nIdContactList );
 
-        return JSP_MANAGE_CONTACT_LISTS;
+        return redirectView( request, VIEW_MANAGE_CONTACT_LISTS );
     }
 
     /**
@@ -645,16 +642,5 @@ public class ContactListJspBean extends PluginAdminPageJspBean
 
             ContactListHome.updateContactListOrder( nNewOrder, nIdContactList, getPlugin( ) );
         }
-    }
-
-    /**
-     * Return UrlPage Url
-     * @return url
-     */
-    private String getUrlPage( )
-    {
-        UrlItem url = new UrlItem( JSP_MANAGE_CONTACTS_LISTS );
-
-        return url.getUrl( );
     }
 }

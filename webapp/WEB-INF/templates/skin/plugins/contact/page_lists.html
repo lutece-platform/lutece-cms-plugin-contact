@@ -3,7 +3,7 @@
     <h3>#i18n{contact.lists.messageSelectList}</h3>
     <ul class="nav nav-pills nav-stacked">
         <#list list_of_lists as list >
-			<li><a href="jsp/site/Portal.jsp?page=contact&id_contact_list=${list.id}">${list.label}- ${list.description}</a> </li>
+			<li><a href="jsp/site/Portal.jsp?page=contact&amp;view=viewContactPage&amp;id_contact_list=${list.id}">${list.label}- ${list.description}</a> </li>
         </#list>
     </ul>
 	</div>
