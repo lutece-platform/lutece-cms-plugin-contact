@@ -45,11 +45,15 @@ public class ContactListBusinessTest extends LuteceTestCase
     private static final String LABEL = "Label";
     private static final String ROLE = "role";
     private static final String WORKGROUP = "workgroup";
+    private static final boolean TOS = false;
+    private static final String TOS_MESSAGE = "";
     private static final int CONTACTS_NUMBER_2 = 0;
     private static final String DESCRIPTION_2 = "Description 2";
     private static final String LABEL_2 = "Label 2";
     private static final String ROLE_2 = "role 2";
     private static final String WORKGROUP_2 = "workgroup 2";
+    private static final boolean TOS_2 = true;
+    private static final String TOS_MESSAGE_2 = "test-tos";
     private static final int CONTACT_ID = 48;
 
     public void testBusinessContactList(  )
@@ -67,6 +71,8 @@ public class ContactListBusinessTest extends LuteceTestCase
             contactList.setLabel( LABEL );
             contactList.setRole( ROLE );
             contactList.setWorkgroup( WORKGROUP );
+            contactList.setTos( TOS );
+            contactList.setTosMessage( TOS_MESSAGE );
 
             // Create test
             ContactListHome.create( contactList, plugin );
@@ -77,6 +83,8 @@ public class ContactListBusinessTest extends LuteceTestCase
             assertEquals( contactListStored.getLabel(  ), contactList.getLabel(  ) );
             assertEquals( contactListStored.getRole(  ), contactList.getRole(  ) );
             assertEquals( contactListStored.getWorkgroup(  ), contactList.getWorkgroup(  ) );
+            assertEquals( contactListStored.getTos(  ), contactList.getTos(  ) );
+            assertEquals( contactListStored.getTosMessage(  ), contactList.getTosMessage(  ) );
 
             // Update test
             contactList.setContactsNumber( CONTACTS_NUMBER_2 );
@@ -84,6 +92,8 @@ public class ContactListBusinessTest extends LuteceTestCase
             contactList.setLabel( LABEL_2 );
             contactList.setRole( ROLE_2 );
             contactList.setWorkgroup( WORKGROUP_2 );
+            contactList.setTos( TOS_2 );
+            contactList.setTosMessage( TOS_MESSAGE_2 );
 
             ContactListHome.update( contactList, plugin );
 
@@ -94,6 +104,8 @@ public class ContactListBusinessTest extends LuteceTestCase
             assertEquals( contactListStored.getLabel(  ), contactList.getLabel(  ) );
             assertEquals( contactListStored.getRole(  ), contactList.getRole(  ) );
             assertEquals( contactListStored.getWorkgroup(  ), contactList.getWorkgroup(  ) );
+            assertEquals( contactListStored.getTos(  ), contactList.getTos(  ) );
+            assertEquals( contactListStored.getTosMessage(  ), contactList.getTosMessage(  ) );
 
             //assign test
             ContactListHome.assign( contact.getId(  ), contactList.getId(  ), plugin );

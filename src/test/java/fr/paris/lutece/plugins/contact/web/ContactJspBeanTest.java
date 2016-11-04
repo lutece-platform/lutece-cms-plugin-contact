@@ -40,11 +40,13 @@ import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
 
 import java.util.HashMap;
 import java.util.Locale;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 
@@ -56,6 +58,9 @@ public class ContactJspBeanTest extends LuteceTestCase
     private static final String PARAMETER_CONTACT_EMAIL = "contact_email";
     private static final String PARAMETER_ID_CONTACT_LIST = "id_contact_list";
     private static final String PARAMETER_CONTACT_WORKGROUP = "workgroup";
+    private static final String ACTION_CREATE_CONTACT = "actionCreateContact";
+    private static final String ACTION_MODIFY_CONTACT = "actionModifyContact";
+    private static final String VIEW_CONFIRM_REMOVE_CONTACT = "viewConfirmRemoveContact";
 
     /**
     * Test of getCreateContact method, of class fr.paris.lutece.plugins.contact.web.contactJspBean.
@@ -73,7 +78,7 @@ public class ContactJspBeanTest extends LuteceTestCase
         ContactJspBean instance = new ContactJspBean(  );
 
         instance.init( request, ContactJspBean.RIGHT_MANAGE_CONTACT );
-        instance.getCreateContact( request );
+        String result = instance.getCreateContact( request );
     }
 
     /**
@@ -88,21 +93,21 @@ public class ContactJspBeanTest extends LuteceTestCase
         user.setRoles( new HashMap<String, AdminRole>(  ) );
         user.setLocale( Locale.getDefault(  ) );
         Utils.registerAdminUserWithRigth( request, user, ContactJspBean.RIGHT_MANAGE_CONTACT );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, ACTION_CREATE_CONTACT );
         request.addParameter( PARAMETER_CONTACT_NAME, "test name" );
         request.addParameter( PARAMETER_CONTACT_EMAIL, "test email" );
         request.addParameter( PARAMETER_CONTACT_WORKGROUP, "all" );
 
+        MockHttpServletResponse response = new MockHttpServletResponse(  );
+        
         ContactJspBean instance = new ContactJspBean(  );
 
-        instance.init( request, ContactJspBean.RIGHT_MANAGE_CONTACT );
-        instance.doCreateContact( request );
+        String result = instance.processController( request, response );
     }
 
     /**
     * Test of getModifyContact method, of class fr.paris.lutece.plugins.contact.web.contactJspBean.
     */
-
-    /*
     public void testGetModifyContact(  ) throws AccessDeniedException
     {
         System.out.println( "getModifyContact" );
@@ -117,9 +122,8 @@ public class ContactJspBeanTest extends LuteceTestCase
         ContactJspBean instance = new ContactJspBean(  );
     
         instance.init( request, ContactJspBean.RIGHT_MANAGE_CONTACT );
-        instance.getModifyContact( request );
+        String result = instance.getModifyContact( request );
     }
-    */
 
     /**
     * Test of getConfirmRemoveContact method, of class fr.paris.lutece.plugins.contact.web.contactJspBean.
@@ -133,12 +137,14 @@ public class ContactJspBeanTest extends LuteceTestCase
         user.setRoles( new HashMap<String, AdminRole>(  ) );
         user.setLocale( Locale.getDefault(  ) );
         Utils.registerAdminUserWithRigth( request, user, ContactJspBean.RIGHT_MANAGE_CONTACT );
+        request.addParameter( MVCUtils.PARAMETER_VIEW, VIEW_CONFIRM_REMOVE_CONTACT );
         request.addParameter( PARAMETER_CONTACT_ID, "1" );
 
+        MockHttpServletResponse response = new MockHttpServletResponse(  );
+        
         ContactJspBean instance = new ContactJspBean(  );
 
-        instance.init( request, ContactJspBean.RIGHT_MANAGE_CONTACT );
-        instance.getConfirmRemoveContact( request );
+        String result = instance.processController( request, response );
     }
 
     /**
@@ -175,5 +181,30 @@ public class ContactJspBeanTest extends LuteceTestCase
         instance.init( request, ContactJspBean.RIGHT_MANAGE_CONTACT );
 
         String result = instance.getManageContactsHome( request );
+    }
+    
+    /**
+     * Test of getModifyContact method, of class fr.paris.lutece.plugins.contact.web.contactJspBean.
+     */
+    public void testDoModifyContact(  ) throws AccessDeniedException
+    {
+        System.out.println( "doModifyContact" );
+
+        MockHttpServletRequest request = new MockHttpServletRequest(  );
+        AdminUser user = new AdminUser(  );
+        user.setRoles( new HashMap<String, AdminRole>(  ) );
+        user.setLocale( Locale.getDefault(  ) );
+        Utils.registerAdminUserWithRigth( request, user, ContactJspBean.RIGHT_MANAGE_CONTACT );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, ACTION_MODIFY_CONTACT );
+        request.addParameter( PARAMETER_CONTACT_ID, "1" );
+        request.addParameter( PARAMETER_CONTACT_NAME, "test name 2" );
+        request.addParameter( PARAMETER_CONTACT_EMAIL, "test email 2" );
+        request.addParameter( PARAMETER_CONTACT_WORKGROUP, "all" );
+
+        MockHttpServletResponse response = new MockHttpServletResponse(  );
+        
+        ContactJspBean instance = new ContactJspBean(  );
+
+        String result = instance.processController( request, response );
     }
 }
