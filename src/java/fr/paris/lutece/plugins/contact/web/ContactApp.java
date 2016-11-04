@@ -113,6 +113,7 @@ public class ContactApp extends MVCApplication
     private static final String MARK_IS_ACTIVE_CAPTCHA = "is_active_captcha";
     private static final String MARK_IS_TOS_REQUIRED = "is_tos_required";
     private static final String MARK_TOS_MESSAGE = "tos_message";
+    private static final String MARK_TOS_ACCEPTED = "accept_tos";
     //private static final String MARK_ROLE = "role";
     private static final String MARK_LIST_OF_LISTS = "list_of_lists";
     private static final String MARK_ID_CONTACT_LIST = "id_contact_list";
@@ -341,6 +342,9 @@ public class ContactApp extends MVCApplication
         {
             String strTosMessage = contactList.getTosMessage(  );
             model.put( MARK_TOS_MESSAGE , strTosMessage );
+            
+            boolean bTosAccepted = request.getParameter( PARAMETER_TOS_ACCEPTED ) != null;
+            model.put( MARK_TOS_ACCEPTED , bTosAccepted );
         }
 
         model.put( MARK_DEFAULT_CONTACT, ( ( strContact == null ) || ( strContact.equals( "" ) ) ) ? "0" : strContact );
@@ -423,6 +427,7 @@ public class ContactApp extends MVCApplication
         String strContact = request.getParameter( PARAMETER_CONTACT );
         int nContact = ( strContact == null ) ? 0 : Integer.parseInt( strContact );
         int nIdContactList = Integer.parseInt( strIdContactList );
+        boolean bTosAccepted = request.getParameter( PARAMETER_TOS_ACCEPTED ) != null;
         
         Map<String, String> mapParamError = new HashMap<String, String>( );
         mapParamError.put( PARAMETER_ID_CONTACT_LIST, strIdContactList );
@@ -433,6 +438,10 @@ public class ContactApp extends MVCApplication
         mapParamError.put( PARAMETER_CONTACT, strContact );
         mapParamError.put( PARAMETER_MESSAGE_OBJECT, strObject );
         mapParamError.put( PARAMETER_MESSAGE, strMessage );
+        if ( bTosAccepted )
+        {
+            mapParamError.put( PARAMETER_TOS_ACCEPTED, "1" );
+        }
 
         //test the captcha
         if ( PluginService.isPluginEnable( JCAPTCHA_PLUGIN ) )
@@ -485,7 +494,6 @@ public class ContactApp extends MVCApplication
 
         ContactList contactlist = ContactListHome.findByPrimaryKey( nIdContactList, _plugin);
         boolean bIsTosRequired = contactlist.getTos(  );
-        boolean bTosAccepted = request.getParameter( PARAMETER_TOS_ACCEPTED ) != null;
 
         //test the checking of the terms of service
         if ( bIsTosRequired )
