@@ -41,10 +41,11 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.test.Utils;
 
 import java.util.HashMap;
 import java.util.Locale;
+import org.springframework.mock.web.MockHttpServletRequest;
 
 
 public class ContactJspBeanTest extends LuteceTestCase
@@ -63,11 +64,11 @@ public class ContactJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getCreateContact" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MockHttpServletRequest request = new MockHttpServletRequest(  );
         AdminUser user = new AdminUser(  );
         user.setRoles( new HashMap<String, AdminRole>(  ) );
         user.setLocale( Locale.getDefault(  ) );
-        request.registerAdminUserWithRigth( user, ContactJspBean.RIGHT_MANAGE_CONTACT );
+        Utils.registerAdminUserWithRigth( request, user, ContactJspBean.RIGHT_MANAGE_CONTACT );
 
         ContactJspBean instance = new ContactJspBean(  );
 
@@ -82,14 +83,14 @@ public class ContactJspBeanTest extends LuteceTestCase
     {
         System.out.println( "doCreateContact" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MockHttpServletRequest request = new MockHttpServletRequest(  );
         AdminUser user = new AdminUser(  );
         user.setRoles( new HashMap<String, AdminRole>(  ) );
         user.setLocale( Locale.getDefault(  ) );
-        request.registerAdminUserWithRigth( user, ContactJspBean.RIGHT_MANAGE_CONTACT );
-        request.addMokeParameters( PARAMETER_CONTACT_NAME, "test name" );
-        request.addMokeParameters( PARAMETER_CONTACT_EMAIL, "test email" );
-        request.addMokeParameters( PARAMETER_CONTACT_WORKGROUP, "all" );
+        Utils.registerAdminUserWithRigth( request, user, ContactJspBean.RIGHT_MANAGE_CONTACT );
+        request.addParameter( PARAMETER_CONTACT_NAME, "test name" );
+        request.addParameter( PARAMETER_CONTACT_EMAIL, "test email" );
+        request.addParameter( PARAMETER_CONTACT_WORKGROUP, "all" );
 
         ContactJspBean instance = new ContactJspBean(  );
 
@@ -106,12 +107,12 @@ public class ContactJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getModifyContact" );
     
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MockHttpServletRequest request = new MockHttpServletRequest(  );
         AdminUser user = new AdminUser(  );
         user.setRoles( new HashMap<String, AdminRole>(  ) );
         user.setLocale( Locale.getDefault(  ) );
-        request.registerAdminUserWithRigth( user, ContactJspBean.RIGHT_MANAGE_CONTACT );
-        request.addMokeParameters( PARAMETER_CONTACT_ID, "1" );
+        Utils.registerAdminUserWithRigth( request, user, ContactJspBean.RIGHT_MANAGE_CONTACT );
+        request.addParameter( PARAMETER_CONTACT_ID, "1" );
     
         ContactJspBean instance = new ContactJspBean(  );
     
@@ -127,12 +128,12 @@ public class ContactJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getConfirmRemoveContact" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MockHttpServletRequest request = new MockHttpServletRequest(  );
         AdminUser user = new AdminUser(  );
         user.setRoles( new HashMap<String, AdminRole>(  ) );
         user.setLocale( Locale.getDefault(  ) );
-        request.registerAdminUserWithRigth( user, ContactJspBean.RIGHT_MANAGE_CONTACT );
-        request.addMokeParameters( PARAMETER_CONTACT_ID, "1" );
+        Utils.registerAdminUserWithRigth( request, user, ContactJspBean.RIGHT_MANAGE_CONTACT );
+        request.addParameter( PARAMETER_CONTACT_ID, "1" );
 
         ContactJspBean instance = new ContactJspBean(  );
 
@@ -147,10 +148,10 @@ public class ContactJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getManageContacts" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MockHttpServletRequest request = new MockHttpServletRequest(  );
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         user.setRoles( AdminUserHome.getRolesListForUser( user.getUserId(  ) ) );
-        request.registerAdminUserWithRigth( user, ContactJspBean.RIGHT_MANAGE_CONTACT );
+        Utils.registerAdminUserWithRigth( request, user, ContactJspBean.RIGHT_MANAGE_CONTACT );
 
         ContactJspBean instance = new ContactJspBean(  );
         instance.init( request, ContactJspBean.RIGHT_MANAGE_CONTACT );
@@ -165,10 +166,10 @@ public class ContactJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getManageContactsHome" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MockHttpServletRequest request = new MockHttpServletRequest(  );
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         user.setRoles( AdminUserHome.getRolesListForUser( user.getUserId(  ) ) );
-        request.registerAdminUserWithRigth( user, ContactJspBean.RIGHT_MANAGE_CONTACT );
+        Utils.registerAdminUserWithRigth( request, user, ContactJspBean.RIGHT_MANAGE_CONTACT );
 
         ContactJspBean instance = new ContactJspBean(  );
         instance.init( request, ContactJspBean.RIGHT_MANAGE_CONTACT );
