@@ -39,6 +39,7 @@ import fr.paris.lutece.plugins.contact.business.ContactListHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
@@ -214,6 +215,7 @@ public class ContactJspBean extends MVCAdminJspBean
         }
 
         ContactHome.create( contact, getPlugin( ) );
+        AppLogService.info( "New Contact registered : contact n°" + contact.getId(  ) );
 
         // if the operation occurred well, redirects towards the list of the Contacts
         return redirectView(request, VIEW_MANAGE_CONTACTS );
@@ -320,6 +322,7 @@ public class ContactJspBean extends MVCAdminJspBean
         ContactListHome.unassignListsForContact( contact.getId( ), getPlugin( ) );
         ContactHome.remove( contact, getPlugin( ) );
         ContactListHome.unassignListsForContact( nIdContact, getPlugin( ) );
+        AppLogService.info( "Contact successfully removed : contact n°" + contact.getId(  ) );
 
         // if the operation occurred well, redirects towards the list of the Contacts
         return redirectView( request, VIEW_MANAGE_CONTACTS );
