@@ -93,7 +93,7 @@ public class ContactApp extends MVCApplication
     private static final String TEMPLATE_MESSAGE_CONTACT = "skin/plugins/contact/message_contact.html";
     private static final String MARK_CONTACTS_LIST = "contacts_list";
     private static final String MARK_DEFAULT_CONTACT = "default_contact";
-    private static final String MARK_CONTACT_ALERT = "alert";
+    private static final String MARK_CONTACT_ALERT_MSG = "alert_msg";
     private static final String MARK_VISITOR_LASTNAME = "visitor_last_name";
     private static final String MARK_VISITOR_FIRSTNAME = "visitor_first_name";
     private static final String MARK_VISITOR_ADDRESS = "visitor_address";
@@ -248,7 +248,7 @@ public class ContactApp extends MVCApplication
             String strStyleObject = strObject.equals( "" ) ? "error" : "";
             String strStyleMessage = strMessage.equals( "" ) ? "error" : "";
             String strStyleContact = strContact.equals( "0" ) ? "error" : "";
-            String strAlert = "";
+            String strAlertMsg = "";
 
             if ( strSendMessage.equals( "done" ) )
             {
@@ -261,34 +261,34 @@ public class ContactApp extends MVCApplication
 
             else if ( strSendMessage.equals( "error_exception" ) )
             {
-                strAlert = I18nService.getLocalizedString( PROPERTY_SENDING_NOK, request.getLocale( ) );
+                strAlertMsg = I18nService.getLocalizedString( PROPERTY_SENDING_NOK, request.getLocale( ) );
             }
 
             else if ( strSendMessage.equals( "error_captcha" ) )
             {
-                strAlert = I18nService.getLocalizedString( PROPERTY_CAPTCHA_ERROR, request.getLocale( ) );
+                strAlertMsg = I18nService.getLocalizedString( PROPERTY_CAPTCHA_ERROR, request.getLocale( ) );
             }
 
             else if ( strSendMessage.equals( "error_tos" ) )
             {
-                strAlert = I18nService.getLocalizedString( PROPERTY_TOS_ERROR, request.getLocale( ) );
+                strAlertMsg = I18nService.getLocalizedString( PROPERTY_TOS_ERROR, request.getLocale( ) );
             }
             
             else if ( strSendMessage.equals( "error_field" ) )
             {
-                strAlert = I18nService.getLocalizedString( PROPERTY_MANDATORY_FIELD_MISSING, request.getLocale( ) );
+                strAlertMsg = I18nService.getLocalizedString( PROPERTY_MANDATORY_FIELD_MISSING, request.getLocale( ) );
             }
 
             else if ( strSendMessage.equals( "error_recipient" ) )
             {
-                strAlert = I18nService.getLocalizedString( PROPERTY_RECIPIENT_MISSING, request.getLocale( ) );
+                strAlertMsg = I18nService.getLocalizedString( PROPERTY_RECIPIENT_MISSING, request.getLocale( ) );
             }
             else if ( strSendMessage.equals( "error_email" ) )
             {
-                strAlert = I18nService.getLocalizedString( PROPERTY_ERROR_EMAIL, request.getLocale( ) );
+                strAlertMsg = I18nService.getLocalizedString( PROPERTY_ERROR_EMAIL, request.getLocale( ) );
             }
 
-            model.put( MARK_CONTACT_ALERT, strAlert );
+            model.put( MARK_CONTACT_ALERT_MSG, strAlertMsg );
             model.put( MARK_STYLE_LAST_NAME, strStyleLastName );
             model.put( MARK_STYLE_FIRST_NAME, strStyleFirstName );
             model.put( MARK_STYLE_OBJECT, strStyleObject );
