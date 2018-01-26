@@ -7,14 +7,14 @@
 
 		<menu name="Aper&ccedil;u">
 			<item name="Introduction" href="index.html" />
-			<item name="T&eacute;l&eacute;chargement" href="download.html" />
-			<item name="Configuration" href="configuration.html" />
-			<item name="Utilisation" href="admin_contact.html" collapse="false">
-                <item name="Point d'entrée du plugin" href="admin_contact.html#plugin_entry"/>
-                <item name="Gestion des contacts" href="admin_contact.html#contact_management"/>
-                <item name="Gestion des listes de contacts" href="admin_contact.html#contact_list_management"/>
-                <item name="Gestion de la sécurité du plugin" href="admin_contact.html#security_management"/>
-                
+
+
+			<item name="Utilisation" href="#admin" collapse="false">
+                <item name="Point d'entrée du plugin" href="#plugin_entry"/>
+                <item name="Gestion des contacts" href="#contact_management"/>
+                <item name="Gestion des listes de contacts" href="#contact_list_management"/>
+                <item name="Gestion de la sécurité du plugin" href="#security_management"/>
+
 			</item>
 		</menu>
 		

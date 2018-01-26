@@ -29,17 +29,18 @@ Le plugin Contact plugin permet de gérer plusieurs listes de contact et d'affic
                 Url de la page d'administration back-office de la fonctionalité : <em>/jsp/admin/plugins/contact/ManageContactsHome.jsp</em>
              </p>
             </subsection>
-			<subsection name="Administration du Plugin Contact ">
-
-				<p>Accès à la fonctionalité d'administration</p>
+        </section>
+        <section id="admin" name="Administration du Plugin Contact">
+                <subsection id="plugin_entry" name="Accès à la fonctionalité d'administration">
 				<p>	Cette page donne accès aussi bien à la gestion des contacts que celle des listes de contacts:</p>
 				<p>
 					<center>
 						<img alt="plugin access point" src="user/images/manage_contacts_home.png"/>
 					</center>
 				</p>
+                </subsection>
 			
-				<p>Gestion des contacts</p>
+                <subsection id="contact_management"  name="Gestion des contacts">
 				<p>Cette page affiche les contacts stockés. Les actions possibles sur les contacts sont: création, modification, suppresion d'un contact et affectation à des listes.</p>
 				<p>
 					<center>
@@ -60,8 +61,9 @@ Le plugin Contact plugin permet de gérer plusieurs listes de contact et d'affic
 						<img  alt="Contact assignment" src="user/images/manage_contact_assignments.png"/>
 					</center>
 				</p>
+                </subsection>
 				
-				<p>Gestion des listes de contacts</p>
+                <subsection id="contact_list_management" name="Gestion des listes de contacts">
 			<p> Cette page affiche les listes de contacts stockées. Les actions possibles sur les listes sont: création, modification, suppression et affectation de contacts à une liste. </p>
 				<p>
 					<center>
@@ -84,15 +86,15 @@ Le plugin Contact plugin permet de gérer plusieurs listes de contact et d'affic
 				
 			</subsection>			
 			<subsection id="security_management" name="Gestion de la sécurité du Plugin">
--				<p>
--					Côté back-office, il est possible d'assigner un contact ou une liste à  un groupe de travail.
--					Ces derniers ne seront visibles et modifiables que par le groupe de travail sélectionné.
--				</p>
+				<p>
+					Côté back-office, il est possible d'assigner un contact ou une liste à  un groupe de travail.
+					Ces derniers ne seront visibles et modifiables que par le groupe de travail sélectionné.
+				</p>
 
--				<p>
--					Côté front-office, il est possible de limiter l'affichage d'une liste à un certain rôle. Cette option est parametrable dans la partie création ou modification d'une liste.
+				<p>
+					Côté front-office, il est possible de limiter l'affichage d'une liste à un certain rôle. Cette option est parametrable dans la partie création ou modification d'une liste.
 
--				</p>
+				</p>
 
 			</subsection>
 		</section>

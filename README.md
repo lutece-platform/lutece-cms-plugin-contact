@@ -22,15 +22,15 @@ A "Contact" link is automaticaly added in the Lutece portal footer when the plug
 
 Back office URL web page to access to the admin feature : */jsp/admin/plugins/contact/ManageContactsHome.jsp* 
 
-## Plugin Contact Administration
+# Plugin Contact Administration
 
-Access to the admin feature
+## Access to the admin feature
 
 This page gives access to either the contact or contact list management:
 
 ![plugin access point](http://dev.lutece.paris.fr/plugins/plugin-contact/user/images/manage_contacts_home.png)
 
-Contact management feature
+## Contact management feature
 
 This page displays the stored contacts. Possible actions are: Add, modify, delete and assigment of a contact to a list
 
@@ -44,7 +44,7 @@ Management page to assign a contact to lists:
 
 ![Contact assignment](http://dev.lutece.paris.fr/plugins/plugin-contact/user/images/manage_contact_assignments.png)
 
-Management of contact lists
+## Management of contact lists
 
 This managament page displays the stored contact lists. Possible actions are : Add, modify, delete a list and manage contact assigment to one list.
 

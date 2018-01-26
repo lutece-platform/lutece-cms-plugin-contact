@@ -5,6 +5,19 @@
 			<item name="FR" href="/fr/index.html" />
 		</links>
     
+		<menu name="Overview">
+			<item name="Introduction" href="index.html" />
+
+
+			<item name="Administration" href="#admin" collapse="false">
+                <item name="Entry Point" href="#plugin_entry"/>
+                <item name="Contacts Management" href="#contact_management"/>
+                <item name="Contact lists Management" href="#contact_list_management"/>
+                <item name="Security Management" href="#security_management"/>
+
+			</item>
+		</menu>
+		
     <menu name="Downloads" inherit="bottom">
 			     <item name="Released versions" href="../../stable_builds/plugins/plugin-contact/"/>
 			     <item name="Nightly builds" href="../../nightly_builds/plugins/plugin-contact/" />

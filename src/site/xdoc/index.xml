@@ -29,17 +29,19 @@ The Contact plugin allows to manage several lists of contacts and to display the
                 Back office URL web page to access to the admin feature : <em>/jsp/admin/plugins/contact/ManageContactsHome.jsp</em>
              </p>
             </subsection>
-			<subsection name="Plugin Contact Administration">
+        </section>
+        <section id="admin" name="Plugin Contact Administration">
 
-				<p>Access to the admin feature</p>
+                <subsection id="plugin_entry" name="Access to the admin feature">
 				<p>	This page gives access to either the contact or contact list management:</p>
 				<p>
 					<center>
 						<img alt="plugin access point" src="user/images/manage_contacts_home.png"/>
 					</center>
 				</p>
+                </subsection>
 			
-				<p>Contact management feature</p>
+                <subsection id="contact_management"  name="Contact management feature">
 				<p>This page displays the stored contacts. Possible actions are: Add, modify, delete and assigment of a contact to a list</p>
 				<p>
 					<center>
@@ -60,8 +62,9 @@ The Contact plugin allows to manage several lists of contacts and to display the
 						<img  alt="Contact assignment" src="user/images/manage_contact_assignments.png"/>
 					</center>
 				</p>
+                </subsection>
 				
-				<p>Management of contact lists</p>
+                <subsection id="contact_list_management" name="Management of contact lists">
 			<p> This managament page displays the stored contact lists. Possible actions are : Add, modify, delete a list and manage contact assigment to one list. </p>
 				<p>
 					<center>
