@@ -1,36 +1,100 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-  <document>
-      <properties>
-          <title>
-              Lut&#232;ce : Contact
-          </title>
-      </properties>
-      <body>
-          <section name="Bienvenue sur le projet Contact">
-			<p>
-				Le plugin Contact permet de gérer plusieurs listes de contacts et d'afficher le formulaire d'envoi du mail.
-			</p>
-			<ul>
-				<li>
-					Gestion des contacts :
-					Cette fonctionnalité permet de créer, lister, modifier, et supprimer les contacts (Description du contact, et adresse e-mail).
-				</li>
-				
-				<li>
-					Gestion des listes de contacts:
-					Cette fonctionnalité permet de créer, lister, modifier, et supprimer les listes de contacts.
-				</li>
-				
-				<li>
-					Association de contacts à une liste:
-					Cette interface permet d'associer plusieurs contacts à une même liste.
-				</li>
+<document>
+    <properties>
+        <title>Plugin contact</title>
+    </properties>
+    <body>
+        <section name="Plugin Contact">
 
-				<li>
-					Association d'un contact à plusieurs listes.
-					Cette interface permet d'associer un même contact à plusieurs listes à la fois.
-				</li>
+            <subsection name="Introduction">
+			<p>
+Le plugin Contact plugin permet de gérer plusieurs listes de contact et d'afficher un formulaire d'envoi d'email.</p>
+			<p>Principales fonctionnalités:			
+			<ul>
+				<li>AJout d'une page front-office avec un formulaire standard pour l'envoi d'email aux contacts</li>
+				<li>Gestion des contacts : création, liste, modification et suppresion de contacts</li>
+				<li>Gestion des listes de contacts : création, liste, modification et suppresion de listes contacts</li>
+				<li>Affectation de plusieurs contacts à une liste</li>
+				<li>Affectation de plusieurs contacts à plusieurs listes</li>
 			</ul>
-			</section>
+			</p> 
+
+			</subsection>
+			<subsection name="Usage">
+             <p>
+               Accès à la page front-office pour l'envoi d'email : <em>/jsp/site/Portal.jsp?page=contact</em></p>
+            <p>Un lien "Contact" est automatiquement ajouté dans le pied de page du portail quand le plugin est activé.</p>
+             
+             <p>
+                Url de la page d'administration back-office de la fonctionalité : <em>/jsp/admin/plugins/contact/ManageContactsHome.jsp</em>
+             </p>
+            </subsection>
+			<subsection name="Administration du Plugin Contact ">
+
+				<p>Accès à la fonctionalité d'administration</p>
+				<p>	Cette page donne accès aussi bien à la gestion des contacts que celle des listes de contacts:</p>
+				<p>
+					<center>
+						<img alt="plugin access point" src="user/images/manage_contacts_home.png"/>
+					</center>
+				</p>
+			
+				<p>Gestion des contacts</p>
+				<p>Cette page affiche les contacts stockés. Les actions possibles sur les contacts sont: création, modification, suppresion d'un contact et affectation à des listes.</p>
+				<p>
+					<center>
+						<img  alt="Contact management" src="user/images/manage_contact.png"/>
+					</center>
+				</p>
+				
+				<p>Page de modification d'un contact:</p>
+				<p>
+					<center>
+						<img  alt="Contact edition" src="user/images/modify_contact.png"/>
+					</center>
+				</p>
+				
+				<p>Page d'affectation d'un contact à une liste:</p>
+				<p>
+					<center>
+						<img  alt="Contact assignment" src="user/images/manage_contact_assignments.png"/>
+					</center>
+				</p>
+				
+				<p>Gestion des listes de contacts</p>
+			<p> Cette page affiche les listes de contacts stockées. Les actions possibles sur les listes sont: création, modification, suppression et affectation de contacts à une liste. </p>
+				<p>
+					<center>
+						<img  alt="contact list management" src="user/images/manage_contact_lists.png"/>
+					</center>
+				</p>
+				<p>Page de modification d'une liste de contacts:</p>
+				<p>
+					<center>
+						<img  alt="Contact list edition" src="user/images/modify_contact_list.png"/>
+					</center>
+				</p>
+
+				<p> Page d'affectation des listes:</p>
+				<p>
+					<center>
+						<img  alt="contact list assignment" src="user/images/manage_list_assignments.png"/>
+					</center>
+				</p>
+				
+			</subsection>			
+			<subsection id="security_management" name="Gestion de la sécurité du Plugin">
+-				<p>
+-					Côté back-office, il est possible d'assigner un contact ou une liste à  un groupe de travail.
+-					Ces derniers ne seront visibles et modifiables que par le groupe de travail sélectionné.
+-				</p>
+
+-				<p>
+-					Côté front-office, il est possible de limiter l'affichage d'une liste à un certain rôle. Cette option est parametrable dans la partie création ou modification d'une liste.
+
+-				</p>
+
+			</subsection>
+		</section>
       </body>
   </document>

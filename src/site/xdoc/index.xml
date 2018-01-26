@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <title>Plugin contact</title>
+    </properties>
+    <body>
+        <section name="Plugin Contact">
+
+            <subsection name="Introduction">
+			<p>
+The Contact plugin allows to manage several lists of contacts and to display the email form.</p>
+			<p>Below is the list of the main features:			
+			<ul>
+				<li>Add a portal front-office page with a standard form to send an email to a contact</li>
+				<li>Contact management feature : create, list, modify and delete the contacts</li>
+				<li>Contact List management feature : create, list, modify and delete the contact lists</li>
+				<li>Link several contacts to one list</li>
+				<li>Link a contact to several lists</li>
+			</ul>
+			</p> 
+
+			</subsection>
+			<subsection name="Usage">
+             <p>
+               Front office URL web page to display the send email form : <em>/jsp/site/Portal.jsp?page=contact</em></p>
+            <p>A "Contact" link is automaticaly added in the Lutece portal footer when the plugin is enabled.</p>
+             
+             <p>
+                Back office URL web page to access to the admin feature : <em>/jsp/admin/plugins/contact/ManageContactsHome.jsp</em>
+             </p>
+            </subsection>
+			<subsection name="Plugin Contact Administration">
+
+				<p>Access to the admin feature</p>
+				<p>	This page gives access to either the contact or contact list management:</p>
+				<p>
+					<center>
+						<img alt="plugin access point" src="user/images/manage_contacts_home.png"/>
+					</center>
+				</p>
+			
+				<p>Contact management feature</p>
+				<p>This page displays the stored contacts. Possible actions are: Add, modify, delete and assigment of a contact to a list</p>
+				<p>
+					<center>
+						<img  alt="Contact management" src="user/images/manage_contact.png"/>
+					</center>
+				</p>
+				
+				<p>Contact edition page:</p>
+				<p>
+					<center>
+						<img  alt="Contact edition" src="user/images/modify_contact.png"/>
+					</center>
+				</p>
+				
+				<p>Management page to assign a contact to lists:</p>
+				<p>
+					<center>
+						<img  alt="Contact assignment" src="user/images/manage_contact_assignments.png"/>
+					</center>
+				</p>
+				
+				<p>Management of contact lists</p>
+			<p> This managament page displays the stored contact lists. Possible actions are : Add, modify, delete a list and manage contact assigment to one list. </p>
+				<p>
+					<center>
+						<img  alt="contact list management" src="user/images/manage_contact_lists.png"/>
+					</center>
+				</p>
+				<p>Contact list edition page:</p>
+				<p>
+					<center>
+						<img  alt="Contact list edition" src="user/images/modify_contact_list.png"/>
+					</center>
+				</p>
+
+				<p> List assignment page:</p>
+				<p>
+					<center>
+						<img  alt="contact list assignment" src="user/images/manage_list_assignments.png"/>
+					</center>
+				</p>
+				
+			</subsection>			
+			<subsection id="security_management" name="Plugin security management">
+				<p>
+					It is possible to assign a contact or a contact list to a workgroup. They will be visible and editable only by the selected workgroup.
+				</p>
+				<p>
+					On front-office side, it is possible to limit access to a list only to some roles. This feature can be enabled when creating or editing a list.
+				</p>
+			</subsection>
+		</section>
+      </body>
+  </document>
