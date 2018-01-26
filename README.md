@@ -1,7 +1,7 @@
+![](http://dev.lutece.paris.fr/jenkins/buildStatus/icon?job=cms-plugin-contact-deploy)
+# Plugin Contact
 
-#Plugin Contact
-
-##Introduction
+## Introduction
 
 The Contact plugin allows to manage several lists of contacts and to display the email form.
 
@@ -14,7 +14,7 @@ Below is the list of the main features:
 * Link a contact to several lists
 
 
-##Usage
+## Usage
 
 Front office URL web page to display the send email form : */jsp/site/Portal.jsp?page=contact* 
 
@@ -22,7 +22,7 @@ A "Contact" link is automaticaly added in the Lutece portal footer when the plug
 
 Back office URL web page to access to the admin feature : */jsp/admin/plugins/contact/ManageContactsHome.jsp* 
 
-##Plugin Contact Administration
+## Plugin Contact Administration
 
 Access to the admin feature
 
@@ -58,7 +58,7 @@ List assignment page:
 
 ![contact list assignment](http://dev.lutece.paris.fr/plugins/plugin-contact/user/images/manage_list_assignments.png)
 
-##Plugin security management
+## Plugin security management
 
 It is possible to assign a contact or a contact list to a workgroup. They will be visible and editable only by the selected workgroup.
 
