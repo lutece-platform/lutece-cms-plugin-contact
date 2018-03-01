@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
@@ -228,6 +229,7 @@ public class ContactListJspBean extends MVCAdminJspBean
         contactList.setTos( bTos );
         contactList.setTosMessage( strTosMessage );
         ContactListHome.create( contactList, getPlugin( ) );
+        AppLogService.info( "New Contact list registered : contact list n°" + contactList.getId(  ) );
 
         // if the operation occurred well, redirects towards the list of the ContactList
         return redirectView( request, VIEW_MANAGE_CONTACT_LISTS );
@@ -320,6 +322,7 @@ public class ContactListJspBean extends MVCAdminJspBean
         ContactListHome.unassignContactsForList( nIdContactList, getPlugin( ) );
         modifyContactListsOrder( nOrder, nNewOrder, nIdContactList );
         ContactListHome.remove( nIdContactList, getPlugin( ) );
+        AppLogService.info( "Contact list successfully removed : contact list n°" + nIdContactList );
 
         // Go to the parent page
         return redirectView( request, VIEW_MANAGE_CONTACT_LISTS );

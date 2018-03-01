@@ -51,6 +51,7 @@ import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
@@ -519,6 +520,7 @@ public class ContactApp extends MVCApplication
         String strMessageText = template.getHtml( );
 
         MailService.sendMailHtml( strEmailContact, strVisitorLastName, strVisitorEmail, strObject, strMessageText );
+        AppLogService.info( "Mail registered : " + strVisitorFirstName + " " + strVisitorLastName + " - " + strObject );
         ContactHome.updateHits( nContact, nIdContactList, _plugin );
         
         Map<String, String> mapParamSuccess = new HashMap<String, String>( );
