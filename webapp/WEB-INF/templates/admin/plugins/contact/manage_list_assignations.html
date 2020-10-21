@@ -2,80 +2,70 @@
 	<@columns>
 		<@box>
 			<@boxHeader title='#i18n{contact.contact_list_assignations.listAssignationTitle} "${contact_list.label}" ( #i18n{contact.contact_list_assignations.contactsNumer} : ${contacts_number} )'>
-					<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?' title='#i18n{contact.contact_list_assignations.goManageContacts}' buttonIcon='user' size='sm' />
-					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&amp;id_contact_list=${contact_list.id}' title='#i18n{contact.manage_contact_lists.actionModifyContactList}' buttonIcon='pencil' size='sm' />
-					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewConfirmRemoveContactList&amp;id_contact_list=${contact_list.id}' title='#i18n{contact.manage_contact_lists.actionDeleteContactList}' buttonIcon='trash' size='sm' color='danger' />
+				<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?' title='#i18n{contact.contact_list_assignations.goManageContacts}' buttonIcon='user' size='sm' showTitleXs=false />
+				<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&amp;id_contact_list=${contact_list.id}' title='#i18n{contact.manage_contact_lists.actionModifyContactList}' buttonIcon='pencil' size='sm' showTitleXs=false />
+				<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewConfirmRemoveContactList&amp;id_contact_list=${contact_list.id}' title='#i18n{contact.manage_contact_lists.actionDeleteContactList}' buttonIcon='trash' size='sm' color='btn-danger' showTitleXs=false />
 			</@boxHeader>
 			<@boxBody>
 				<@tform name='assignContact' method='post' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
-				<input type='hidden' name='action' value='actionAssignContactsToList' />
-				<input type='hidden' name='id_contact_list' value='${contact_list.id}' />
-				<div class="row">
-					<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
-						<div class="box">
-							<div class="box-header">
-								<h3>#i18n{contact.contact_list_assignations.holeListLabel}</h3>
-							</div>
-							<div class="box-body">		
-								<#if list_contacts?size &gt; 0 >
-									<@select name='list_contact' default_value='' multiple=10 params='style="width:100%;height:200px;" max_length=175' items=list_contacts />
-								<#else>
-									<@alert class='danger' title='#i18n{contact.contact_list_assignations.noContactToAssign}' iconTitle='ban' />
-								</#if>
-							</div>	
-						</div>	
-					</div>
-					<div class="col-xs-12 col-sm-12 col-md-1 col-lg-1" style="line-height:250px;" >
-						<#assign disableButton>
+					<input type='hidden' name='action' value='actionAssignContactsToList' />
+					<input type='hidden' name='id_contact_list' value='${contact_list.id}' />
+					<@row>
+						<@columns md=5>
+							<h3>#i18n{contact.contact_list_assignations.holeListLabel}</h3>
+							<#if list_contacts?size &gt; 0 >
+								<@select name='list_contact' default_value='' multiple=10 params='style="width:100%;height:200px;" max_length="175"' items=list_contacts />
+							<#else>
+								<@alert class='danger' title='#i18n{contact.contact_list_assignations.noContactToAssign}' iconTitle='ban' />
+							</#if>
+						</@columns>
+						<@columns md=1>
+							<#assign disableButton = false>
 							<#if list_contacts?size &lt; 1>
-							true
-							<#else>
-							false
+								<#assign disableButton = true>
 							</#if>
-						</#assign>
-						<@button type='submit' title='#i18n{contact.contact_list_assignations.validateAssignation}' disabled=disableButton buttonIcon='plus' size='sm' />
-					</div>	
-					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-						<div class="box">
-							<div class="box-header">
-								<h3>#i18n{contact.contact_list_assignations.assignedContacts}</h3>
-							</div>
-							<div class="box-body">			
-								<#if assigned_contacts?size &gt; 0 >
-								<@table>
-								<tr>
-									<th>#i18n{contact.manage_contacts.columnTitleLabel}</th>
-									<th>#i18n{contact.manage_contacts.columnTitleEmail}</th>
-									<th>#i18n{contact.manage_contacts.columnTitleOrder}</th>
-									<th>#i18n{contact.manage_contacts.columnTitleActions}</th>
-								</tr>
-								<#list assigned_contacts as assigned_contact>
-								<tr>
-									<td>${assigned_contact.name}</td>
-									<td>${assigned_contact.email}</td>
-									<td>
-										<@tform class='inline' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
-											<input type='hidden' name='action' value='actionModifyContactOrder' />
-											<input type='hidden' name='id_contact' value='${assigned_contact.id}' />
-											<input type='hidden' name='id_contact_list' value='${contact_list.id}' />
-											<@select name='contacts_order' default_value='${assigned_contact.contactOrder}' items=order_list />
-											<@button type='submit' title='#i18n{contact.manage_contacts.buttonChangeOrder}' buttonIcon='move' size='sm' />
-										</@tform>
-									</td>
-									<td>
-										<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}' title='#i18n{contact.contact.actionModify}' buttonIcon='pencil' size='sm' />
-										<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?action=actionRevokeContactsFromList&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}' title='#i18n{contact.contact.actionUnassign}' buttonIcon='trash' size='sm' />
-									</td>
-								</tr>
-								</#list>
-								</@table>
+							<@button type='submit' title='#i18n{contact.contact_list_assignations.validateAssignation}' disabled=disableButton buttonIcon='plus' size='sm' />
+						</@columns>	
+						<@columns md=6>
+							<h3>#i18n{contact.contact_list_assignations.assignedContacts}</h3>
+
+							<#if assigned_contacts?size &gt; 0 >
+							<@table>
+							<tr>
+								<th>#i18n{contact.manage_contacts.columnTitleLabel}</th>
+								<th>#i18n{contact.manage_contacts.columnTitleEmail}</th>
+								<th>#i18n{contact.manage_contacts.columnTitleOrder}</th>
+								<th>#i18n{contact.manage_contacts.columnTitleActions}</th>
+							</tr>
+							<#list assigned_contacts as assigned_contact>
+							<tr>
+								<td>${assigned_contact.name}</td>
+								<td>${assigned_contact.email}</td>
+								<td>
+									<@tform class='inline' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
+										<input type='hidden' name='action' value='actionModifyContactOrder' />
+										<input type='hidden' name='id_contact' value='${assigned_contact.id}' />
+										<input type='hidden' name='id_contact_list' value='${contact_list.id}' />
+										<@inputGroup>
+											<@select name='contacts_order' default_value='${assigned_contact.contactOrder}' items=order_list size='sm' />
+											<@inputGroupItem type='btn'>
+												<@button type='submit' title='#i18n{contact.manage_contacts.buttonChangeOrder}' buttonIcon='arrows' size='sm' showTitle=false />
+											</@inputGroupItem>
+										</@inputGroup>
+									</@tform>
+								</td>
+								<td>
+									<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}' title='#i18n{contact.contact.actionModify}' buttonIcon='pencil' size='sm' showTitle=false />
+									<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?action=actionRevokeContactsFromList&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}' title='#i18n{contact.contact.actionUnassign}' buttonIcon='trash' size='sm' color='btn-danger' showTitle=false />
+								</td>
+							</tr>
+							</#list>
+							</@table>
 							<#else>
-								<@alert class='danger' title='#i18n{contact.contact_list_assignations.noAssignedContacts}' iconTitle='ban' />
+							<@alert class='danger' title='#i18n{contact.contact_list_assignations.noAssignedContacts}' iconTitle='ban' />
 							</#if>
-							</div>
-						</div>
-					</div>
-				</div>
+						</@columns>
+					</@row>
 				</@tform>
 			</@boxBody>
 		</@box>

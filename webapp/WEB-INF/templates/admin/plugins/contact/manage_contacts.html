@@ -1,7 +1,7 @@
 <@row>	<@columns>		<@box>			<@boxHeader title='#i18n{contact.manage_contacts.tableLabel}'>				<@tform method='post' action='jsp/admin/plugins/contact/ManageContacts.jsp'>
 					<input type='hidden' name='view' value='viewCreateContact' />
-					<@button type='submit' name='' id='' buttonIcon='plus' title='#i18n{contact.manage_contacts.buttonAddContact}' />
-					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp' title='#i18n{contact.manage_features.contactListsManagement}' buttonIcon='list-alt' size='xs' color='primary' />
+					<@button type='submit' name='' id='' buttonIcon='plus' title='#i18n{contact.manage_contacts.buttonAddContact}' size='sm' showTitleXs=false />
+					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp' title='#i18n{contact.manage_features.contactListsManagement}' buttonIcon='list-alt' size='sm' showTitleXs=false />
 				</@tform>
 			</@boxHeader>
 			<@boxBody class='table-responsive'>
@@ -22,9 +22,9 @@
 							<td>${contact.email}</td>
 							<td>${contact.workgroup}</td>     
 							<td>
-								<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact=${contact.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' size='sm' />
-                                <@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewManageContactAssignation&amp;id_contact=${contact.id}' title='#i18n{contact.contact_assignations.actionAssign}' buttonIcon='user' size='sm' />
-								<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewConfirmRemoveContact&amp;id_contact=${contact.id}' title='#i18n{contact.contact.actionDelete}' buttonIcon='trash' size='sm' color='danger' />
+								<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact=${contact.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' size='sm' showTitle=false />
+                                <@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewManageContactAssignation&amp;id_contact=${contact.id}' title='#i18n{contact.contact_assignations.actionAssign}' buttonIcon='user' size='sm' showTitle=false />
+								<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewConfirmRemoveContact&amp;id_contact=${contact.id}' title='#i18n{contact.contact.actionDelete}' buttonIcon='trash' size='sm' color='btn-danger' showTitle=false />
 							</td>
 						</tr>					
 					</#list>
@@ -35,6 +35,3 @@
 		</@box>
 	</@columns>
 </@row>
-
-
-
