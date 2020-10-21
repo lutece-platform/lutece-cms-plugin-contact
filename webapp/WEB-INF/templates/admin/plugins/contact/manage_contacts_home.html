@@ -1,23 +1,17 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<div class="box box-primary">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{contact.manage_features.manageFeatures}</h3>
-			</div>
-			<div class="box-body">	
-				<ul class="list-group">
-					<li class="list-group-item">
-						<a href="jsp/admin/plugins/contact/ManageContacts.jsp" title="#i18n{contact.manage_features.contactManagement}" >
-							<i class="fa fa-user"></i>&nbsp;#i18n{contact.manage_features.contactManagement} - #i18n{contact.manage_features.contactManagementDescription}
+<@row>	<@columns>		<@box>			<@boxHeader title='#i18n{contact.manage_features.manageFeatures}' />			<@boxBody>
+				<@listGroup>
+					<li class="${listElementClass}">
+						<a href="jsp/admin/plugins/contact/ManageContacts.jsp" title="#i18n{contact.manage_features.contactManagement}">
+							<@icon style='user' /> #i18n{contact.manage_features.contactManagement} - #i18n{contact.manage_features.contactManagementDescription}
 						</a>
 					</li>
-					<li class="list-group-item">
-						<a href="jsp/admin/plugins/contact/ManageContactLists.jsp"  title="#i18n{contact.manage_features.contactListsManagement}" >
-						   <i class="fa fa-list-alt"></i>&nbsp;#i18n{contact.manage_features.contactListsManagement} - #i18n{contact.manage_features.contactListsManagementDescription}
+					<li class="${listElementClass}">
+						<a href="jsp/admin/plugins/contact/ManageContactLists.jsp" title="#i18n{contact.manage_features.contactListsManagement}">
+						   <@icon style='list-alt' /> #i18n{contact.manage_features.contactListsManagement} - #i18n{contact.manage_features.contactListsManagementDescription}
 						</a>
 					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</div>
+				</@listGroup>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

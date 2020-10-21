@@ -1,24 +1,15 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<div class="box box-primary">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{contact.contact_list_assignations.listAssignationTitle} "${contact_list.label}" ( #i18n{contact.contact_list_assignations.contactsNumer} : ${contacts_number} )</h3>
-				<div class="box-tools pull-right">
-					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContacts.jsp?" title="#i18n{contact.contact_list_assignations.goManageContacts}">
-						<i class="fa fa-user"></i>
-					</a>                    
-					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&amp;id_contact_list=${contact_list.id}" title="#i18n{contact.manage_contact_lists.actionModifyContactList}">
-						<i class="fa fa-pencil"></i>
-					</a>                    
-					<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewConfirmRemoveContactList&amp;id_contact_list=${contact_list.id}" title="#i18n{contact.manage_contact_lists.actionDeleteContactList}">
-						<i class="fa fa-trash"></i>
-					</a>                    
-				</div>
-			</div>
-			<div class="box-body">
-				<form name="assignContact" method="post" action="jsp/admin/plugins/contact/ManageContactLists.jsp">
-				<input type="hidden" name="action" value="actionAssignContactsToList">
-                                <input type="hidden" name="id_contact_list" value="${contact_list.id}" />
+<@row>
+	<@columns>
+		<@box>
+			<@boxHeader title='#i18n{contact.contact_list_assignations.listAssignationTitle} "${contact_list.label}" ( #i18n{contact.contact_list_assignations.contactsNumer} : ${contacts_number} )'>
+					<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?' title='#i18n{contact.contact_list_assignations.goManageContacts}' buttonIcon='user' size='sm' />
+					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&amp;id_contact_list=${contact_list.id}' title='#i18n{contact.manage_contact_lists.actionModifyContactList}' buttonIcon='pencil' size='sm' />
+					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewConfirmRemoveContactList&amp;id_contact_list=${contact_list.id}' title='#i18n{contact.manage_contact_lists.actionDeleteContactList}' buttonIcon='trash' size='sm' color='danger' />
+			</@boxHeader>
+			<@boxBody>
+				<@tform name='assignContact' method='post' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
+				<input type='hidden' name='action' value='actionAssignContactsToList' />
+				<input type='hidden' name='id_contact_list' value='${contact_list.id}' />
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
 						<div class="box">
@@ -26,22 +17,23 @@
 								<h3>#i18n{contact.contact_list_assignations.holeListLabel}</h3>
 							</div>
 							<div class="box-body">		
-								<#if list_contacts?size &gt; 0 >            
-									<@comboWithParamsAndLength name="list_contact" default_value="" additionalParameters="multiple='multiple' size='10' style='width:100%;height:200px;'" items=list_contacts max_length=175 />
+								<#if list_contacts?size &gt; 0 >
+									<@select name='list_contact' default_value='' multiple=10 params='style="width:100%;height:200px;" max_length=175' items=list_contacts />
 								<#else>
-									<div class="alert alert-error">
-										<span class="fa fa-ban"></span>
-										<b>#i18n{contact.contact_list_assignations.noContactToAssign}</b>
-									</div>
+									<@alert class='danger' title='#i18n{contact.contact_list_assignations.noContactToAssign}' iconTitle='ban' />
 								</#if>
 							</div>	
 						</div>	
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-1 col-lg-1" style="line-height:250px;" >
-						<button class="btn btn-primary btn-flat" type="submit" <#if list_contacts?size &lt; 1>disabled</#if> >
-							<i class="fa fa-plus"></i>
-							#i18n{contact.contact_list_assignations.validateAssignation}
-						</button>
+						<#assign disableButton>
+							<#if list_contacts?size &lt; 1>
+							true
+							<#else>
+							false
+							</#if>
+						</#assign>
+						<@button type='submit' title='#i18n{contact.contact_list_assignations.validateAssignation}' disabled=disableButton buttonIcon='plus' size='sm' />
 					</div>	
 					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 						<div class="box">
@@ -50,7 +42,7 @@
 							</div>
 							<div class="box-body">			
 								<#if assigned_contacts?size &gt; 0 >
-								<table class="table table-hover table-condensed">
+								<@table>
 								<tr>
 									<th>#i18n{contact.manage_contacts.columnTitleLabel}</th>
 									<th>#i18n{contact.manage_contacts.columnTitleEmail}</th>
@@ -62,39 +54,30 @@
 									<td>${assigned_contact.name}</td>
 									<td>${assigned_contact.email}</td>
 									<td>
-										<form class="inline" action="jsp/admin/plugins/contact/ManageContactLists.jsp">
-											<input type="hidden" name="action" value="actionModifyContactOrder">
-                                                                                        <input type="hidden" name="id_contact" value="${assigned_contact.id}" />	
-											<input type="hidden" name="id_contact_list" value="${contact_list.id}" />
-											<@comboWithParams name="contacts_order" default_value="${assigned_contact.contactOrder}" additionalParameters="class=\"input-xs\"" items=order_list />
-											<button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{contact.manage_contacts.buttonChangeOrder}">
-												<i class="glyphicon glyphicon-move"></i>
-											</button>
-										</form>
+										<@tform class='inline' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
+											<input type='hidden' name='action' value='actionModifyContactOrder' />
+											<input type='hidden' name='id_contact' value='${assigned_contact.id}' />
+											<input type='hidden' name='id_contact_list' value='${contact_list.id}' />
+											<@select name='contacts_order' default_value='${assigned_contact.contactOrder}' items=order_list />
+											<@button type='submit' title='#i18n{contact.manage_contacts.buttonChangeOrder}' buttonIcon='move' size='sm' />
+										</@tform>
 									</td>
 									<td>
-										<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}" title="#i18n{contact.contact.actionModify}">
-											<i class="fa fa-pencil"></i>
-										</a>
-										<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/plugins/contact/ManageContactLists.jsp?action=actionRevokeContactsFromList&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}" title="#i18n{contact.contact.actionUnassign}">
-											<i class="fa fa-trash"></i>
-										</a>
+										<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}' title='#i18n{contact.contact.actionModify}' buttonIcon='pencil' size='sm' />
+										<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?action=actionRevokeContactsFromList&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}' title='#i18n{contact.contact.actionUnassign}' buttonIcon='trash' size='sm' />
 									</td>
 								</tr>
 								</#list>
-							</table>
+								</@table>
 							<#else>
-								<div class="alert alert-error">
-									<span class="fa fa-ban"></span>
-									<b>#i18n{contact.contact_list_assignations.noAssignedContacts}</b>
-								</div>
-							</#if>    
+								<@alert class='danger' title='#i18n{contact.contact_list_assignations.noAssignedContacts}' iconTitle='ban' />
+							</#if>
 							</div>
 						</div>
 					</div>
 				</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+				</@tform>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

@@ -1,66 +1,23 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<div class="box box-primary">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{contact.create_contact_list.tableLabel}</h3>
-			</div>
-			<div class="box-body">			
-				<form class="form-horizontal" method="post"  name="create_contact_list" id="create_contact_list" action="jsp/admin/plugins/contact/ManageContactLists.jsp">
-					<input type="hidden" name="action" value="actionCreateContactList">
-                                        <div class="form-group">
-					<label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="contact_list_label" >#i18n{contact.create_contact_list.rowTitleLabel} *</label> 
-						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-							<input type="text" required class="form-control input-sm" id="contact_list_label" name="contact_list_label" size="60" maxlength="50" tabindex="1">
-						</div>
-					</div>
-					<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="contact_list_description" >#i18n{contact.create_contact_list.rowTitleDescription} *</label>  
-						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-							<input type="text" required class="form-control input-sm" id="contact_list_description" name="contact_list_description" size="60" maxlength="100" tabindex="2">	
-						</div>
-					</div>
-					<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="direction_workgroup" >#i18n{contact.create_contact_list.labelWorkgroupKey} *</label>
-						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-							<@comboWithParams name="workgroup" default_value="all" additionalParameters="class=\"form-control input-sm\"" items=workgroups_list />
-						</div>
-					</div>
-					<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="direction_workgroup" >#i18n{contact.create_contact_list.labelRole} *</label>
-						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-							<@comboWithParams name="role" default_value="none" additionalParameters="class=\"form-control input-sm\"" items=roles_list />
-						</div>
-					</div>
-					<div class="form-group">
-                                            <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="active_tos">#i18n{contact.create_contact_list.labelActiveTos}  </label>
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="chechbox">
-                                                    <label for="active_tos">
-                                                        <input type="checkbox" name="active_tos" id="active_tos" value="1"> #i18n{contact.create_contact_list.labelActiveTosComment}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-xs-12 col-sm-3" for="tos_message" ></label>
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <textarea class="form-control richtext" name="tos_message" id="tos_message" rows="5" ></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-						<div class="col-xs-12 col-sm-12 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
-							<button class="btn btn-primary btn-flat" type="submit">
-								<i class="fa fa-check"></i>&nbsp;#i18n{contact.create_contact_list.buttonValidate}
-							</button>
-							<a class="btn btn-default btn-flat" href="jsp/admin/plugins/contact/ManageContactLists.jsp" title="#i18n{portal.util.labelCancel}">
-								<i class="fa fa-close"></i>&nbsp;#i18n{portal.util.labelCancel}
-							</a>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+<@row>	<@columns>		<@box>			<@boxHeader title='#i18n{contact.create_contact_list.tableLabel}' />			<@boxBody>			
+				<@tform method='post' name='create_contact_list' id='create_contact_list' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
+					<input type='hidden' name='action' value='actionCreateContactList' />
+					
+					<@formGroup labelFor='contact_list_label' labelKey='#i18n{contact.create_contact_list.rowTitleLabel}' mandatory=true>						<@input type='text' name='contact_list_label' id='contact_list_label' inputSize=60 maxlength=50 />					</@formGroup>
+					<@formGroup labelFor='contact_list_description' labelKey='#i18n{contact.create_contact_list.rowTitleDescription}' mandatory=true>						<@input type='text' name='contact_list_description' id='contact_list_description' inputSize=60 maxlength=100 />						</@formGroup>
+					<@formGroup labelFor='direction_workgroup' labelKey='#i18n{contact.create_contact_list.labelWorkgroupKey}' mandatory=true>						<@select name='workgroup' default_value='all' items=workgroups_list />					</@formGroup>
+					<@formGroup labelFor='direction_workgroup' labelKey='#i18n{contact.create_contact_list.labelRole}' mandatory=true>						<@select name='role' default_value='none' items=roles_list />					</@formGroup>
+					<@formGroup labelKey='#i18n{contact.create_contact_list.labelActiveTos}'>
+						<@checkBox labelFor='active_tos' labelKey='#i18n{contact.create_contact_list.labelActiveTosComment}' name='active_tos' id='active_tos' value='1' />
+					</@formGroup>
+					<@formGroup labelFor='tos_message' labelKey='' mandatory=true>						<@textarea name='tos_message' id='tos_message' rows=5 richtext=true />					</@formGroup>
+					<@formGroup>
+						<@button type='submit' name='' id='' title='#i18n{contact.create_contact_list.buttonValidate}' buttonIcon='check' size='sm' />
+						<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp' title='#i18n{portal.util.labelCancel}' buttonIcon='close' size='sm' color='btn-default' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>
 <#include "/util/editor/editor.html" />
 <@initEditor />
