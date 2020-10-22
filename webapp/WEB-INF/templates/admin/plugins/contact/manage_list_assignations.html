@@ -2,14 +2,14 @@
 	<@columns>
 		<@box>
 			<@boxHeader title='#i18n{contact.contact_list_assignations.listAssignationTitle} "${contact_list.label}" ( #i18n{contact.contact_list_assignations.contactsNumer} : ${contacts_number} )'>
-				<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?' title='#i18n{contact.contact_list_assignations.goManageContacts}' buttonIcon='user' size='sm' showTitleXs=false />
-				<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&amp;id_contact_list=${contact_list.id}' title='#i18n{contact.manage_contact_lists.actionModifyContactList}' buttonIcon='pencil' size='sm' showTitleXs=false />
-				<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewConfirmRemoveContactList&amp;id_contact_list=${contact_list.id}' title='#i18n{contact.manage_contact_lists.actionDeleteContactList}' buttonIcon='trash' size='sm' color='btn-danger' showTitleXs=false />
+				<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?' title='#i18n{contact.contact_list_assignations.goManageContacts}' buttonIcon='user' size='sm' hideTitle=['xs'] />
+				<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&amp;id_contact_list=${contact_list.id}' title='#i18n{contact.manage_contact_lists.actionModifyContactList}' buttonIcon='pencil' size='sm' hideTitle=['xs'] />
+				<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewConfirmRemoveContactList&amp;id_contact_list=${contact_list.id}' title='#i18n{contact.manage_contact_lists.actionDeleteContactList}' buttonIcon='trash' size='sm' color='danger' hideTitle=['xs'] />
 			</@boxHeader>
 			<@boxBody>
 				<@tform name='assignContact' method='post' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
-					<input type='hidden' name='action' value='actionAssignContactsToList' />
-					<input type='hidden' name='id_contact_list' value='${contact_list.id}' />
+					<@input type='hidden' name='action' value='actionAssignContactsToList' />
+					<@input type='hidden' name='id_contact_list' value='${contact_list.id}' />
 					<@row>
 						<@columns md=5>
 							<h3>#i18n{contact.contact_list_assignations.holeListLabel}</h3>
@@ -43,20 +43,20 @@
 								<td>${assigned_contact.email}</td>
 								<td>
 									<@tform class='inline' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
-										<input type='hidden' name='action' value='actionModifyContactOrder' />
-										<input type='hidden' name='id_contact' value='${assigned_contact.id}' />
-										<input type='hidden' name='id_contact_list' value='${contact_list.id}' />
+										<@input type='hidden' name='action' value='actionModifyContactOrder' />
+										<@input type='hidden' name='id_contact' value='${assigned_contact.id}' />
+										<@input type='hidden' name='id_contact_list' value='${contact_list.id}' />
 										<@inputGroup>
 											<@select name='contacts_order' default_value='${assigned_contact.contactOrder}' items=order_list size='sm' />
 											<@inputGroupItem type='btn'>
-												<@button type='submit' title='#i18n{contact.manage_contacts.buttonChangeOrder}' buttonIcon='arrows' size='sm' showTitle=false />
+												<@button type='submit' title='#i18n{contact.manage_contacts.buttonChangeOrder}' buttonIcon='arrows' size='sm' hideTitle=['all] />
 											</@inputGroupItem>
 										</@inputGroup>
 									</@tform>
 								</td>
 								<td>
-									<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}' title='#i18n{contact.contact.actionModify}' buttonIcon='pencil' size='sm' showTitle=false />
-									<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?action=actionRevokeContactsFromList&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}' title='#i18n{contact.contact.actionUnassign}' buttonIcon='trash' size='sm' color='btn-danger' showTitle=false />
+									<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}' title='#i18n{contact.contact.actionModify}' buttonIcon='pencil' size='sm' hideTitle=['all'] />
+									<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?action=actionRevokeContactsFromList&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}' title='#i18n{contact.contact.actionUnassign}' buttonIcon='trash' size='sm' color='danger' hideTitle=['all'] />
 								</td>
 							</tr>
 							</#list>

@@ -1,15 +1,15 @@
 <@row>	<@columns>		<@box>			<@boxHeader title='#i18n{contact.manage_features.manageFeatures}' />			<@boxBody>
 				<@listGroup>
-					<li class="${listElementClass}">
-						<a href="jsp/admin/plugins/contact/ManageContacts.jsp" title="#i18n{contact.manage_features.contactManagement}">
+					<@listGroupItem>
+						<@link href='jsp/admin/plugins/contact/ManageContacts.jsp' title='#i18n{contact.manage_features.contactManagement}'>
 							<@icon style='user' /> #i18n{contact.manage_features.contactManagement} - #i18n{contact.manage_features.contactManagementDescription}
-						</a>
-					</li>
-					<li class="${listElementClass}">
-						<a href="jsp/admin/plugins/contact/ManageContactLists.jsp" title="#i18n{contact.manage_features.contactListsManagement}">
+						</@link>
+					</@listGroupItem>
+					<@listGroupItem>
+						<@link href='jsp/admin/plugins/contact/ManageContactLists.jsp' title='#i18n{contact.manage_features.contactListsManagement}'>
 						   <@icon style='list-alt' /> #i18n{contact.manage_features.contactListsManagement} - #i18n{contact.manage_features.contactListsManagementDescription}
-						</a>
-					</li>
+						</@link>
+					</@listGroupItem>
 				</@listGroup>
 			</@boxBody>
 		</@box>

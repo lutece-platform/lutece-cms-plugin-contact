@@ -1,6 +1,6 @@
 <@row>	<@columns>		<@box>			<@boxHeader title='#i18n{contact.create_contact_list.tableLabel}' />			<@boxBody>			
 				<@tform method='post' name='create_contact_list' id='create_contact_list' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
-					<input type='hidden' name='action' value='actionCreateContactList' />
+					<@input type='hidden' name='action' value='actionCreateContactList' />
 					
 					<@formGroup labelFor='contact_list_label' labelKey='#i18n{contact.create_contact_list.rowTitleLabel}' mandatory=true>						<@input type='text' name='contact_list_label' id='contact_list_label' inputSize=60 maxlength=50 />					</@formGroup>
 					<@formGroup labelFor='contact_list_description' labelKey='#i18n{contact.create_contact_list.rowTitleDescription}' mandatory=true>						<@input type='text' name='contact_list_description' id='contact_list_description' inputSize=60 maxlength=100 />						</@formGroup>
@@ -12,7 +12,7 @@
 					<@formGroup labelFor='tos_message' labelKey='' mandatory=true>						<@input type='textarea' name='tos_message' id='tos_message' rows=5 richtext=true />					</@formGroup>
 					<@formGroup>
 						<@button type='submit' name='' id='' title='#i18n{contact.create_contact_list.buttonValidate}' buttonIcon='check' size='sm' />
-						<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp' title='#i18n{portal.util.labelCancel}' buttonIcon='close' size='sm' color='btn-default' />
+						<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp' title='#i18n{portal.util.labelCancel}' buttonIcon='close' size='sm' color='default' />
 					</@formGroup>
 				</@tform>
 			</@boxBody>

@@ -1,11 +1,11 @@
 <@row>	<@columns>		<@box>			<@boxHeader title='#i18n{contact.create_contact.tableLabel}' />			<@boxBody>		
 				<@tform method='post' name='create_contact' id='create_contact' action='jsp/admin/plugins/contact/ManageContacts.jsp'>
-					<input type='hidden' name='action' value='actionCreateContact' />
+					<@input type='hidden' name='action' value='actionCreateContact' />
 					<@formGroup labelFor='contact_name' labelKey='#i18n{contact.create_contact.rowTitleLabel}' mandatory=true>						<@input type='text' id='contact_name' name='contact_name' maxlength=50 />					</@formGroup>
 					<@formGroup labelFor='contact_email' labelKey='#i18n{contact.create_contact.rowTitleEmail}' mandatory=true>						<@input type='email' id='contact_email' name='contact_email' maxlength=100 />					</@formGroup>
 					<@formGroup labelFor='workgroup' labelKey='#i18n{contact.create_contact.labelWorkgroupKey}' mandatory=true>						<@select name='workgroup' default_value='all' items=workgroups_list />					</@formGroup>
 					<@formGroup>						<@button type='submit' name='' id='' title='#i18n{contact.create_contact.buttonValidate}' buttonIcon='check' size='sm' />
-						<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp' title='#i18n{portal.util.labelCancel}' buttonIcon='close' size='sm' color='btn-default' />
+						<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp' title='#i18n{portal.util.labelCancel}' buttonIcon='close' size='sm' color='default' />
 					</@formGroup>
 				</@tform>
 			</@boxBody>
