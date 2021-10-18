@@ -11,8 +11,8 @@
 						<@checkBox labelFor='active_tos' labelKey='#i18n{contact.modify_contact_list.labelActiveTosComment}' name='active_tos' id='active_tos' value='1' checked=contact_list.tos />
                     </@formGroup>
 					<@formGroup labelFor='tos_message' labelKey=''>						<@input type='textarea' name='tos_message' id='tos_message' rows=5 richtext=true>${contact_list.tosMessage}</@input>					</@formGroup>
-					<@formGroup>						<@button type='submit' name='' id='' title='#i18n{contact.modify_contact_list.buttonValidate}' buttonIcon='check' size='sm' />
-						<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp' title='#i18n{portal.util.labelCancel}' buttonIcon='close' size='sm' color='default' />
+					<@formGroup>						<@button type='submit' name='' id='' title='#i18n{contact.modify_contact_list.buttonValidate}' buttonIcon='check' />
+						<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp' title='#i18n{portal.util.labelCancel}' buttonIcon='close' color='default' />
 					</@formGroup>
 				</@tform>
 			</@boxBody>

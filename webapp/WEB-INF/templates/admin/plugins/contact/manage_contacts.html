@@ -1,32 +1,32 @@
 <@row>	<@columns>		<@box>			<@boxHeader title='#i18n{contact.manage_contacts.tableLabel}'>				<@tform method='post' action='jsp/admin/plugins/contact/ManageContacts.jsp'>
 					<@input type='hidden' name='view' value='viewCreateContact' />
-					<@button type='submit' name='' id='' buttonIcon='plus' title='#i18n{contact.manage_contacts.buttonAddContact}' size='sm' hideTitle=['xs'] />
-					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp' title='#i18n{contact.manage_features.contactListsManagement}' buttonIcon='list-alt' size='sm' hideTitle=['xs'] />
+					<@button type='submit' name='' id='' buttonIcon='plus' title='#i18n{contact.manage_contacts.buttonAddContact}' size='sm' hideTitle=['all'] />
+					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp' title='#i18n{contact.manage_features.contactListsManagement}' buttonIcon='list-alt' size='sm' hideTitle=['all'] />
 				</@tform>
 			</@boxHeader>
 			<@boxBody class='table-responsive'>
 				<@paginationAdmin paginator=paginator combo=1 />
 				<@table>
 					<thead>
-						<tr>
-							<th>#i18n{contact.manage_contacts.columnTitleLabel}</th>
-							<th>#i18n{contact.manage_contacts.columnTitleEmail}</th>
-							<th>#i18n{contact.workgroup}</th>
-							<th>#i18n{contact.manage_contacts.columnTitleActions}</th>
-						</tr>
+						<@tr>
+							<@th>#i18n{contact.manage_contacts.columnTitleLabel}</@th>
+							<@th>#i18n{contact.manage_contacts.columnTitleEmail}</@th>
+							<@th>#i18n{contact.workgroup}</@th>
+							<@th>#i18n{contact.manage_contacts.columnTitleActions}</@th>
+						</@tr>
 					</thead>
 					<tbody>
 					<#list contact_list as contact >
-						<tr>
-							<td>${contact.name}</td>
-							<td>${contact.email}</td>
-							<td>${contact.workgroup}</td>     
-							<td>
+						<@tr>
+							<@td>${contact.name}</@td>
+							<@td>${contact.email}</@td>
+							<@td>${contact.workgroup}</@td>     
+							<@td>
 								<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact=${contact.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' size='sm' hideTitle=['all'] />
                                 <@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewManageContactAssignation&amp;id_contact=${contact.id}' title='#i18n{contact.contact_assignations.actionAssign}' buttonIcon='user' size='sm' hideTitle=['all'] />
 								<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewConfirmRemoveContact&amp;id_contact=${contact.id}' title='#i18n{contact.contact.actionDelete}' buttonIcon='trash' size='sm' color='danger' hideTitle=['all'] />
-							</td>
-						</tr>					
+							</@td>
+						</@tr>					
 					</#list>
 					</tbody>
 				</@table>
