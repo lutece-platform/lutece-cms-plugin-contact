@@ -3,7 +3,7 @@
     <!-- Plugin Informations -->
     <name>contact</name>
     <class>fr.paris.lutece.plugins.contact.service.ContactPlugin</class>
-    <version>5.1.0-SNAPSHOT</version>
+    <version>5.1.0</version>
     <documentation/>
     <installation/>
     <changes/>
