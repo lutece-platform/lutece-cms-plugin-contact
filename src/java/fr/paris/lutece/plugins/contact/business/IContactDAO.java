@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
 
-
 /**
  * IContactDAO Interface
  */
@@ -47,8 +46,10 @@ public interface IContactDAO
     /**
      * Delete a record from the table
      *
-     * @param contact The Contact object
-     * @param plugin The plugin
+     * @param contact
+     *            The Contact object
+     * @param plugin
+     *            The plugin
      */
     void delete( Contact contact, Plugin plugin );
 
@@ -56,15 +57,20 @@ public interface IContactDAO
      * Insert a new record in the table.
      *
      *
-     * @param contact The contact object
-     * @param plugin The plugin
+     * @param contact
+     *            The contact object
+     * @param plugin
+     *            The plugin
      */
     void insert( Contact contact, Plugin plugin );
 
     /**
      * Load the data of Contact from the table
-     * @param nContactId The identifier of Contact
-     * @param plugin The plugin
+     * 
+     * @param nContactId
+     *            The identifier of Contact
+     * @param plugin
+     *            The plugin
      * @return the instance of the Contact
      */
     Contact load( int nContactId, Plugin plugin );
@@ -73,33 +79,44 @@ public interface IContactDAO
      * Load the list of contacts
      *
      *
-     * @param plugin The plugin
+     * @param plugin
+     *            The plugin
      * @return The Collection of the Contacts
      */
     Collection<Contact> selectAll( Plugin plugin );
 
     /**
-    * Load the list of contacts
-    * @return The Collection of the Contacts with the string at the top
-    * @param nIdContactList The id of contactList
-    * @param strComboItem the string to display at the top of the list
-    * @param plugin The plugin
-    */
+     * Load the list of contacts
+     * 
+     * @return The Collection of the Contacts with the string at the top
+     * @param nIdContactList
+     *            The id of contactList
+     * @param strComboItem
+     *            the string to display at the top of the list
+     * @param plugin
+     *            The plugin
+     */
     ReferenceList selectContactsByListWithString( int nIdContactList, String strComboItem, Plugin plugin );
 
     /**
      * Update the record in the table
      *
-     * @param contact The reference of contact
-     * @param plugin The plugin
+     * @param contact
+     *            The reference of contact
+     * @param plugin
+     *            The plugin
      */
     void store( Contact contact, Plugin plugin );
 
     /**
      * Update hits of the contact in contact and contact_list_contact tables
-     * @param nIdContact id of the contact
-     * @param nIdContactList id of contact list
-     * @param plugin the plugin Contact
+     * 
+     * @param nIdContact
+     *            id of the contact
+     * @param nIdContactList
+     *            id of contact list
+     * @param plugin
+     *            the plugin Contact
      */
     void updateHits( int nIdContact, int nIdContactList, Plugin plugin );
 
@@ -107,28 +124,41 @@ public interface IContactDAO
 
     /**
      * Modify the order of a contact
-     * @param nIdContactList the id of contactList
-     * @param nNewOrder The order number
-     * @param nId The contact identifier
-     * @param plugin The plugin
+     * 
+     * @param nIdContactList
+     *            the id of contactList
+     * @param nNewOrder
+     *            The order number
+     * @param nId
+     *            The contact identifier
+     * @param plugin
+     *            The plugin
      */
     void storeContactOrder( int nNewOrder, int nId, int nIdContactList, Plugin plugin );
 
     /**
      * Returns a contact identifier in a distinct order
+     * 
      * @return The order of the Contact
-     * @param nIdContactList the id of contactList
-     * @param nContactOrder The order number
-     * @param plugin The plugin
+     * @param nIdContactList
+     *            the id of contactList
+     * @param nContactOrder
+     *            The order number
+     * @param plugin
+     *            The plugin
      */
     int selectContactIdByOrder( int nContactOrder, int nIdContactList, Plugin plugin );
 
     /**
-    * Returns a contact identifier in a distinct order
-    * @return The order of the Contact
-    * @param nIdContact the id of contact
-    * @param nIdContactList the id of the contact List
-    * @param plugin The plugin
-    */
+     * Returns a contact identifier in a distinct order
+     * 
+     * @return The order of the Contact
+     * @param nIdContact
+     *            the id of contact
+     * @param nIdContactList
+     *            the id of the contact List
+     * @param plugin
+     *            The plugin
+     */
     int selectContactOrderById( int nIdContact, int nIdContactList, Plugin plugin );
 }

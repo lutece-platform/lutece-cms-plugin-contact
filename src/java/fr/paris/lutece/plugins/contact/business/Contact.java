@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.service.workgroup.WorkgroupRemovalListenerService;
 
-
 /**
  * This class represents business object Contact
  */
@@ -58,15 +57,15 @@ public class Contact implements AdminWorkgroupResource
     private int _nHits;
 
     /**
-    * Initialize the ContactList
-    */
-    public static void init(  )
+     * Initialize the ContactList
+     */
+    public static void init( )
     {
         // Create removal listeners and register them
         if ( _listenerWorkgroup == null )
         {
-            _listenerWorkgroup = new ContactWorkgroupRemovalListener(  );
-            WorkgroupRemovalListenerService.getService(  ).registerListener( _listenerWorkgroup );
+            _listenerWorkgroup = new ContactWorkgroupRemovalListener( );
+            WorkgroupRemovalListenerService.getService( ).registerListener( _listenerWorkgroup );
         }
     }
 
@@ -75,7 +74,7 @@ public class Contact implements AdminWorkgroupResource
      *
      * @return the contact identifier
      */
-    public int getId(  )
+    public int getId( )
     {
         return _nId;
     }
@@ -83,7 +82,8 @@ public class Contact implements AdminWorkgroupResource
     /**
      * Sets the identifier of the contact to the specified integer.
      *
-     * @param nId the new identifier
+     * @param nId
+     *            the new identifier
      */
     public void setId( int nId )
     {
@@ -95,7 +95,7 @@ public class Contact implements AdminWorkgroupResource
      *
      * @return the contact name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -103,7 +103,8 @@ public class Contact implements AdminWorkgroupResource
     /**
      * Sets the name of the contact to the specified string.
      *
-     * @param strName the new name
+     * @param strName
+     *            the new name
      */
     public void setName( String strName )
     {
@@ -115,7 +116,7 @@ public class Contact implements AdminWorkgroupResource
      *
      * @return the contact email
      */
-    public String getEmail(  )
+    public String getEmail( )
     {
         return _strEmail;
     }
@@ -123,7 +124,8 @@ public class Contact implements AdminWorkgroupResource
     /**
      * Sets the email of the contact to the specified string.
      *
-     * @param strEmail the new email
+     * @param strEmail
+     *            the new email
      */
     public void setEmail( String strEmail )
     {
@@ -135,7 +137,7 @@ public class Contact implements AdminWorkgroupResource
      *
      * @return the contact order
      */
-    public int getContactOrder(  )
+    public int getContactOrder( )
     {
         return _nContactOrder;
     }
@@ -143,7 +145,8 @@ public class Contact implements AdminWorkgroupResource
     /**
      * Sets the contact order of the contact to the specified integer.
      *
-     * @param nContactOrder the new contact order
+     * @param nContactOrder
+     *            the new contact order
      */
     public void setContactOrder( int nContactOrder )
     {
@@ -152,16 +155,19 @@ public class Contact implements AdminWorkgroupResource
 
     /**
      * Returns the workgroup
+     * 
      * @return The workgroup
      */
-    public String getWorkgroup(  )
+    public String getWorkgroup( )
     {
         return _strAdminWorkgroup;
     }
 
     /**
      * Sets the workgroup
-     * @param strAdminWorkgroup The workgroup
+     * 
+     * @param strAdminWorkgroup
+     *            The workgroup
      */
     public void setWorkgroup( String strAdminWorkgroup )
     {
@@ -170,16 +176,19 @@ public class Contact implements AdminWorkgroupResource
 
     /**
      * gets the number of messages send to the contact
+     * 
      * @return number of hists
      */
-    public int getHits(  )
+    public int getHits( )
     {
         return _nHits;
     }
 
     /**
      * Sets the number of messages send to the contact
-     * @param nHits the number of hits
+     * 
+     * @param nHits
+     *            the number of hits
      */
     public void setHits( int nHits )
     {

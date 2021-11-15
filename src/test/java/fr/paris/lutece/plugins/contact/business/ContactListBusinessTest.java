@@ -1,5 +1,5 @@
 /*
- * Copyright ( c ) 2002-2011, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -22,10 +22,10 @@
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES ( INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
  * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION ) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT ( INCLUDING NEGLIGENCE OR OTHERWISE )
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.contact.business;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.test.LuteceTestCase;
-
 
 public class ContactListBusinessTest extends LuteceTestCase
 {
@@ -56,16 +55,16 @@ public class ContactListBusinessTest extends LuteceTestCase
     private static final String TOS_MESSAGE_2 = "test-tos";
     private static final int CONTACT_ID = 48;
 
-    public void testBusinessContactList(  )
+    public void testBusinessContactList( )
     {
         Plugin plugin = PluginService.getPlugin( "contact" );
 
-        if ( ( plugin != null ) && plugin.isInstalled(  ) )
+        if ( ( plugin != null ) && plugin.isInstalled( ) )
         {
-            Contact contact = new Contact(  );
+            Contact contact = new Contact( );
             contact.setId( CONTACT_ID );
 
-            ContactList contactList = new ContactList(  );
+            ContactList contactList = new ContactList( );
             contactList.setContactsNumber( CONTACTS_NUMBER );
             contactList.setDescription( DESCRIPTION );
             contactList.setLabel( LABEL );
@@ -77,14 +76,14 @@ public class ContactListBusinessTest extends LuteceTestCase
             // Create test
             ContactListHome.create( contactList, plugin );
 
-            ContactList contactListStored = ContactListHome.findByPrimaryKey( contactList.getId(  ), plugin );
-            assertEquals( contactListStored.getContactsNumber(  ), contactList.getContactsNumber(  ) );
-            assertEquals( contactListStored.getDescription(  ), contactList.getDescription(  ) );
-            assertEquals( contactListStored.getLabel(  ), contactList.getLabel(  ) );
-            assertEquals( contactListStored.getRole(  ), contactList.getRole(  ) );
-            assertEquals( contactListStored.getWorkgroup(  ), contactList.getWorkgroup(  ) );
-            assertEquals( contactListStored.getTos(  ), contactList.getTos(  ) );
-            assertEquals( contactListStored.getTosMessage(  ), contactList.getTosMessage(  ) );
+            ContactList contactListStored = ContactListHome.findByPrimaryKey( contactList.getId( ), plugin );
+            assertEquals( contactListStored.getContactsNumber( ), contactList.getContactsNumber( ) );
+            assertEquals( contactListStored.getDescription( ), contactList.getDescription( ) );
+            assertEquals( contactListStored.getLabel( ), contactList.getLabel( ) );
+            assertEquals( contactListStored.getRole( ), contactList.getRole( ) );
+            assertEquals( contactListStored.getWorkgroup( ), contactList.getWorkgroup( ) );
+            assertEquals( contactListStored.getTos( ), contactList.getTos( ) );
+            assertEquals( contactListStored.getTosMessage( ), contactList.getTosMessage( ) );
 
             // Update test
             contactList.setContactsNumber( CONTACTS_NUMBER_2 );
@@ -97,32 +96,32 @@ public class ContactListBusinessTest extends LuteceTestCase
 
             ContactListHome.update( contactList, plugin );
 
-            contactListStored = ContactListHome.findByPrimaryKey( contactList.getId(  ), plugin );
+            contactListStored = ContactListHome.findByPrimaryKey( contactList.getId( ), plugin );
 
-            assertEquals( contactListStored.getContactsNumber(  ), contactList.getContactsNumber(  ) );
-            assertEquals( contactListStored.getDescription(  ), contactList.getDescription(  ) );
-            assertEquals( contactListStored.getLabel(  ), contactList.getLabel(  ) );
-            assertEquals( contactListStored.getRole(  ), contactList.getRole(  ) );
-            assertEquals( contactListStored.getWorkgroup(  ), contactList.getWorkgroup(  ) );
-            assertEquals( contactListStored.getTos(  ), contactList.getTos(  ) );
-            assertEquals( contactListStored.getTosMessage(  ), contactList.getTosMessage(  ) );
+            assertEquals( contactListStored.getContactsNumber( ), contactList.getContactsNumber( ) );
+            assertEquals( contactListStored.getDescription( ), contactList.getDescription( ) );
+            assertEquals( contactListStored.getLabel( ), contactList.getLabel( ) );
+            assertEquals( contactListStored.getRole( ), contactList.getRole( ) );
+            assertEquals( contactListStored.getWorkgroup( ), contactList.getWorkgroup( ) );
+            assertEquals( contactListStored.getTos( ), contactList.getTos( ) );
+            assertEquals( contactListStored.getTosMessage( ), contactList.getTosMessage( ) );
 
-            //assign test
-            ContactListHome.assign( contact.getId(  ), contactList.getId(  ), plugin );
+            // assign test
+            ContactListHome.assign( contact.getId( ), contactList.getId( ), plugin );
 
-            //getOrder test
-            int nOrder = ContactListHome.getContactListOrderById( contactList.getId(  ), plugin );
+            // getOrder test
+            int nOrder = ContactListHome.getContactListOrderById( contactList.getId( ), plugin );
 
-            //isAssigned test
-            if ( ContactListHome.isAssigned( contact.getId(  ), contactList.getId(  ), plugin ) )
+            // isAssigned test
+            if ( ContactListHome.isAssigned( contact.getId( ), contactList.getId( ), plugin ) )
             {
-                //unAssign test
-                ContactListHome.unAssign( contact.getId(  ), contactList.getId(  ), plugin );
+                // unAssign test
+                ContactListHome.unAssign( contact.getId( ), contactList.getId( ), plugin );
             }
 
             // Delete test
-            ContactListHome.remove( contactList.getId(  ), plugin );
-            contactListStored = ContactListHome.findByPrimaryKey( contactList.getId(  ), plugin );
+            ContactListHome.remove( contactList.getId( ), plugin );
+            contactListStored = ContactListHome.findByPrimaryKey( contactList.getId( ), plugin );
             assertNull( contactListStored );
         }
     }

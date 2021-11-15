@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.role.RoleRemovalListenerService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.service.workgroup.WorkgroupRemovalListenerService;
-
 
 /**
  * This class represents business object Contact
@@ -84,6 +83,7 @@ public class ContactList implements AdminWorkgroupResource
 
     /**
      * Returns the identifier of this contactList.
+     * 
      * @return the contact identifier
      */
     public int getId( )
@@ -93,7 +93,9 @@ public class ContactList implements AdminWorkgroupResource
 
     /**
      * Sets the identifier of the contactList to the specified integer.
-     * @param nId the new identifier
+     * 
+     * @param nId
+     *            the new identifier
      */
     public void setId( int nId )
     {
@@ -102,6 +104,7 @@ public class ContactList implements AdminWorkgroupResource
 
     /**
      * Returns the label of this list.
+     * 
      * @return the contact name
      */
     public String getLabel( )
@@ -112,7 +115,8 @@ public class ContactList implements AdminWorkgroupResource
     /**
      * Sets the label of the contact List to the specified string.
      * 
-     * @param strContactListLabel the new name
+     * @param strContactListLabel
+     *            the new name
      */
     public void setLabel( String strContactListLabel )
     {
@@ -121,6 +125,7 @@ public class ContactList implements AdminWorkgroupResource
 
     /**
      * Returns the description of this contact list.
+     * 
      * @return the contact name
      */
     public String getDescription( )
@@ -130,7 +135,9 @@ public class ContactList implements AdminWorkgroupResource
 
     /**
      * Sets the name of the contact to the specified string.
-     * @param strContactListDescription the description of the contact list
+     * 
+     * @param strContactListDescription
+     *            the description of the contact list
      */
     public void setDescription( String strContactListDescription )
     {
@@ -139,6 +146,7 @@ public class ContactList implements AdminWorkgroupResource
 
     /**
      * gets the number of contacts assigned to list
+     * 
      * @return returns the number of contacts assigned to this list
      */
     public int getContactsNumber( )
@@ -148,7 +156,9 @@ public class ContactList implements AdminWorkgroupResource
 
     /**
      * sets to the specified integer the number of contacts assigned to list
-     * @param nContactsNumber the number of contacts to set
+     * 
+     * @param nContactsNumber
+     *            the number of contacts to set
      */
     public void setContactsNumber( int nContactsNumber )
     {
@@ -157,6 +167,7 @@ public class ContactList implements AdminWorkgroupResource
 
     /**
      * Returns the workgroup
+     * 
      * @return The workgroup
      */
     public String getWorkgroup( )
@@ -166,7 +177,9 @@ public class ContactList implements AdminWorkgroupResource
 
     /**
      * Sets the workgroup
-     * @param strAdminWorkgroup The workgroup
+     * 
+     * @param strAdminWorkgroup
+     *            The workgroup
      */
     public void setWorkgroup( String strAdminWorkgroup )
     {
@@ -175,11 +188,14 @@ public class ContactList implements AdminWorkgroupResource
 
     /**
      * Sets the role
-     * @param strRole The role
+     * 
+     * @param strRole
+     *            The role
      */
 
     /**
      * Gets the contactList role
+     * 
      * @return contactList's role as a String
      * @since v1.1
      */
@@ -190,7 +206,9 @@ public class ContactList implements AdminWorkgroupResource
 
     /**
      * allows the contact List to be saw by a role
-     * @param strRole The role that can see the contact list
+     * 
+     * @param strRole
+     *            The role that can see the contact list
      */
     public void setRole( String strRole )
     {
@@ -199,6 +217,7 @@ public class ContactList implements AdminWorkgroupResource
 
     /**
      * Returns the order
+     * 
      * @return The order
      */
     public int getContactListOrder( )
@@ -208,14 +227,16 @@ public class ContactList implements AdminWorkgroupResource
 
     /**
      * Sets the workgroup
-     * @param nContactListOrder the contact list
+     * 
+     * @param nContactListOrder
+     *            the contact list
      */
     public void setContactListOrder( int nContactListOrder )
     {
         _nContactListOrder = nContactListOrder;
     }
-    
-    public boolean getTos()
+
+    public boolean getTos( )
     {
         return _bActiveTos;
     }
@@ -225,7 +246,7 @@ public class ContactList implements AdminWorkgroupResource
         _bActiveTos = bActiveTos;
     }
 
-    public String getTosMessage()
+    public String getTosMessage( )
     {
         return _strTosMessage;
     }

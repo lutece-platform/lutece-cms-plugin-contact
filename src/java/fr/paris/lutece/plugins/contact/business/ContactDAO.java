@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
 /**
  * This class provides Data Access methods for Contact objects
  */
@@ -65,11 +64,13 @@ public final class ContactDAO implements IContactDAO
     private static final String SQL_QUERY_UPDATE_CONTACT_ORDER = "UPDATE contact_list_contact SET contact_order = ?  WHERE id_contact = ? AND id_contact_list = ?";
 
     ///////////////////////////////////////////////////////////////////////////////////////
-    //Access methods to data
+    // Access methods to data
 
     /**
      * Generates a new primary key
-     * @param plugin The plugin
+     * 
+     * @param plugin
+     *            The plugin
      * @return The new primary key
      */
     private int newPrimaryKey( Plugin plugin )
@@ -98,8 +99,10 @@ public final class ContactDAO implements IContactDAO
     /**
      * Insert a new record in the table.
      * 
-     * @param contact The contact object
-     * @param plugin The plugin
+     * @param contact
+     *            The contact object
+     * @param plugin
+     *            The plugin
      */
     public void insert( Contact contact, Plugin plugin )
     {
@@ -116,8 +119,11 @@ public final class ContactDAO implements IContactDAO
 
     /**
      * Load the data of Contact from the table
-     * @param nContactId The identifier of Contact
-     * @param plugin The plugin
+     * 
+     * @param nContactId
+     *            The identifier of Contact
+     * @param plugin
+     *            The plugin
      * @return the instance of the Contact
      */
     public Contact load( int nContactId, Plugin plugin )
@@ -144,8 +150,11 @@ public final class ContactDAO implements IContactDAO
 
     /**
      * Delete a record from the table
-     * @param contact The Contact object
-     * @param plugin The plugin
+     * 
+     * @param contact
+     *            The Contact object
+     * @param plugin
+     *            The plugin
      */
     public void delete( Contact contact, Plugin plugin )
     {
@@ -157,8 +166,11 @@ public final class ContactDAO implements IContactDAO
 
     /**
      * Update the record in the table
-     * @param contact The reference of contact
-     * @param plugin The plugin
+     * 
+     * @param contact
+     *            The reference of contact
+     * @param plugin
+     *            The plugin
      */
     public void store( Contact contact, Plugin plugin )
     {
@@ -176,10 +188,14 @@ public final class ContactDAO implements IContactDAO
 
     /**
      * Load the list of contacts
+     * 
      * @return The Collection of the Contacts with the string at the top
-     * @param nIdContactList The id of contact List
-     * @param strComboItem the string to display at the top of the list
-     * @param plugin The plugin
+     * @param nIdContactList
+     *            The id of contact List
+     * @param strComboItem
+     *            the string to display at the top of the list
+     * @param plugin
+     *            The plugin
      */
     public ReferenceList selectContactsByListWithString( int nIdContactList, String strComboItem, Plugin plugin )
     {
@@ -202,7 +218,8 @@ public final class ContactDAO implements IContactDAO
     /**
      * Load the list of contacts
      * 
-     * @param plugin The plugin
+     * @param plugin
+     *            The plugin
      * @return The Collection of the Contacts
      */
     public Collection<Contact> selectAll( Plugin plugin )
@@ -229,9 +246,13 @@ public final class ContactDAO implements IContactDAO
 
     /**
      * Update hits of the contact in contact and contact_list_contact tables
-     * @param nIdContact id of the contact
-     * @param nIdContactList id of contact list
-     * @param plugin the plugin Contact
+     * 
+     * @param nIdContact
+     *            id of the contact
+     * @param nIdContactList
+     *            id of contact list
+     * @param plugin
+     *            the plugin Contact
      */
     public void updateHits( int nIdContact, int nIdContactList, Plugin plugin )
     {
@@ -247,8 +268,11 @@ public final class ContactDAO implements IContactDAO
 
     /**
      * Returns the number of hits of a contact
-     * @param nIdContact id of the contact
-     * @param plugin the plugin Contact
+     * 
+     * @param nIdContact
+     *            id of the contact
+     * @param plugin
+     *            the plugin Contact
      * @return the number of hits
      */
     private int checkContactHits( int nIdContact, Plugin plugin )
@@ -271,9 +295,13 @@ public final class ContactDAO implements IContactDAO
 
     /**
      * updates the number of hits of a contact
-     * @param nIdContact id of the contact
-     * @param nNewContactHits new number of hits
-     * @param plugin the plugin Contact
+     * 
+     * @param nIdContact
+     *            id of the contact
+     * @param nNewContactHits
+     *            new number of hits
+     * @param plugin
+     *            the plugin Contact
      */
     private void updateContactHits( int nIdContact, int nNewContactHits, Plugin plugin )
     {
@@ -286,9 +314,13 @@ public final class ContactDAO implements IContactDAO
 
     /**
      * Returns the number of hits of a contact in a specified list
-     * @param nIdContact id of the contact
-     * @param nIdContactList id of contact list
-     * @param plugin the plugin Contact
+     * 
+     * @param nIdContact
+     *            id of the contact
+     * @param nIdContactList
+     *            id of contact list
+     * @param plugin
+     *            the plugin Contact
      * @return the number of hits
      */
     private int checkContactInListHits( int nIdContact, int nIdContactList, Plugin plugin )
@@ -312,10 +344,15 @@ public final class ContactDAO implements IContactDAO
 
     /**
      * updates the number of hits of a contact in a specified list
-     * @param nIdContact id of the contact
-     * @param nIdContactList id of contact list
-     * @param nNewContactInListHits the new number of hits
-     * @param plugin the plugin Contact
+     * 
+     * @param nIdContact
+     *            id of the contact
+     * @param nIdContactList
+     *            id of contact list
+     * @param nNewContactInListHits
+     *            the new number of hits
+     * @param plugin
+     *            the plugin Contact
      */
     private void updateContactInListHits( int nIdContact, int nIdContactList, int nNewContactInListHits, Plugin plugin )
     {
@@ -332,10 +369,15 @@ public final class ContactDAO implements IContactDAO
 
     /**
      * Modify the order of a contact
-     * @param nIdContactList The id of contactList
-     * @param nNewOrder The order number
-     * @param nId The contact identifier
-     * @param plugin The plugin
+     * 
+     * @param nIdContactList
+     *            The id of contactList
+     * @param nNewOrder
+     *            The order number
+     * @param nId
+     *            The contact identifier
+     * @param plugin
+     *            The plugin
      */
     public void storeContactOrder( int nNewOrder, int nId, int nIdContactList, Plugin plugin )
     {
@@ -349,10 +391,14 @@ public final class ContactDAO implements IContactDAO
 
     /**
      * Returns a contact identifier in a distinct order
+     * 
      * @return The order of the Contact
-     * @param nIdContactList the id of the contact List
-     * @param nContactOrder The order number
-     * @param plugin The plugin
+     * @param nIdContactList
+     *            the id of the contact List
+     * @param nContactOrder
+     *            The order number
+     * @param plugin
+     *            The plugin
      */
     public int selectContactIdByOrder( int nContactOrder, int nIdContactList, Plugin plugin )
     {
@@ -379,9 +425,13 @@ public final class ContactDAO implements IContactDAO
 
     /**
      * Returns the order of a contact in a list, using the Identifier
-     * @param nIdContact the id of contact
-     * @param nIdContactList the id of contactList
-     * @param plugin the plugin contact
+     * 
+     * @param nIdContact
+     *            the id of contact
+     * @param nIdContactList
+     *            the id of contactList
+     * @param plugin
+     *            the plugin contact
      * @return the order of the contact in the list
      */
     public int selectContactOrderById( int nIdContact, int nIdContactList, Plugin plugin )

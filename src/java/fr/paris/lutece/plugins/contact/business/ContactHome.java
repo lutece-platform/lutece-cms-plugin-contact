@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for Contact objects
  */
@@ -51,16 +50,18 @@ public final class ContactHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private ContactHome(  )
+    private ContactHome( )
     {
     }
 
     /**
      * Creation of an instance of contact
      *
-     * @param contact The instance of the contact which contains the informations to store
-         * @param plugin The Plugin object
-     * @return The  instance of contact which has been created with its primary key.
+     * @param contact
+     *            The instance of the contact which contains the informations to store
+     * @param plugin
+     *            The Plugin object
+     * @return The instance of contact which has been created with its primary key.
      */
     public static Contact create( Contact contact, Plugin plugin )
     {
@@ -72,9 +73,11 @@ public final class ContactHome
     /**
      * Update of the contact which is specified in parameter
      *
-     * @param contact The instance of the contact which contains the data to store
-         * @param plugin The Plugin object
-     * @return The instance of the  contact which has been updated
+     * @param contact
+     *            The instance of the contact which contains the data to store
+     * @param plugin
+     *            The Plugin object
+     * @return The instance of the contact which has been updated
      */
     public static Contact update( Contact contact, Plugin plugin )
     {
@@ -86,8 +89,10 @@ public final class ContactHome
     /**
      * Remove the Contact whose identifier is specified in parameter
      *
-     * @param contact The Contact object to remove
-         * @param plugin The Plugin object
+     * @param contact
+     *            The Contact object to remove
+     * @param plugin
+     *            The Plugin object
      */
     public static void remove( Contact contact, Plugin plugin )
     {
@@ -100,8 +105,10 @@ public final class ContactHome
     /**
      * Returns an instance of a contact whose identifier is specified in parameter
      *
-     * @param nKey The Primary key of the contact
-         * @param plugin The Plugin object
+     * @param nKey
+     *            The Primary key of the contact
+     * @param plugin
+     *            The Plugin object
      * @return An instance of contact
      */
     public static Contact findByPrimaryKey( int nKey, Plugin plugin )
@@ -111,7 +118,9 @@ public final class ContactHome
 
     /**
      * Returns a collection of contacts objects
-         * @param plugin The Plugin object
+     * 
+     * @param plugin
+     *            The Plugin object
      * @return A collection of contacts
      */
     public static Collection<Contact> findAll( Plugin plugin )
@@ -124,10 +133,14 @@ public final class ContactHome
 
     /**
      * Returns a reference list which contains all the contacts and the string "choose your contact", for the xpage
+     * 
      * @return a reference list
-     * @param nIdContactList The id of contactList
-     * @param strComboItem The string to display at the top of combo
-     * @param plugin The Plugin object
+     * @param nIdContactList
+     *            The id of contactList
+     * @param strComboItem
+     *            The string to display at the top of combo
+     * @param plugin
+     *            The Plugin object
      */
     public static ReferenceList getContactsByListWithString( int nIdContactList, String strComboItem, Plugin plugin )
     {
@@ -136,9 +149,13 @@ public final class ContactHome
 
     /**
      * Increments hits in contact and contact_list_contact tables
-     * @param nIdContactList id of the contactList
-     * @param nIdContact id of the contact
-     * @param plugin the plugin Contact
+     * 
+     * @param nIdContactList
+     *            id of the contactList
+     * @param nIdContact
+     *            id of the contact
+     * @param plugin
+     *            the plugin Contact
      */
     public static void updateHits( int nIdContactList, int nIdContact, Plugin plugin )
     {
@@ -149,10 +166,14 @@ public final class ContactHome
 
     /**
      * Search the order number of contacts for one list
-     * @return int  the id by a given order
-     * @param nIdContactList the id of the contactList
-     * @param nContactOrder the number of order of the contact
-     * @param plugin The Plugin object
+     * 
+     * @return int the id by a given order
+     * @param nIdContactList
+     *            the id of the contactList
+     * @param nContactOrder
+     *            the number of order of the contact
+     * @param plugin
+     *            The Plugin object
      */
     public static int getContactIdByOrder( int nContactOrder, int nIdContactList, Plugin plugin )
     {
@@ -161,10 +182,14 @@ public final class ContactHome
 
     /**
      * returns the order of a contact in a list using its Id
-     * @return int  the id by a given order
-     * @param nIdContact the id of the contact
-     * @param nIdContactList the id of the contactList
-     * @param plugin The Plugin object
+     * 
+     * @return int the id by a given order
+     * @param nIdContact
+     *            the id of the contact
+     * @param nIdContactList
+     *            the id of the contactList
+     * @param plugin
+     *            The Plugin object
      */
     public static int getContactOrderById( int nIdContact, int nIdContactList, Plugin plugin )
     {
@@ -173,10 +198,15 @@ public final class ContactHome
 
     /**
      * Update the number order of contact
-     * @param nIdContactList the id of the contactList
-     * @param nNewOrder the new number of order
-     * @param nId the Identifier of contact
-     * @param plugin The Plugin object
+     * 
+     * @param nIdContactList
+     *            the id of the contactList
+     * @param nNewOrder
+     *            the new number of order
+     * @param nId
+     *            the Identifier of contact
+     * @param plugin
+     *            The Plugin object
      */
     public static void updateContactOrder( int nNewOrder, int nId, int nIdContactList, Plugin plugin )
     {

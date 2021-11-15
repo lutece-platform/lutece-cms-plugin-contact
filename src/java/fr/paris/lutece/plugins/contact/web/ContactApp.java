@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -72,7 +72,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
-
 /**
  * This class manages Contact page.
  */
@@ -110,7 +109,7 @@ public class ContactApp extends MVCApplication
     private static final String MARK_IS_TOS_REQUIRED = "is_tos_required";
     private static final String MARK_TOS_MESSAGE = "tos_message";
     private static final String MARK_TOS_ACCEPTED = "accept_tos";
-    //private static final String MARK_ROLE = "role";
+    // private static final String MARK_ROLE = "role";
     private static final String MARK_LIST_OF_LISTS = "list_of_lists";
     private static final String MARK_ID_CONTACT_LIST = "id_contact_list";
     private static final String MARK_MYLUTECE_USER = "mylutece_user";
@@ -133,7 +132,7 @@ public class ContactApp extends MVCApplication
     private static final String PROPERTY_COMBO_CHOOSE = "contact.message_contact.comboChoose";
     private static final String PROPERTY_CAPTCHA_ERROR = "contact.message_contact.captchaError";
     private static final String PROPERTY_TOS_ERROR = "contact.message_contact.tosRequired";
-    //private static final String PROPERTY_NO_ID_FOUND = "contact.message_contact.noIdFound";
+    // private static final String PROPERTY_NO_ID_FOUND = "contact.message_contact.noIdFound";
     private static final String PROPERTY_LIST_NOT_EXISTS = "contact.message_contact.listNotExists";
     private static final String PROPERTY_NOT_AUTHORIZED = "contact.message_contact.notauthorized";
     private static final String PROPERTY_NO_LIST_VISIBLE = "contact.message_contact.noListVisible";
@@ -143,7 +142,7 @@ public class ContactApp extends MVCApplication
     private static final String VIEW_CONTACT_LISTS = "viewContactLists";
     private static final String VIEW_CONTACT_PAGE = "viewContactPage";
 
-    //Captcha
+    // Captcha
     private CaptchaSecurityService _captchaService;
 
     // private fields
@@ -152,28 +151,34 @@ public class ContactApp extends MVCApplication
     /**
      * Returns the content of the page
      *
-     * @param request The http request
-     * @param nMode The current mode
-     * @param plugin The plugin object
+     * @param request
+     *            The http request
+     * @param nMode
+     *            The current mode
+     * @param plugin
+     *            The plugin object
      * @return The XPage
      * @throws fr.paris.lutece.portal.service.message.SiteMessageException
      *             Message displayed if an exception occurs
-     * @throws UserNotSignedException if an authentication is required by a view
+     * @throws UserNotSignedException
+     *             if an authentication is required by a view
      */
     @Override
-    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
-        throws SiteMessageException, UserNotSignedException
+    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin ) throws SiteMessageException, UserNotSignedException
     {
         String strPluginName = request.getParameter( PARAMETER_PAGE );
         _plugin = PluginService.getPlugin( strPluginName );
-        
+
         return super.getPage( request, nMode, plugin );
     }
 
     /**
      * Checks if the page is visible for the current user
-     * @param request The HTTP request
-     * @param strRole the role to check
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strRole
+     *            the role to check
      * @return true if the page could be shown to the user
      * @since v1.3.1
      */
@@ -194,15 +199,19 @@ public class ContactApp extends MVCApplication
 
     /**
      * Return form
-     * @param request the page request
-     * @param strIdContactList the id of contact list
-     * @param strSendMessage the send message
+     * 
+     * @param request
+     *            the page request
+     * @param strIdContactList
+     *            the id of contact list
+     * @param strSendMessage
+     *            the send message
      * @return the corresponding form
-     * @throws SiteMessageException occurs during treatment
+     * @throws SiteMessageException
+     *             occurs during treatment
      */
     @View( VIEW_CONTACT_PAGE )
-    public XPage getForm( HttpServletRequest request )
-            throws SiteMessageException
+    public XPage getForm( HttpServletRequest request ) throws SiteMessageException
     {
         String strPortalUrl = request.getRequestURI( );
         Map<String, Object> model = new HashMap<String, Object>( );
@@ -220,27 +229,19 @@ public class ContactApp extends MVCApplication
 
         String strIdContactList = request.getParameter( PARAMETER_ID_CONTACT_LIST );
         String strSendMessage = request.getParameter( PARAMETER_SEND );
-        String strVisitorLastName = ( request.getParameter( PARAMETER_VISITOR_LASTNAME ) != null ) ? request
-                .getParameter( PARAMETER_VISITOR_LASTNAME ) : "";
-        String strVisitorFirstName = ( request.getParameter( PARAMETER_VISITOR_FIRSTNAME ) != null ) ? request
-                .getParameter( PARAMETER_VISITOR_FIRSTNAME ) : "";
-        String strVisitorEmail = ( request.getParameter( PARAMETER_VISITOR_EMAIL ) != null ) ? request
-                .getParameter( PARAMETER_VISITOR_EMAIL ) : "";
-        String strVisitorAddress = ( request.getParameter( PARAMETER_VISITOR_ADDRESS ) != null ) ? request
-                .getParameter( PARAMETER_VISITOR_ADDRESS ) : "";
-        String strObject = ( request.getParameter( PARAMETER_MESSAGE_OBJECT ) != null ) ? request
-                .getParameter( PARAMETER_MESSAGE_OBJECT ) : "";
-        String strMessage = ( request.getParameter( PARAMETER_MESSAGE ) != null ) ? request
-                .getParameter( PARAMETER_MESSAGE ) : "";
-        String strContact = ( request.getParameter( PARAMETER_CONTACT ) != null ) ? request
-                .getParameter( PARAMETER_CONTACT ) : "";
+        String strVisitorLastName = ( request.getParameter( PARAMETER_VISITOR_LASTNAME ) != null ) ? request.getParameter( PARAMETER_VISITOR_LASTNAME ) : "";
+        String strVisitorFirstName = ( request.getParameter( PARAMETER_VISITOR_FIRSTNAME ) != null ) ? request.getParameter( PARAMETER_VISITOR_FIRSTNAME ) : "";
+        String strVisitorEmail = ( request.getParameter( PARAMETER_VISITOR_EMAIL ) != null ) ? request.getParameter( PARAMETER_VISITOR_EMAIL ) : "";
+        String strVisitorAddress = ( request.getParameter( PARAMETER_VISITOR_ADDRESS ) != null ) ? request.getParameter( PARAMETER_VISITOR_ADDRESS ) : "";
+        String strObject = ( request.getParameter( PARAMETER_MESSAGE_OBJECT ) != null ) ? request.getParameter( PARAMETER_MESSAGE_OBJECT ) : "";
+        String strMessage = ( request.getParameter( PARAMETER_MESSAGE ) != null ) ? request.getParameter( PARAMETER_MESSAGE ) : "";
+        String strContact = ( request.getParameter( PARAMETER_CONTACT ) != null ) ? request.getParameter( PARAMETER_CONTACT ) : "";
 
         if ( strSendMessage != null )
         {
             String strStyleLastName = strVisitorLastName.equals( "" ) ? "error" : "";
             String strStyleFirstName = strVisitorFirstName.equals( "" ) ? "error" : "";
-            String strStyleEmail = ( strVisitorEmail.equals( "" ) || ( StringUtil.checkEmail( strVisitorEmail ) != true ) ) ? "error"
-                    : "";
+            String strStyleEmail = ( strVisitorEmail.equals( "" ) || ( StringUtil.checkEmail( strVisitorEmail ) != true ) ) ? "error" : "";
             String strStyleObject = strObject.equals( "" ) ? "error" : "";
             String strStyleMessage = strMessage.equals( "" ) ? "error" : "";
             String strStyleContact = strContact.equals( "0" ) ? "error" : "";
@@ -255,34 +256,40 @@ public class ContactApp extends MVCApplication
                 SiteMessageService.setMessage( request, PROPERTY_SENDING_OK, SiteMessage.TYPE_INFO, url.getUrl( ) );
             }
 
-            else if ( strSendMessage.equals( "error_exception" ) )
-            {
-                strAlertMsg = I18nService.getLocalizedString( PROPERTY_SENDING_NOK, request.getLocale( ) );
-            }
+            else
+                if ( strSendMessage.equals( "error_exception" ) )
+                {
+                    strAlertMsg = I18nService.getLocalizedString( PROPERTY_SENDING_NOK, request.getLocale( ) );
+                }
 
-            else if ( strSendMessage.equals( "error_captcha" ) )
-            {
-                strAlertMsg = I18nService.getLocalizedString( PROPERTY_CAPTCHA_ERROR, request.getLocale( ) );
-            }
+                else
+                    if ( strSendMessage.equals( "error_captcha" ) )
+                    {
+                        strAlertMsg = I18nService.getLocalizedString( PROPERTY_CAPTCHA_ERROR, request.getLocale( ) );
+                    }
 
-            else if ( strSendMessage.equals( "error_tos" ) )
-            {
-                strAlertMsg = I18nService.getLocalizedString( PROPERTY_TOS_ERROR, request.getLocale( ) );
-            }
-            
-            else if ( strSendMessage.equals( "error_field" ) )
-            {
-                strAlertMsg = I18nService.getLocalizedString( PROPERTY_MANDATORY_FIELD_MISSING, request.getLocale( ) );
-            }
+                    else
+                        if ( strSendMessage.equals( "error_tos" ) )
+                        {
+                            strAlertMsg = I18nService.getLocalizedString( PROPERTY_TOS_ERROR, request.getLocale( ) );
+                        }
 
-            else if ( strSendMessage.equals( "error_recipient" ) )
-            {
-                strAlertMsg = I18nService.getLocalizedString( PROPERTY_RECIPIENT_MISSING, request.getLocale( ) );
-            }
-            else if ( strSendMessage.equals( "error_email" ) )
-            {
-                strAlertMsg = I18nService.getLocalizedString( PROPERTY_ERROR_EMAIL, request.getLocale( ) );
-            }
+                        else
+                            if ( strSendMessage.equals( "error_field" ) )
+                            {
+                                strAlertMsg = I18nService.getLocalizedString( PROPERTY_MANDATORY_FIELD_MISSING, request.getLocale( ) );
+                            }
+
+                            else
+                                if ( strSendMessage.equals( "error_recipient" ) )
+                                {
+                                    strAlertMsg = I18nService.getLocalizedString( PROPERTY_RECIPIENT_MISSING, request.getLocale( ) );
+                                }
+                                else
+                                    if ( strSendMessage.equals( "error_email" ) )
+                                    {
+                                        strAlertMsg = I18nService.getLocalizedString( PROPERTY_ERROR_EMAIL, request.getLocale( ) );
+                                    }
 
             model.put( MARK_CONTACT_ALERT_MSG, strAlertMsg );
             model.put( MARK_STYLE_LAST_NAME, strStyleLastName );
@@ -309,8 +316,7 @@ public class ContactApp extends MVCApplication
         String strComboItem = I18nService.getLocalizedString( PROPERTY_COMBO_CHOOSE, request.getLocale( ) );
 
         // Contacts Combo
-        ReferenceList listContact = ContactHome.getContactsByListWithString( contactList.getId( ), strComboItem,
-                _plugin );
+        ReferenceList listContact = ContactHome.getContactsByListWithString( contactList.getId( ), strComboItem, _plugin );
 
         if ( SecurityService.isAuthenticationEnable( ) )
         {
@@ -330,17 +336,17 @@ public class ContactApp extends MVCApplication
         model.put( MARK_OBJECT, strObject );
         model.put( MARK_MESSAGE, strMessage );
         model.put( MARK_ID_CONTACT_LIST, nIdContactList );
-        
-        boolean bIsTosRequired = contactList.getTos(  );
+
+        boolean bIsTosRequired = contactList.getTos( );
         model.put( MARK_IS_TOS_REQUIRED, bIsTosRequired );
 
         if ( bIsTosRequired )
         {
-            String strTosMessage = contactList.getTosMessage(  );
-            model.put( MARK_TOS_MESSAGE , strTosMessage );
-            
+            String strTosMessage = contactList.getTosMessage( );
+            model.put( MARK_TOS_MESSAGE, strTosMessage );
+
             boolean bTosAccepted = request.getParameter( PARAMETER_TOS_ACCEPTED ) != null;
-            model.put( MARK_TOS_ACCEPTED , bTosAccepted );
+            model.put( MARK_TOS_ACCEPTED, bTosAccepted );
         }
 
         model.put( MARK_DEFAULT_CONTACT, ( ( strContact == null ) || ( strContact.equals( "" ) ) ) ? "0" : strContact );
@@ -350,9 +356,12 @@ public class ContactApp extends MVCApplication
 
     /**
      * Get lists
-     * @param request the page request
+     * 
+     * @param request
+     *            the page request
      * @return the lists
-     * @throws SiteMessageException occurs during treatment
+     * @throws SiteMessageException
+     *             occurs during treatment
      */
     @View( value = VIEW_CONTACT_LISTS, defaultView = true )
     public XPage getLists( HttpServletRequest request ) throws SiteMessageException
@@ -374,32 +383,33 @@ public class ContactApp extends MVCApplication
         {
             SiteMessageService.setMessage( request, PROPERTY_NO_LIST_VISIBLE, SiteMessage.TYPE_WARNING );
         }
-        else if ( visibleList.size( ) == 1 )
-        {
-            String strContactListId = StringUtils.EMPTY;
-
-            for ( ContactList onlyList : visibleList )
+        else
+            if ( visibleList.size( ) == 1 )
             {
-                strContactListId = Integer.toString( onlyList.getId( ) );
-            }
-            
-            Map<String, String> mapParameters = new HashMap<String, String>( );
-            mapParameters.put( PARAMETER_ID_CONTACT_LIST, strContactListId );
+                String strContactListId = StringUtils.EMPTY;
 
-            return redirect( request, VIEW_CONTACT_PAGE, mapParameters );
-        }
-        
+                for ( ContactList onlyList : visibleList )
+                {
+                    strContactListId = Integer.toString( onlyList.getId( ) );
+                }
+
+                Map<String, String> mapParameters = new HashMap<String, String>( );
+                mapParameters.put( PARAMETER_ID_CONTACT_LIST, strContactListId );
+
+                return redirect( request, VIEW_CONTACT_PAGE, mapParameters );
+            }
+
         model.put( MARK_LIST_OF_LISTS, visibleList );
 
         return getXPage( TEMPLATE_XPAGE_LISTS, request.getLocale( ), model );
     }
 
     /**
-     * This method tests the parameters stored in the request and send the
-     * message if they are corrects. Otherwise, it
-     * displays an error message.
+     * This method tests the parameters stored in the request and send the message if they are corrects. Otherwise, it displays an error message.
+     * 
      * @return The result of the process of the sending message.
-     * @param request The http request
+     * @param request
+     *            The http request
      * @throws fr.paris.lutece.portal.service.message.SiteMessageException
      *             Message displayed if an exception occures
      */
@@ -407,24 +417,18 @@ public class ContactApp extends MVCApplication
     public XPage doSendMessage( HttpServletRequest request ) throws SiteMessageException
     {
         String strIdContactList = request.getParameter( PARAMETER_ID_CONTACT_LIST );
-        String strVisitorLastName = ( request.getParameter( PARAMETER_VISITOR_LASTNAME ) == null ) ? "" : request
-                .getParameter( PARAMETER_VISITOR_LASTNAME );
-        String strVisitorFirstName = ( request.getParameter( PARAMETER_VISITOR_FIRSTNAME ) == null ) ? "" : request
-                .getParameter( PARAMETER_VISITOR_FIRSTNAME );
-        String strVisitorAddress = ( request.getParameter( PARAMETER_VISITOR_ADDRESS ) == null ) ? "" : request
-                .getParameter( PARAMETER_VISITOR_ADDRESS );
-        String strVisitorEmail = ( request.getParameter( PARAMETER_VISITOR_EMAIL ) == null ) ? "" : request
-                .getParameter( PARAMETER_VISITOR_EMAIL );
-        String strObject = ( request.getParameter( PARAMETER_MESSAGE_OBJECT ) == null ) ? "" : request
-                .getParameter( PARAMETER_MESSAGE_OBJECT );
-        String strMessage = ( request.getParameter( PARAMETER_MESSAGE ) == null ) ? "" : request
-                .getParameter( PARAMETER_MESSAGE );
+        String strVisitorLastName = ( request.getParameter( PARAMETER_VISITOR_LASTNAME ) == null ) ? "" : request.getParameter( PARAMETER_VISITOR_LASTNAME );
+        String strVisitorFirstName = ( request.getParameter( PARAMETER_VISITOR_FIRSTNAME ) == null ) ? "" : request.getParameter( PARAMETER_VISITOR_FIRSTNAME );
+        String strVisitorAddress = ( request.getParameter( PARAMETER_VISITOR_ADDRESS ) == null ) ? "" : request.getParameter( PARAMETER_VISITOR_ADDRESS );
+        String strVisitorEmail = ( request.getParameter( PARAMETER_VISITOR_EMAIL ) == null ) ? "" : request.getParameter( PARAMETER_VISITOR_EMAIL );
+        String strObject = ( request.getParameter( PARAMETER_MESSAGE_OBJECT ) == null ) ? "" : request.getParameter( PARAMETER_MESSAGE_OBJECT );
+        String strMessage = ( request.getParameter( PARAMETER_MESSAGE ) == null ) ? "" : request.getParameter( PARAMETER_MESSAGE );
         String strDateOfDay = DateUtil.getCurrentDateString( request.getLocale( ) );
         String strContact = request.getParameter( PARAMETER_CONTACT );
         int nContact = ( strContact == null ) ? 0 : Integer.parseInt( strContact );
         int nIdContactList = Integer.parseInt( strIdContactList );
         boolean bTosAccepted = request.getParameter( PARAMETER_TOS_ACCEPTED ) != null;
-        
+
         Map<String, String> mapParamError = new HashMap<String, String>( );
         mapParamError.put( PARAMETER_ID_CONTACT_LIST, strIdContactList );
         mapParamError.put( PARAMETER_VISITOR_LASTNAME, strVisitorLastName );
@@ -439,7 +443,7 @@ public class ContactApp extends MVCApplication
             mapParamError.put( PARAMETER_TOS_ACCEPTED, "1" );
         }
 
-        //test the captcha
+        // test the captcha
         if ( PluginService.isPluginEnable( JCAPTCHA_PLUGIN ) )
         {
             _captchaService = new CaptchaSecurityService( );
@@ -447,16 +451,16 @@ public class ContactApp extends MVCApplication
             if ( !_captchaService.validate( request ) )
             {
                 mapParamError.put( PARAMETER_SEND, "error_captcha" );
-                
+
                 return redirect( request, VIEW_CONTACT_PAGE, mapParamError );
             }
         }
 
-        //test the selection of the contact
+        // test the selection of the contact
         if ( nContact == 0 )
         {
             mapParamError.put( PARAMETER_SEND, "error_recipient" );
-            
+
             return redirect( request, VIEW_CONTACT_PAGE, mapParamError );
         }
 
@@ -464,37 +468,38 @@ public class ContactApp extends MVCApplication
         String strEmailContact = contact.getEmail( );
         String strContactName = contact.getName( );
 
-        //tests the length of the message  ( 1000 characters maximums )
+        // tests the length of the message ( 1000 characters maximums )
         if ( strMessage.length( ) > 1000 )
         {
             strMessage = strMessage.substring( 0, 1000 );
         }
 
         // Mandatory fields
-        if ( strVisitorLastName.equals( "" ) || strVisitorFirstName.equals( "" ) || strVisitorEmail.equals( "" )
-                || strContact.equals( "" ) || strObject.equals( "" ) || strMessage.equals( "" ) )
+        if ( strVisitorLastName.equals( "" ) || strVisitorFirstName.equals( "" ) || strVisitorEmail.equals( "" ) || strContact.equals( "" )
+                || strObject.equals( "" ) || strMessage.equals( "" ) )
         {
             mapParamError.put( PARAMETER_SEND, "error_field" );
-            
+
             return redirect( request, VIEW_CONTACT_PAGE, mapParamError );
         }
 
-        //test the email of the visitor
-        //Checking of the presence of the email address and of its format (@ caracter in the address).
+        // test the email of the visitor
+        // Checking of the presence of the email address and of its format (@ caracter in the address).
         if ( StringUtil.checkEmail( strVisitorEmail ) != true )
         {
             mapParamError.put( PARAMETER_SEND, "error_email" );
-            
+
             return redirect( request, VIEW_CONTACT_PAGE, mapParamError );
         }
 
-        ContactList contactlist = ContactListHome.findByPrimaryKey( nIdContactList, _plugin);
-        boolean bIsTosRequired = contactlist.getTos(  );
+        ContactList contactlist = ContactListHome.findByPrimaryKey( nIdContactList, _plugin );
+        boolean bIsTosRequired = contactlist.getTos( );
 
-        //test the checking of the terms of service
+        // test the checking of the terms of service
         if ( bIsTosRequired )
         {
-            if ( !bTosAccepted ) {
+            if ( !bTosAccepted )
+            {
                 mapParamError.put( PARAMETER_SEND, "error_tos" );
 
                 return redirect( request, VIEW_CONTACT_PAGE, mapParamError );
@@ -516,7 +521,7 @@ public class ContactApp extends MVCApplication
 
         MailService.sendMailHtml( strEmailContact, strVisitorLastName, strVisitorEmail, strObject, strMessageText );
         ContactHome.updateHits( nContact, nIdContactList, _plugin );
-        
+
         Map<String, String> mapParamSuccess = new HashMap<String, String>( );
         mapParamSuccess.put( PARAMETER_ID_CONTACT_LIST, strIdContactList );
         mapParamSuccess.put( PARAMETER_SEND, "done" );

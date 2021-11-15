@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 public class ContactBusinessTest extends LuteceTestCase
 {
     private final static String NAME1 = "Contact Name 1";
@@ -47,14 +46,14 @@ public class ContactBusinessTest extends LuteceTestCase
     private final static String WORKGROUP1 = "all_1";
     private final static String WORKGROUP2 = "all_2";
 
-    public void testBusinessContact(  )
+    public void testBusinessContact( )
     {
         Plugin plugin = PluginService.getPlugin( "contact" );
 
-        if ( ( plugin != null ) && plugin.isInstalled(  ) )
+        if ( ( plugin != null ) && plugin.isInstalled( ) )
         {
             // Initialize an object
-            Contact contact = new Contact(  );
+            Contact contact = new Contact( );
             contact.setName( NAME1 );
             contact.setEmail( EMAIL1 );
             contact.setWorkgroup( WORKGROUP1 );
@@ -62,11 +61,11 @@ public class ContactBusinessTest extends LuteceTestCase
             // Create test
             ContactHome.create( contact, plugin );
 
-            Contact contactStored = ContactHome.findByPrimaryKey( contact.getId(  ), plugin );
+            Contact contactStored = ContactHome.findByPrimaryKey( contact.getId( ), plugin );
 
-            assertEquals( contactStored.getName(  ), contact.getName(  ) );
-            assertEquals( contactStored.getEmail(  ), contact.getEmail(  ) );
-            assertEquals( contactStored.getWorkgroup(  ), contact.getWorkgroup(  ) );
+            assertEquals( contactStored.getName( ), contact.getName( ) );
+            assertEquals( contactStored.getEmail( ), contact.getEmail( ) );
+            assertEquals( contactStored.getWorkgroup( ), contact.getWorkgroup( ) );
 
             // Update test
             contact.setName( NAME2 );
@@ -74,14 +73,14 @@ public class ContactBusinessTest extends LuteceTestCase
             contact.setWorkgroup( WORKGROUP2 );
 
             ContactHome.update( contact, plugin );
-            contactStored = ContactHome.findByPrimaryKey( contact.getId(  ), plugin );
-            assertEquals( contactStored.getName(  ), contact.getName(  ) );
-            assertEquals( contactStored.getEmail(  ), contact.getEmail(  ) );
-            assertEquals( contactStored.getWorkgroup(  ), contact.getWorkgroup(  ) );
+            contactStored = ContactHome.findByPrimaryKey( contact.getId( ), plugin );
+            assertEquals( contactStored.getName( ), contact.getName( ) );
+            assertEquals( contactStored.getEmail( ), contact.getEmail( ) );
+            assertEquals( contactStored.getWorkgroup( ), contact.getWorkgroup( ) );
 
             // Delete test
             ContactHome.remove( contact, plugin );
-            contactStored = ContactHome.findByPrimaryKey( contact.getId(  ), plugin );
+            contactStored = ContactHome.findByPrimaryKey( contact.getId( ), plugin );
             assertNull( contactStored );
         }
     }

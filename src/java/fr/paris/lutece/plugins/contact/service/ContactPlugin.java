@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.contact.service;
 
 import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
 
-
 /**
  * The logilist plugin
  */
@@ -46,8 +45,8 @@ public class ContactPlugin extends PluginDefaultImplementation
     /**
      * Initialize the plugin LContact
      */
-    public void init(  )
+    public void init( )
     {
-        ContactService.getInstance(  ).init(  );
+        ContactService.getInstance( ).init( );
     }
 }

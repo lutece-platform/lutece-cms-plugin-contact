@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,22 +35,20 @@ package fr.paris.lutece.plugins.contact.service;
 
 import fr.paris.lutece.plugins.contact.business.ContactList;
 
-
 /**
- * This Service manages contactListt actions (create, delete, modify ...)
- * and notify listeners.
+ * This Service manages contactListt actions (create, delete, modify ...) and notify listeners.
  */
 public class ContactListService
 {
-    private static ContactListService _singleton = new ContactListService(  );
+    private static ContactListService _singleton = new ContactListService( );
 
     /**
-    * Initializes the Housing service
-    *
-    */
-    public void init(  )
+     * Initializes the Housing service
+     *
+     */
+    public void init( )
     {
-        ContactList.init(  );
+        ContactList.init( );
     }
 
     /**
@@ -58,7 +56,7 @@ public class ContactListService
      *
      * @return The instance of the singleton
      */
-    public static ContactListService getInstance(  )
+    public static ContactListService getInstance( )
     {
         return _singleton;
     }

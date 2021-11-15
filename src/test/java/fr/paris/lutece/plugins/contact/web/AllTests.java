@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.contact.web;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-
 /**
  * This class is the main test suite for fr.paris.lutece.plugins.contact.web
  */
@@ -44,19 +43,20 @@ public final class AllTests
 {
     /**
      * A set of tests
+     * 
      * @return Test the tests
      */
-    public static Test suite(  )
+    public static Test suite( )
     {
         TestSuite suite = new TestSuite( "*** Tests Plugin Contact " );
 
-        //$JUnit-BEGIN$
+        // $JUnit-BEGIN$
         suite.addTest( new TestSuite( fr.paris.lutece.plugins.contact.web.ContactJspBeanTest.class ) );
         suite.addTest( new TestSuite( fr.paris.lutece.plugins.contact.web.ContactListJspBeanTest.class ) );
 
-        //suite.addTest( new TestSuite( fr.paris.lutece.plugins.contact.web.ContactAppTest.class ) );
+        // suite.addTest( new TestSuite( fr.paris.lutece.plugins.contact.web.ContactAppTest.class ) );
 
-        //$JUnit-END$
+        // $JUnit-END$
         return suite;
     }
 }
