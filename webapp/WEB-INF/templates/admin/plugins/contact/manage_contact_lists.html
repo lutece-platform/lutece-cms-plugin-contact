@@ -1,8 +1,9 @@
-<@row>	<@columns>		<@box>			<@boxHeader title='#i18n{contact.manage_contact_lists.tableLabel}' >
-				<@tform class='form-inline' method='post' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
-					<@input type='hidden' name='view' value='viewCreateContactList' />
-					<@button type='submit' name='' id='' buttonIcon='plus' title='#i18n{contact.manage_contact_lists.buttonAddContactList}' size='sm' hideTitle=['all'] />
-				</@tform>
+<@pageContainer>
+    <@pageColumn>
+		<@box>
+			<@boxHeader title='#i18n{contact.manage_contact_lists.tableLabel}'>
+				<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?' title='#i18n{contact.contact_list_assignations.goManageContacts}' buttonIcon='user' size='sm' hideTitle=['all'] />
+				<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewCreateContactList' targetElement='#create_contact_list_page' redirectForm=false id='contact-create' title='#i18n{contact.create_contact_list.tableLabel}' btnTitle='' btnIcon='plus' position='end' />
 			</@boxHeader>
 			<@boxBody>
 				<@paginationAdmin paginator=paginator combo=1 />
@@ -27,12 +28,17 @@
 							<@td>
 								<@tform type='inline' method='post' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
 									<@input type='hidden' name='action' value='actionModifyContactListOrder' />
-									<@input type='hidden' name='id_contact_list' value='${contactList.id}' />									<@inputGroup>										<@select name='contact_list_order' default_value='${contactList.contactListOrder}' items=order_list size='sm' />
-										<@inputGroupItem type='btn'>											<@button type='submit' name='' id='' buttonIcon='check' title='#i18n{contact.manage_contacts.buttonChangeOrder}' size='sm' hideTitle=['all'] />										</@inputGroupItem>									</@inputGroup>
+									<@input type='hidden' name='id_contact_list' value='${contactList.id}' />
+									<@inputGroup>
+										<@select name='contact_list_order' default_value='${contactList.contactListOrder}' items=order_list size='sm' />
+										<@inputGroupItem type='btn'>
+											<@button type='submit' name='' id='' buttonIcon='check' title='#i18n{contact.manage_contacts.buttonChangeOrder}' size='sm' hideTitle=['all'] />
+										</@inputGroupItem>
+									</@inputGroup>
 								</@tform>
 							</@td>
 							<@td>
-								<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&amp;id_contact_list=${contactList.id}' title='#i18n{contact.manage_contact_lists.actionModifyContactList}' buttonIcon='pencil' size='sm' hideTitle=['all'] />
+								<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&amp;id_contact_list=${contactList.id}' targetElement='#update_contact_list_page' redirectForm=false id='contact_list${contactList.id}_update' title='#i18n{contact.modify_contact_list.tableLabel}' btnTitle='' btnIcon='pencil' position='end' />
 								<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewManageContactListAssignation&amp;id_contact_list=${contactList.id}' title='#i18n{contact.manage_contact_lists.actionAssignContacts}' buttonIcon='user' size='sm' hideTitle=['all'] />
 								<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewConfirmRemoveContactList&amp;id_contact_list=${contactList.id}' title='#i18n{contact.manage_contact_lists.actionDeleteContactList}' buttonIcon='trash' size='sm' color='danger' hideTitle=['all'] />
 							</@td>
@@ -43,5 +49,5 @@
 				<@paginationAdmin paginator=paginator />
 			</@boxBody>
 		</@box>
-	</@columns>
-</@row>
+	</@pageColumn>
+</@pageContainer>
