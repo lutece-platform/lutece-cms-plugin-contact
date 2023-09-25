@@ -1,5 +1,12 @@
-<@row>	<@columns>		<@box>			<@boxHeader title='#i18n{contact.contact_assignations.ContactAssignationTitle} ${contact.name} (${contact.email})'>				<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?' title='#i18n{contact.contact_list_assignations.goManageLists}' buttonIcon='user' size='sm' hideTitle=['all'] />
-				<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact=${contact.id}' title='#i18n{contact.contact_assignations.actionModify}' buttonIcon='edit' size='sm' hideTitle=['all'] />
+<@pageContainer>
+    <@pageColumn>
+		<@box>
+			<@boxHeader title='#i18n{contact.contact_assignations.ContactAssignationTitle} ${contact.name} (${contact.email})'>
+				<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?' title='#i18n{contact.contact_list_assignations.goManageLists}' buttonIcon='user' size='sm' hideTitle=['all'] />
+
+				<#-- btnTitle='#i18n{contact.contact_assignations.actionModify}' -->
+				<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact=${contact.id}' targetElement='#update_contact_page' redirectForm=false id='contact-update' title='#i18n{contact.modify_contact.tableLabel}' btnTitle='' btnIcon='pencil' position='end' />
+
 				<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?action=actionRemoveContact&amp;id_contact=${contact.id}' title='#i18n{contact.contact_assignations.actionDelete}' buttonIcon='trash' size='sm' color='danger' hideTitle=['all'] />
 			</@boxHeader>
 			<@boxBody>
@@ -18,7 +25,9 @@
 							<#if not_assigned_lists ?size &lt; 1>
 								<#assign disableButton = true>
 							</#if>
-							<@button type='submit' name='' id='' disabled=disableButton title='#i18n{contact.contact_assignations.validateAssignation}' buttonIcon='plus' hideTitle=['md','lg'] />						</@columns>						<@columns lg=8>
+							<@button type='submit' name='' id='' disabled=disableButton title='#i18n{contact.contact_assignations.validateAssignation}' buttonIcon='plus' hideTitle=['md','lg'] />
+						</@columns>
+						<@columns lg=8>
 							<h3>#i18n{contact.contact_list_assignations.assignedLists}</h3>
 							<#if assigned_lists?size &gt; 0 >
 								<@table>
@@ -30,7 +39,9 @@
 									<@tr>
 										<@td>${assigned_list.label} ( ${assigned_list.contactsNumber} #i18n{contact.contact_list_assignations.contacts} )</@td>
 										<@td>
-											<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&amp;id_contact_list=${assigned_list.id}&amp;id_contact=${contact.id}' title='#i18n{contact.manage_contact_lists.actionModifyContactList}' buttonIcon='edit' size='sm' hideTitle=['all'] />
+											<#-- btnTitle='#i18n{contact.manage_contact_lists.actionModifyContactList}' -->
+											<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&amp;id_contact_list=${assigned_list.id}&amp;id_contact=${contact.id}' targetElement='#update_contact_list_page' redirectForm=false id='contact-list${assigned_list.id}-update' title='#i18n{contact.modify_contact_list.tableLabel}' btnTitle='' btnIcon='pencil' position='end' />
+
 											<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?action=actionRevokeListsFromContact&amp;id_contact_list=${assigned_list.id}&amp;id_contact=${contact.id}' title='#i18n{contact.contact.actionUnassign}' buttonIcon='trash' size='sm' color='danger' hideTitle=['all'] />
 										</@td>
 									</@tr>
@@ -39,9 +50,10 @@
 							<#else>
 								<@alert color='danger' title='#i18n{contact.contact_list_assignations.noAssignedList}' iconTitle='ban' />
 							</#if>
-						</@columns>					</@row>
+						</@columns>
+					</@row>
 				</@tform>
 			</@boxBody>
 		</@box>
-	</@columns>
-</@row>
+	</@pageColumn>
+</@pageContainer>

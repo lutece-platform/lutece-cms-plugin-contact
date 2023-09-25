@@ -1,8 +1,8 @@
-<@row>
-	<@columns>
+<@pageContainer>
+    <@pageColumn>
 		<@box>
 			<@boxHeader title='#i18n{contact.modify_contact_list.tableLabel}' />
-			<@boxBody>		
+			<@boxBody id='update_contact_list_page'>		
 				<@tform method='post' name='modify_contact' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
 					<@input type='hidden' name='action' value='actionModifyContactList' />
 					<@input type='hidden' name='id_contact_list' value='${contact_list.id}' />
@@ -32,7 +32,7 @@
 				</@tform>
 			</@boxBody>
 		</@box>
-	</@columns>
-</@row>
+	</@pageColumn>
+</@pageContainer>
 <#include "/admin/util/editor/editor.html" />
 <@initEditor />
