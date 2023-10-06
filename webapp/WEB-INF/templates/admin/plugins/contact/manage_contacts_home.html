@@ -1,21 +1,17 @@
 <@pageContainer>
-    <@pageColumn>
-		<@box>
-			<@boxHeader title='#i18n{contact.manage_features.manageFeatures}' />
-			<@boxBody>
-				<@listGroup>
-					<@listGroupItem>
-						<@link href='jsp/admin/plugins/contact/ManageContacts.jsp' title='#i18n{contact.manage_features.contactManagement}'>
-							<@icon style='user' /> #i18n{contact.manage_features.contactManagement} - #i18n{contact.manage_features.contactManagementDescription}
-						</@link>
-					</@listGroupItem>
-					<@listGroupItem>
-						<@link href='jsp/admin/plugins/contact/ManageContactLists.jsp' title='#i18n{contact.manage_features.contactListsManagement}'>
-						   <@icon style='list-alt' /> #i18n{contact.manage_features.contactListsManagement} - #i18n{contact.manage_features.contactListsManagementDescription}
-						</@link>
-					</@listGroupItem>
-				</@listGroup>
-			</@boxBody>
-		</@box>
+	<@pageColumn>
+		<@pageHeader title='#i18n{contact.manage_features.manageFeatures}' />
+		<@listGroup>
+			<@listGroupItem>
+				<@link href='jsp/admin/plugins/contact/ManageContacts.jsp' title='#i18n{contact.manage_features.contactManagement}'>
+					<@icon style='user' /> #i18n{contact.manage_features.contactManagement} - #i18n{contact.manage_features.contactManagementDescription}
+				</@link>
+			</@listGroupItem>
+			<@listGroupItem>
+				<@link href='jsp/admin/plugins/contact/ManageContactLists.jsp' title='#i18n{contact.manage_features.contactListsManagement}'>
+				   <@icon style='list-alt' /> #i18n{contact.manage_features.contactListsManagement} - #i18n{contact.manage_features.contactListsManagementDescription}
+				</@link>
+			</@listGroupItem>
+		</@listGroup>
 	</@pageColumn>
 </@pageContainer>
