@@ -2,7 +2,7 @@
 	<@pageColumn>
 		<@pageHeader title='#i18n{contact.manage_contacts.tableLabel}'>
 			<#-- btnTitle='#i18n{contact.manage_contacts.buttonAddContact}' -->
-			<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewCreateContact' targetElement='#create_contact_page' redirectForm=false id='contact-create' title='#i18n{contact.create_contact.tableLabel}' btnTitle='' btnIcon='plus' position='end' />
+			<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewCreateContact' targetElement='#create_contact_page' redirectForm=false id='contact-create' title='#i18n{contact.create_contact.tableLabel}' btnTitle='' btnIcon='plus' btnSize='sm' position='end' />
 
 			<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp' title='#i18n{contact.manage_features.contactListsManagement}' buttonIcon='list-alt' size='sm' hideTitle=['all'] />
 		</@pageHeader>
@@ -23,7 +23,7 @@
 					<@td>${contact.email}</@td>
 					<@td>${contact.workgroup}</@td>     
 					<@td>
-						<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact=${contact.id}' targetElement='#update_contact_page' redirectForm=false id='contact${contact.id}_update' title='#i18n{contact.modify_contact.tableLabel}' btnTitle='' btnIcon='pencil' position='end' />
+						<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact=${contact.id}' targetElement='#update_contact_page' redirectForm=false id='contact${contact.id}_update' title='#i18n{contact.modify_contact.tableLabel}' btnTitle='' btnIcon='pencil' btnSize='sm' position='end' />
 						<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewManageContactAssignation&amp;id_contact=${contact.id}' title='#i18n{contact.contact_assignations.actionAssign}' buttonIcon='user' size='sm' hideTitle=['all'] />
 						<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewConfirmRemoveContact&amp;id_contact=${contact.id}' title='#i18n{contact.contact.actionDelete}' buttonIcon='trash' size='sm' color='danger' hideTitle=['all'] />
 					</@td>

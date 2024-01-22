@@ -2,7 +2,7 @@
 	<@pageColumn>
 		<@pageHeader title='#i18n{contact.contact_list_assignations.listAssignationTitle} "${contact_list.label}" ( #i18n{contact.contact_list_assignations.contactsNumer} : ${contacts_number} )'>
 			<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?' title='#i18n{contact.contact_list_assignations.goManageContacts}' buttonIcon='user' size='sm' hideTitle=['all'] />
-			<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&amp;id_contact_list=${contact_list.id}' targetElement='#update_contact_list_page' redirectForm=false id='contact_list_update' title='#i18n{contact.modify_contact_list.tableLabel}' btnTitle='' btnIcon='pencil' position='end' />
+			<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&amp;id_contact_list=${contact_list.id}' targetElement='#update_contact_list_page' redirectForm=false id='contact_list_update' title='#i18n{contact.modify_contact_list.tableLabel}' btnTitle='' btnIcon='pencil' btnSize='sm' position='end' />
 			<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewConfirmRemoveContactList&amp;id_contact_list=${contact_list.id}' title='#i18n{contact.manage_contact_lists.actionDeleteContactList}' buttonIcon='trash' size='sm' color='danger' hideTitle=['all'] />
 		</@pageHeader>
 		
@@ -53,7 +53,7 @@
 						</@td>
 						<@td>
 							<#-- btntitle='#i18n{contact.contact.actionModify}' -->
-							<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}' targetElement='#update_contact_page' redirectForm=false id='contact${assigned_contact.id}_update' title='#i18n{contact.modify_contact.tableLabel}' btnTitle='' btnIcon='pencil' position='end' />
+							<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}' targetElement='#update_contact_page' redirectForm=false id='contact${assigned_contact.id}_update' title='#i18n{contact.modify_contact.tableLabel}' btnTitle='' btnIcon='pencil' btnSize='sm' position='end' />
 
 							<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?action=actionRevokeContactsFromList&amp;id_contact_list=${contact_list.id}&amp;id_contact=${assigned_contact.id}' title='#i18n{contact.contact.actionUnassign}' buttonIcon='trash' size='sm' color='danger' hideTitle=['all'] />
 						</@td>
