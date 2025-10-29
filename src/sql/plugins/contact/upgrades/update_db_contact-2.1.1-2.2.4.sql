@@ -1,3 +1,6 @@
+-- liquibase formatted sql
+-- changeset contact:update_db_contact-2.1.1-2.2.4.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 /* N.B.: IF THERES VALUES IN THE CONTACT TABLE YOU SHOULD ADD VALUE IN OTHER PLUGIN TABLES */
 
 ALTER TABLE contact ADD COLUMN workgroup_key varchar(50)  NOT NULL;

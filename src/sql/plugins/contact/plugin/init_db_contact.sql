@@ -1,3 +1,6 @@
+-- liquibase formatted sql
+-- changeset contact:init_db_contact.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 --
 -- Initialization for table contact_list
 --

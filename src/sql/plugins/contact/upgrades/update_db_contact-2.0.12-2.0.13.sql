@@ -1,3 +1,6 @@
+-- liquibase formatted sql
+-- changeset contact:update_db_contact-2.0.12-2.0.13.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 --
 -- Dumping data for table core_admin_right
 --
