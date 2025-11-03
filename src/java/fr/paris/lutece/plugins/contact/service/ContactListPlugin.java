@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.contact.service;
 
 import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * The logilist plugin
@@ -47,6 +48,6 @@ public class ContactListPlugin extends PluginDefaultImplementation
      */
     public void init( )
     {
-        ContactListService.getInstance( ).init( );
+        CDI.current( ).select( ContactListService.class ).get( ).init( );
     }
 }

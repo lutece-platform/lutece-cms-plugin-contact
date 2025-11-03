@@ -1,10 +1,9 @@
 <%@ page errorPage="../../ErrorPage.jsp" %>
-
 <jsp:include page="../../AdminHeader.jsp" />
 
-<jsp:useBean id="contact" scope="session" class="fr.paris.lutece.plugins.contact.web.ContactJspBean" />
+<%@page import="fr.paris.lutece.plugins.contact.web.ContactJspBean"%>
 
-<% contact.init( request, contact.RIGHT_MANAGE_CONTACT ); %>
-<%= contact.getManageContactsHome( request ) %>
+${ contactJspBean.init( pageContext.request, ContactJspBean.RIGHT_MANAGE_CONTACT ) }
+${ contactJspBean.getManageContactsHome( pageContext.request ) }
 
 <%@ include file="../../AdminFooter.jsp" %>

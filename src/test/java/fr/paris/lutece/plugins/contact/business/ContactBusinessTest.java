@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.contact.business;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.test.LuteceTestCase;
+import org.junit.jupiter.api.Test;
 
 public class ContactBusinessTest extends LuteceTestCase
 {
@@ -46,6 +47,7 @@ public class ContactBusinessTest extends LuteceTestCase
     private final static String WORKGROUP1 = "all_1";
     private final static String WORKGROUP2 = "all_2";
 
+    @Test
     public void testBusinessContact( )
     {
         Plugin plugin = PluginService.getPlugin( "contact" );

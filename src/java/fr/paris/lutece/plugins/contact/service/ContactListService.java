@@ -34,13 +34,15 @@
 package fr.paris.lutece.plugins.contact.service;
 
 import fr.paris.lutece.plugins.contact.business.ContactList;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * This Service manages contactListt actions (create, delete, modify ...) and notify listeners.
  */
+@ApplicationScoped
 public class ContactListService
 {
-    private static ContactListService _singleton = new ContactListService( );
 
     /**
      * Initializes the Housing service
@@ -52,12 +54,19 @@ public class ContactListService
     }
 
     /**
-     * Returns the instance of the singleton
+     * Returns the instance of the {@link ContactListService} service
      *
-     * @return The instance of the singleton
+     * <p>This method is deprecated and is provided for backward compatibility only.
+     * For new code, use dependency injection with {@code @Inject} to obtain the
+     * {@link ContactListService} instance instead.</p>
+     *
+     * @return The unique instance of {@link ContactListService}.
+     *
+     * @deprecated Use {@code @Inject} to obtain the {@link ContactListService}
+     * instance. This method will be removed in future versions.
      */
     public static ContactListService getInstance( )
     {
-        return _singleton;
+        return CDI.current( ).select( ContactListService.class ).get( );
     }
 }

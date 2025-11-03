@@ -49,8 +49,11 @@ import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.util.IPager;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
+import fr.paris.lutece.portal.web.util.Pager;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -62,11 +65,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the user interface to manage contact features ( manage, create, modify, remove, change order of contact )
  */
+@RequestScoped
+@Named
 @Controller( controllerJsp = "ManageContactLists.jsp", controllerPath = "jsp/admin/plugins/contact/", right = ContactListJspBean.RIGHT_MANAGE_CONTACT )
 public class ContactListJspBean extends MVCAdminJspBean
 {
@@ -98,8 +106,6 @@ public class ContactListJspBean extends MVCAdminJspBean
     private static final String MARK_NOT_ASSIGNED_LISTS = "not_assigned_lists";
     private static final String MARK_ASSIGNED_LISTS = "assigned_lists";
     private static final String MARK_WORKGROUPS_LIST = "workgroups_list";
-    private static final String MARK_PAGINATOR = "paginator";
-    private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_ROLES_LIST = "roles_list";
     private static final String MARK_WEBAPP_URL = "webapp_url";
     private static final String MARK_LOCALE = "locale";
@@ -107,7 +113,6 @@ public class ContactListJspBean extends MVCAdminJspBean
     // Parameters
     private static final String PARAMETER_CONTACT_LIST_LABEL = "contact_list_label";
     private static final String PARAMETER_CONTACT_LIST_DESCRIPTION = "contact_list_description";
-    private static final String PARAMETER_PAGE_INDEX = "page_index";
     private static final String PARAMETER_ID_CONTACT_LIST = "id_contact_list";
     private static final String PARAMETER_ID_CONTACT = "id_contact";
     private static final String PARAMETER_CONTACT_LIST = "list_contact";
@@ -145,9 +150,12 @@ public class ContactListJspBean extends MVCAdminJspBean
     private static final String ACTION_REVOKE_CONTACTS_FROM_LIST = "actionRevokeContactsFromList";
 
     // Variables
-    private int _nDefaultItemsPerPage;
-    private String _strCurrentPageIndex;
-    private int _nItemsPerPage;
+    @Inject
+    @Pager( listBookmark = MARK_LIST_CONTACT_LIST, defaultItemsPerPage = PROPERTY_DEFAULT_CONTACT_LIST_PER_PAGE)
+    private IPager<ContactList, Void> _pager;
+
+    @Inject
+    private Models models;
 
     /**
      * returns the template of the contactLists management
@@ -159,25 +167,16 @@ public class ContactListJspBean extends MVCAdminJspBean
     @View( value = VIEW_MANAGE_CONTACT_LISTS, defaultView = true )
     public String getManageContactLists( HttpServletRequest request )
     {
-        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_CONTACT_LIST_PER_PAGE, 50 );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 
         Collection<ContactList> listContactList = ContactListHome.findAll( getPlugin( ) );
 
         listContactList = AdminWorkgroupService.getAuthorizedCollection( listContactList, getUser( ) );
 
-        LocalizedPaginator paginator = new LocalizedPaginator( (List<ContactList>) listContactList, _nItemsPerPage, getViewUrl( VIEW_MANAGE_CONTACT_LISTS ),
-                PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
+        _pager.withBaseUrl( getViewUrl( VIEW_MANAGE_CONTACT_LISTS ) ).withListItem( (List<ContactList>) listContactList ).populateModels(request, models, getLocale( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        models.put( MARK_CONTACT_ORDER_LIST, getContactListOrderList( ) );
 
-        model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-        model.put( MARK_CONTACT_ORDER_LIST, getContactListOrderList( ) );
-        model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_LIST_CONTACT_LIST, paginator.getPageItems( ) );
-
-        return getPage( PROPERTY_PAGE_TITLE_CONTACTS, TEMPLATE_MANAGE_CONTACT_LISTS, model );
+        return getPage( PROPERTY_PAGE_TITLE_CONTACTS, TEMPLATE_MANAGE_CONTACT_LISTS, models );
     }
 
     /**
@@ -190,14 +189,13 @@ public class ContactListJspBean extends MVCAdminJspBean
     @View( VIEW_CREATE_CONTACT_LIST )
     public String getCreateContactList( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
         ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
-        model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
-        model.put( MARK_LOCALE, getLocale( ).getLanguage( ) );
-        model.put( MARK_WORKGROUPS_LIST, workgroupsList );
-        model.put( MARK_ROLES_LIST, RoleHome.getRolesList( ) );
+        models.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
+        models.put( MARK_LOCALE, getLocale( ).getLanguage( ) );
+        models.put( MARK_WORKGROUPS_LIST, workgroupsList );
+        models.put( MARK_ROLES_LIST, RoleHome.getRolesList( ) );
 
-        return getPage( PROPERTY_PAGE_TITLE_CREATE_CONTACTS, TEMPLATE_CREATE_CONTACT, model );
+        return getPage( PROPERTY_PAGE_TITLE_CREATE_CONTACTS, TEMPLATE_CREATE_CONTACT, models );
     }
 
     /**
@@ -245,8 +243,6 @@ public class ContactListJspBean extends MVCAdminJspBean
     @View( VIEW_MODIFY_CONTACT_LIST )
     public String getModifyContactList( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
-
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
 
         ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
@@ -257,13 +253,13 @@ public class ContactListJspBean extends MVCAdminJspBean
             return getManageContactLists( request );
         }
 
-        model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
-        model.put( MARK_LOCALE, getLocale( ).getLanguage( ) );
-        model.put( MARK_WORKGROUPS_LIST, workgroupsList );
-        model.put( MARK_CONTACT_LIST, contactList );
-        model.put( MARK_ROLES_LIST, RoleHome.getRolesList( ) );
+        models.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
+        models.put( MARK_LOCALE, getLocale( ).getLanguage( ) );
+        models.put( MARK_WORKGROUPS_LIST, workgroupsList );
+        models.put( MARK_CONTACT_LIST, contactList );
+        models.put( MARK_ROLES_LIST, RoleHome.getRolesList( ) );
 
-        return getPage( PROPERTY_PAGE_TITLE_MODIFY, TEMPLATE_MODIFY_CONTACT_LIST, model );
+        return getPage( PROPERTY_PAGE_TITLE_MODIFY, TEMPLATE_MODIFY_CONTACT_LIST, models );
     }
 
     /**
@@ -369,14 +365,13 @@ public class ContactListJspBean extends MVCAdminJspBean
 
         Collection<Contact> assignedContacts = ContactListHome.getAssignedContactsFor( nIdContactList, getPlugin( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_CONTACT_LIST, contactList );
-        model.put( MARK_LIST_CONTACTS, refListNotAssigned );
-        model.put( MARK_ASSIGNED_CONTACT_LIST, assignedContacts );
-        model.put( MARK_CONTACTS_NUMBER, ContactListHome.countContactsForList( nIdContactList, getPlugin( ) ) );
-        model.put( MARK_CONTACT_ORDER_LIST, getContactOrderList( nIdContactList ) );
+        models.put( MARK_CONTACT_LIST, contactList );
+        models.put( MARK_LIST_CONTACTS, refListNotAssigned );
+        models.put( MARK_ASSIGNED_CONTACT_LIST, assignedContacts );
+        models.put( MARK_CONTACTS_NUMBER, ContactListHome.countContactsForList( nIdContactList, getPlugin( ) ) );
+        models.put( MARK_CONTACT_ORDER_LIST, getContactOrderList( nIdContactList ) );
 
-        return getPage( PROPERTY_PAGE_TITLE_MANAGE_LIST_ASSIGNATIONS, TEMPLATE_MANAGE_LIST_ASSIGNATIONS, model );
+        return getPage( PROPERTY_PAGE_TITLE_MANAGE_LIST_ASSIGNATIONS, TEMPLATE_MANAGE_LIST_ASSIGNATIONS, models );
     }
 
     /**
@@ -479,12 +474,11 @@ public class ContactListJspBean extends MVCAdminJspBean
 
         Collection<ContactList> assignedLists = ContactListHome.getAssignedListsFor( nIdContact, getPlugin( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_CONTACT, contact );
-        model.put( MARK_NOT_ASSIGNED_LISTS, refListNotAssigned );
-        model.put( MARK_ASSIGNED_LISTS, assignedLists );
+        models.put( MARK_CONTACT, contact );
+        models.put( MARK_NOT_ASSIGNED_LISTS, refListNotAssigned );
+        models.put( MARK_ASSIGNED_LISTS, assignedLists );
 
-        return getPage( PROPERTY_PAGE_TITLE_MANAGE_CONTACT_ASSIGNATIONS, TEMPLATE_MANAGE_CONTACT_ASSIGNATIONS, model );
+        return getPage( PROPERTY_PAGE_TITLE_MANAGE_CONTACT_ASSIGNATIONS, TEMPLATE_MANAGE_CONTACT_ASSIGNATIONS, models );
     }
 
     /**

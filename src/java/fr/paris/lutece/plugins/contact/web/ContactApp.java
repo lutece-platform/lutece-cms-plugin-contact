@@ -39,6 +39,8 @@ import fr.paris.lutece.plugins.contact.business.ContactList;
 import fr.paris.lutece.plugins.contact.business.ContactListHome;
 import fr.paris.lutece.plugins.contact.service.ContactPlugin;
 import fr.paris.lutece.portal.service.captcha.CaptchaSecurityService;
+import fr.paris.lutece.portal.service.captcha.ICaptchaSecurityService;
+import fr.paris.lutece.portal.service.captcha.ICaptchaService;
 import fr.paris.lutece.portal.service.content.XPageAppService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.mail.MailService;
@@ -51,6 +53,7 @@ import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.BeanUtils;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
@@ -68,13 +71,20 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class manages Contact page.
  */
+@RequestScoped
+@Named( "contact.xpage.contact" )
 @Controller( xpageName = "contact", pageTitleI18nKey = "contact.pagePathLabel", pagePathI18nKey = "subscribe.pageTitle" )
 public class ContactApp extends MVCApplication
 {
@@ -143,34 +153,13 @@ public class ContactApp extends MVCApplication
     private static final String VIEW_CONTACT_PAGE = "viewContactPage";
 
     // Captcha
-    private CaptchaSecurityService _captchaService;
+    @Inject
+    @Named(BeanUtils.BEAN_CAPTCHA_SERVICE)
+    private Instance<ICaptchaService> _captchaService;
 
     // private fields
-    private Plugin _plugin;
+    private Plugin _plugin = PluginService.getPlugin( "contact" );
 
-    /**
-     * Returns the content of the page
-     *
-     * @param request
-     *            The http request
-     * @param nMode
-     *            The current mode
-     * @param plugin
-     *            The plugin object
-     * @return The XPage
-     * @throws fr.paris.lutece.portal.service.message.SiteMessageException
-     *             Message displayed if an exception occurs
-     * @throws UserNotSignedException
-     *             if an authentication is required by a view
-     */
-    @Override
-    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin ) throws SiteMessageException, UserNotSignedException
-    {
-        String strPluginName = request.getParameter( PARAMETER_PAGE );
-        _plugin = PluginService.getPlugin( strPluginName );
-
-        return super.getPage( request, nMode, plugin );
-    }
 
     /**
      * Checks if the page is visible for the current user
@@ -223,8 +212,7 @@ public class ContactApp extends MVCApplication
 
         if ( bIsCaptchaEnabled )
         {
-            _captchaService = new CaptchaSecurityService( );
-            model.put( MARK_CAPTCHA, _captchaService.getHtmlCode( ) );
+            model.put( MARK_CAPTCHA, _captchaService.get( ).getHtmlCode( ) );
         }
 
         String strIdContactList = request.getParameter( PARAMETER_ID_CONTACT_LIST );
@@ -446,9 +434,9 @@ public class ContactApp extends MVCApplication
         // test the captcha
         if ( PluginService.isPluginEnable( JCAPTCHA_PLUGIN ) )
         {
-            _captchaService = new CaptchaSecurityService( );
 
-            if ( !_captchaService.validate( request ) )
+            boolean isValid = !_captchaService.isResolvable( ) ? !_captchaService.get( ).validate( request ) : false;
+            if ( isValid )
             {
                 mapParamError.put( PARAMETER_SEND, "error_captcha" );
 

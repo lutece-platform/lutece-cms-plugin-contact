@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.contact.business;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.test.LuteceTestCase;
+import org.junit.jupiter.api.Test;
 
 public class ContactListBusinessTest extends LuteceTestCase
 {
@@ -55,6 +56,7 @@ public class ContactListBusinessTest extends LuteceTestCase
     private static final String TOS_MESSAGE_2 = "test-tos";
     private static final int CONTACT_ID = 48;
 
+    @Test
     public void testBusinessContactList( )
     {
         Plugin plugin = PluginService.getPlugin( "contact" );
