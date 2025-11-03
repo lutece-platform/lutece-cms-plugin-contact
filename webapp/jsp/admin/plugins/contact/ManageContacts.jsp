@@ -1,9 +1,9 @@
-<jsp:useBean id="contact" scope="session" class="fr.paris.lutece.plugins.contact.web.ContactJspBean" />
-<% String strContent = contact.processController ( request, response ); %>
-
 <%@ page errorPage="../../ErrorPage.jsp" %>
+
+${ pageContext.setAttribute( 'strContent', contactJspBean.processController( pageContext.request , pageContext.response ) ) }
+
 <jsp:include page="../../AdminHeader.jsp" />
 
-<%= strContent %>
+${ pageContext.getAttribute( 'strContent' ) }
 
 <%@ include file="../../AdminFooter.jsp" %>

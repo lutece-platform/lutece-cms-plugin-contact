@@ -34,9 +34,12 @@
 package fr.paris.lutece.plugins.contact.business;
 
 import fr.paris.lutece.plugins.contact.service.ContactWorkgroupRemovalListener;
+import fr.paris.lutece.portal.service.util.BeanUtils;
+import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
-import fr.paris.lutece.portal.service.workgroup.WorkgroupRemovalListenerService;
+import jakarta.enterprise.inject.literal.NamedLiteral;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * This class represents business object Contact
@@ -65,7 +68,7 @@ public class Contact implements AdminWorkgroupResource
         if ( _listenerWorkgroup == null )
         {
             _listenerWorkgroup = new ContactWorkgroupRemovalListener( );
-            WorkgroupRemovalListenerService.getService( ).registerListener( _listenerWorkgroup );
+            CDI.current( ).select( RemovalListenerService.class, NamedLiteral.of( BeanUtils.BEAN_WORKGROUP_REMOVAL_SERVICE ) ).get( ).registerListener( _listenerWorkgroup );
         }
     }
 

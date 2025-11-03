@@ -34,7 +34,7 @@
 package fr.paris.lutece.plugins.contact.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Collection;
 
@@ -44,7 +44,7 @@ import java.util.Collection;
 public final class ContactListHome
 {
     // Static variable pointed at the DAO instance
-    private static IContactListDAO _dao = (IContactListDAO) SpringContextService.getPluginBean( "contact", "contactListDAO" );
+    private static IContactListDAO _dao = CDI.current( ).select( IContactListDAO.class ).get( );
 
     /**
      * Private constructor - this class need not be instantiated
