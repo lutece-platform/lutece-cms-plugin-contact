@@ -435,8 +435,8 @@ public class ContactApp extends MVCApplication
         if ( PluginService.isPluginEnable( JCAPTCHA_PLUGIN ) )
         {
 
-            boolean isValid = !_captchaService.isResolvable( ) ? !_captchaService.get( ).validate( request ) : false;
-            if ( isValid )
+            boolean isValid = _captchaService.isResolvable( ) ? _captchaService.get( ).validate( request ) : false;
+            if ( !isValid )
             {
                 mapParamError.put( PARAMETER_SEND, "error_captcha" );
 
