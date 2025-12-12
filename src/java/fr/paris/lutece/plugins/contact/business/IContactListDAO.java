@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.contact.business;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * IContactDAO Interface
@@ -294,4 +295,15 @@ public interface IContactListDAO
      *            The Plugin object
      */
     boolean listExists( int nIdContactList, Plugin plugin );
+
+    /**
+     * Load the data of all the contactlist objects and returns them as a list
+     * 
+     * @param listIds
+     *            list of ids
+     * @param plugin
+     *            The plugin
+     * @return The list which contains the data of all the contactlist objects
+     */
+    List<ContactList> selectContactListsByIds( List<Integer> listIds, Plugin plugin );
 }
