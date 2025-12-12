@@ -40,30 +40,24 @@ import fr.paris.lutece.plugins.contact.business.ContactListHome;
 import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
-import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.util.IPager;
-import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.portal.web.util.Pager;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
-import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -152,7 +146,7 @@ public class ContactListJspBean extends MVCAdminJspBean
     // Variables
     @Inject
     @Pager( listBookmark = MARK_LIST_CONTACT_LIST, defaultItemsPerPage = PROPERTY_DEFAULT_CONTACT_LIST_PER_PAGE)
-    private IPager<ContactList, Void> _pager;
+    private IPager<Integer, ContactList> _pager;
 
     @Inject
     private Models models;
@@ -167,16 +161,32 @@ public class ContactListJspBean extends MVCAdminJspBean
     @View( value = VIEW_MANAGE_CONTACT_LISTS, defaultView = true )
     public String getManageContactLists( HttpServletRequest request )
     {
-
         Collection<ContactList> listContactList = ContactListHome.findAll( getPlugin( ) );
-
         listContactList = AdminWorkgroupService.getAuthorizedCollection( listContactList, getUser( ) );
+        List<Integer> contactListIds = listContactList.stream( ).map( ContactList::getId ).collect( Collectors.toList( ) );
 
-        _pager.withBaseUrl( getViewUrl( VIEW_MANAGE_CONTACT_LISTS ) ).withListItem( (List<ContactList>) listContactList ).populateModels(request, models, getLocale( ) );
+        _pager.withBaseUrl( getViewUrl( VIEW_MANAGE_CONTACT_LISTS ) ).withIdList( contactListIds ).populateModels( request, models, ( l ) -> getItemsFromIds( l ),
+                getLocale( ) );
 
         models.put( MARK_CONTACT_ORDER_LIST, getContactListOrderList( ) );
 
         return getPage( PROPERTY_PAGE_TITLE_CONTACTS, TEMPLATE_MANAGE_CONTACT_LISTS, models );
+    }
+
+    /**
+     * Get Items from Ids list
+     * 
+     * @param listIds
+     * @return the populated list of items corresponding to the id List
+     */
+    List<ContactList> getItemsFromIds( List<Integer> listIds ) 
+    {
+        List<ContactList> listContactList = ContactListHome.getContactListsByIds( listIds, getPlugin( ) );
+        
+        // keep original order
+        return listContactList.stream()
+                 .sorted(Comparator.comparingInt( notif -> listIds.indexOf( notif.getId())))
+                 .collect(Collectors.toList());
     }
 
     /**

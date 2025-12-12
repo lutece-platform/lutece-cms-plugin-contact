@@ -7,7 +7,7 @@
 
 DROP TABLE IF EXISTS contact;
 CREATE TABLE contact (
-  id_contact int DEFAULT '0' NOT NULL,
+  id_contact int AUTO_INCREMENT,
   description varchar(50) DEFAULT '' NOT NULL,
   email varchar(100) DEFAULT '' NOT NULL,
   workgroup_key varchar(50) DEFAULT 'all' NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE contact (
 
 DROP TABLE IF EXISTS contact_list;
 CREATE TABLE contact_list (
-  id_contact_list int DEFAULT '0' NOT NULL,
+  id_contact_list int AUTO_INCREMENT,
   label_contact_list varchar(50) DEFAULT '' NOT NULL,
   description_contact_list varchar(255) DEFAULT '' NOT NULL,
   workgroup_key varchar(50) DEFAULT 'all' NOT NULL,

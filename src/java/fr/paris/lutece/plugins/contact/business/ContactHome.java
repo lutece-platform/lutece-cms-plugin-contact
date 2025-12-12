@@ -38,6 +38,7 @@ import fr.paris.lutece.util.ReferenceList;
 import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * This class provides instances management methods (create, find, ...) for Contact objects
@@ -211,5 +212,19 @@ public final class ContactHome
     public static void updateContactOrder( int nNewOrder, int nId, int nIdContactList, Plugin plugin )
     {
         _dao.storeContactOrder( nNewOrder, nId, nIdContactList, plugin );
+    }
+    
+    /**
+     * Load the data of all the contact objects and returns them as a list
+     * 
+     * @param listIds
+     *            list of ids
+     * @param plugin
+     *            The Plugin object
+     * @return the list which contains the data of all the contact objects
+     */
+    public static List<Contact> getContactsListByIds( List<Integer> listIds, Plugin plugin )
+    {
+        return _dao.selectContactsListByIds( listIds, plugin );
     }
 }

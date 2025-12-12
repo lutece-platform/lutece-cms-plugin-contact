@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * IContactDAO Interface
@@ -161,4 +162,15 @@ public interface IContactDAO
      *            The plugin
      */
     int selectContactOrderById( int nIdContact, int nIdContactList, Plugin plugin );
+    
+    /**
+     * Load the data of all the contact objects and returns them as a list
+     * 
+     * @param listIds
+     *            list of ids
+     * @param plugin
+     *            The plugin
+     * @return The list which contains the data of all the contact objects
+     */
+    List<Contact> selectContactsListByIds( List<Integer> listIds, Plugin plugin );
 }
