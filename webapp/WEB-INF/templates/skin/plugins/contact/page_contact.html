@@ -1,83 +1,58 @@
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h3>#i18n{contact.page_contact.pageTitle}</h3> 
-            <form class="form-horizontal" id="contact_form" action="jsp/site/Portal.jsp" method="post">
-                <input type="hidden" name="page" value="contact">
-                <input type="hidden" name="action" value="actionSendMessage">
-                <input type="hidden" name="portal_url" value="${portal_url}">
-                <input type="hidden" name="id_contact_list" value="${id_contact_list}">
-                <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="visitor_email">#i18n{contact.page_contact.visitorEmail} * :</label>
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                    <input type="text" name="visitor_email" id="visitor_email" class="form-control input-sm" maxlength="100" value="${visitor_email}">
-                    </div>
-                </div>
-                <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="visitor_last_name">#i18n{contact.page_contact.visitorLastName} * :</label>
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <input type="text" name="visitor_last_name" id="visitor_last_name" class="form-control input-sm" maxlength="50" <#if mylutece_user??>value="${mylutece_user.getUserInfo( 'user.name.family' )}"<#else>value="${visitor_last_name}"</#if>/> 
-                    </div>
-                </div>
-                <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="visitor_first_name">#i18n{contact.page_contact.visitorFirstName} * :</label>
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <input type="text" name="visitor_first_name" id="visitor_first_name" class="form-control input-sm" maxlength="50" <#if mylutece_user??>value="${mylutece_user.getUserInfo( 'user.name.given' )}"<#else>value="${visitor_first_name}"</#if> />
-                    </div>
-                </div>
-                <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="visitor_address" >#i18n{contact.page_contact.visitorAddress} :</label>
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <input type="text" name="visitor_address" id="visitor_address" value="${visitor_address}"  maxlength="120" class="form-control input-sm">
-                    </div>
-                </div>
-                <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="" >#i18n{contact.page_contact.comboLabel} * :</label>
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                    <#assign cssComboParams>class="${style_contact?if_exists} input-xlarge"</#assign>      
-                    <@comboWithParams name="contact" default_value="${default_contact}" additionalParameters="${cssComboParams}" items=contacts_list/>
-                    </div>
-                </div>
-                <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="message_object">#i18n{contact.page_contact.messageObject} * :</label>
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <input type="text" name="message_object" id="message_object" value="${message_object}" maxlength="120" class="form-control input-sm">
-                    </div>
-                </div>
-                <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="message">#i18n{contact.page_contact.message} * #i18n{contact.page_contact.characterMax}</label><br>
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <textarea name="message" maxlength="1000" id="message" rows="6" class="form-control input-sm ${style_message?if_exists}">${message}</textarea>
-                    </div>  
-                </div>
-                <#if is_active_captcha>
-                    <div class="form-group">             
-                    ${captcha}
-                    </div>
-                </#if>
-                <#if is_tos_required>
-                    <div class="form-group">
-                        <div class="col-xs-12 col-sm-9">
-                            <div class="chechbox">
-                                <label for="accept_tos">
-                                    <input <#if accept_tos >checked</#if> type="checkbox" name="accept_tos" id="accept_tos" value="1">  ${tos_message} *
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </#if>
-                <#if alert_msg?exists>
-                    <div class="alert alert-error">${alert_msg}</div>
-                </#if>
-            <p class="help-block">* #i18n{contact.page_contact.mandatoryFields}</p>
-            <div class="form-actions">
-                <button class="btn btn-primary btn-sm" type="submit" name="save">
-                    <i class="glyphicon glyphicon-envelope"></i>&nbsp;#i18n{contact.page_contact.buttonSend}
-                </button>
-                <button class="btn btn-primary btn-sm" type="reset" name="Reset">
-                    <i class="glyphicon glyphicon-refresh"></i>&nbsp;#i18n{contact.page_contact.buttonReset}
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
+<@cTpl>
+<@cContainer>
+    <@cRow>
+        <@cCol>
+            <@cTitle level=2>#i18n{contact.page_contact.pageTitle}</@cTitle> 
+            <@cForm action='jsp/site/Portal.jsp'>
+                <@input type='hidden' name='page' value='contact' />
+                <@input type='hidden' name='action' value='actionSendMessage' />
+                <@input type='hidden' name='portal_url' value=portal_url! />
+                <@input type='hidden' name='id_contact_list' value=id_contact_list! />
+                <@cFormHelp id='mandatoryFieldsHelp' label='<span class="text-danger">*</span> #i18n{contact.page_contact.mandatoryFields}' />
+                <@cField label='#i18n{contact.page_contact.visitorEmail}' for='visitor_email' required=true >
+                    <@cInput name='visitor_email' id='visitor_email' maxlength=50 required=true value=visitor_email! />
+                </@cField>
+                <@cField label='#i18n{contact.page_contact.visitorLastName}' for='visitor_last_name' required=true >
+                    <@cInput name='visitor_last_name' id='visitor_last_name' value=visitor_last_name! maxlength=50 required=true />
+                </@cField>
+                <#assign userValue><#if mylutece_user??>${mylutece_user.getUserInfo( 'user.name.given' )}<#else>${visitor_first_name}</#if></#assign>
+                <@cField label='#i18n{contact.page_contact.visitorFirstName}' for='visitor_first_name' required=true >
+                    <@cInput name='visitor_first_name' id='visitor_first_name' maxlength=50 required=true value=userValue! />
+                </@cField>
+                <@cField label='#i18n{contact.page_contact.visitorAddress}' for='visitor_address' required=true >
+                    <@cInput name='visitor_address' id='visitor_address' maxlength=200 required=true value=visitor_address! />
+                </@cField>
+                <@cField label='#i18n{contact.page_contact.comboLabel} ' for='visitor_address' required=true >
+                    <@cSelect name='contact' id='contact'class='form-select ${style_contact?if_exists}' required=true >
+                        <#list contacts_list as contact>
+                            <@cOption value=contact.code! label=contact.name! selected=(default_contact! == contact.code!)  />
+                        </#list>
+                    </@cSelect>
+                </@cField>
+                <@cField label='#i18n{contact.page_contact.messageObject}' for='message_object' required=true >
+                    <@cInput name='message_object' id='message_object' value=message_object! maxlength=120 />
+                </@cField>
+                <@cField label='#i18n{contact.page_contact.message} #i18n{contact.page_contact.characterMax}' for='message' required=true >
+                    <@cTextArea name='message' maxlength=1000 id='message' rows=6 class='form-control ${style_message?if_exists}'>${message}</@cTextArea>
+                </@cField>
+                <#if is_active_captcha>${captcha}</#if>
+                <#if is_tos_required><@cBlock class='mt-xs'><@cCheckbox label='#i18n{contact.page_contact.tosLabel} ${tos_message}' name='accept_tos' value='1' for='accept_tos' checked=accept_tos required=true /></@cBlock></#if>
+                <#if alert_msg?exists><@cAlert type='danger' title=alert_msg! /></#if>
+                <@cRow>
+                    <@cCol class='ps-xxs' >
+                        <@cBtn type='submit' params='name="save"' label='#i18n{contact.page_contact.buttonSend}'>
+                            <@parisIcon name='check' /> 
+                        </@cBtn>
+                        <@cBtn class='secondary' type='reset' params='name="Reset"' label='#i18n{contact.page_contact.buttonReset}'>
+                            <@parisIcon name='refresh' /> 
+                        </@cBtn>
+                    </@cCol>
+                </@cRow>
+                </@cForm>
+        </@cCol>
+    </@cRow>
+</@cContainer>
+<script>
+<@cSetPageTitle title='#i18n{contact.page_contact.pageTitle}' />
+</script>
+</@cTpl>

@@ -4,7 +4,6 @@
 		<@tform name='modify_contact' action='jsp/admin/plugins/contact/ManageContactLists.jsp' boxed=true id='update_contact_list_page'>
 			<@input type='hidden' name='action' value='actionModifyContactList' />
 			<@input type='hidden' name='id_contact_list' value='${contact_list.id}' />
-			
 			<@formGroup labelFor='contact_list_label' labelKey='#i18n{contact.modify_contact_list.rowTitleLabel}' mandatory=true>
 				<@input type='text' name='contact_list_label' id='contact_list_label' value='${contact_list.label}' maxlength=50 />
 			</@formGroup>
@@ -18,7 +17,7 @@
 				<@select name='role' default_value='${contact_list.role}' items=roles_list />
 			</@formGroup>
 			<@formGroup labelKey='#i18n{contact.modify_contact_list.labelActiveTos}'>
-				<@checkBox labelFor='active_tos' labelKey='#i18n{contact.modify_contact_list.labelActiveTosComment}' name='active_tos' id='active_tos' value='1' checked=contact_list.tos />
+				<@checkBox labelFor='active_tos' labelKey='#i18n{contact.modify_contact_list.labelActiveTosComment}' orientation='switch' name='active_tos' id='active_tos' value='1' checked=contact_list.tos />
 			</@formGroup>
 			<@formGroup labelFor='tos_message' labelKey=''>
 				<@input type='textarea' name='tos_message' id='tos_message' rows=5 richtext=true>${contact_list.tosMessage}</@input>
