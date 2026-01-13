@@ -3,13 +3,15 @@
     <@cRow>
         <@cCol>
             <@cTitle level=2>#i18n{contact.lists.messageSelectList}</@cTitle>
-            <@listGroup>
+            <@cList>
                 <#list list_of_lists as list >
-                    <@cListGroupItem><@cLink href='jsp/site/Portal.jsp?page=contact&amp;view=viewContactPage&amp;id_contact_list=${list.id}' label='${list.label}- ${list.description}' /></@cListGroupItem>
+                    <@cListItem url='jsp/site/Portal.jsp?page=contact&amp;view=viewContactPage&amp;id_contact_list=${list.id}' label='${list.label}- ${list.description}' />
                 </#list>
-            </@listGroup>
+            </@cList>
         </@cCol>
     </@cRow>
 </@cContainer>
+<script>
 <@cSetPageTitle title='#i18n{contact.page_contact.pageTitle}' />
+</script>
 </@cTpl>
