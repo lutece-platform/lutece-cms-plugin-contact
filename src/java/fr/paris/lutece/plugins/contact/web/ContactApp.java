@@ -38,8 +38,6 @@ import fr.paris.lutece.plugins.contact.business.ContactHome;
 import fr.paris.lutece.plugins.contact.business.ContactList;
 import fr.paris.lutece.plugins.contact.business.ContactListHome;
 import fr.paris.lutece.plugins.contact.service.ContactPlugin;
-import fr.paris.lutece.portal.service.captcha.CaptchaSecurityService;
-import fr.paris.lutece.portal.service.captcha.ICaptchaSecurityService;
 import fr.paris.lutece.portal.service.captcha.ICaptchaService;
 import fr.paris.lutece.portal.service.content.XPageAppService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -51,7 +49,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.BeanUtils;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
@@ -72,7 +69,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -119,7 +115,6 @@ public class ContactApp extends MVCApplication
     private static final String MARK_IS_TOS_REQUIRED = "is_tos_required";
     private static final String MARK_TOS_MESSAGE = "tos_message";
     private static final String MARK_TOS_ACCEPTED = "accept_tos";
-    // private static final String MARK_ROLE = "role";
     private static final String MARK_LIST_OF_LISTS = "list_of_lists";
     private static final String MARK_ID_CONTACT_LIST = "id_contact_list";
     private static final String MARK_MYLUTECE_USER = "mylutece_user";
@@ -142,11 +137,10 @@ public class ContactApp extends MVCApplication
     private static final String PROPERTY_COMBO_CHOOSE = "contact.message_contact.comboChoose";
     private static final String PROPERTY_CAPTCHA_ERROR = "contact.message_contact.captchaError";
     private static final String PROPERTY_TOS_ERROR = "contact.message_contact.tosRequired";
-    // private static final String PROPERTY_NO_ID_FOUND = "contact.message_contact.noIdFound";
     private static final String PROPERTY_LIST_NOT_EXISTS = "contact.message_contact.listNotExists";
     private static final String PROPERTY_NOT_AUTHORIZED = "contact.message_contact.notauthorized";
     private static final String PROPERTY_NO_LIST_VISIBLE = "contact.message_contact.noListVisible";
-    private static final String JCAPTCHA_PLUGIN = "jcaptcha";
+    private static final String CAPTCHA_PLUGIN = "captcha";
     private static final String EMPTY_STRING = "";
     private static final String ACTION_SEND_MESSAGE = "actionSendMessage";
     private static final String VIEW_CONTACT_LISTS = "viewContactLists";
@@ -207,7 +201,7 @@ public class ContactApp extends MVCApplication
 
         model.put( MARK_PORTAL_URL, strPortalUrl );
 
-        boolean bIsCaptchaEnabled = PluginService.isPluginEnable( JCAPTCHA_PLUGIN );
+        boolean bIsCaptchaEnabled = PluginService.isPluginEnable( CAPTCHA_PLUGIN );
         model.put( MARK_IS_ACTIVE_CAPTCHA, bIsCaptchaEnabled );
 
         if ( bIsCaptchaEnabled )
@@ -432,7 +426,7 @@ public class ContactApp extends MVCApplication
         }
 
         // test the captcha
-        if ( PluginService.isPluginEnable( JCAPTCHA_PLUGIN ) )
+        if ( PluginService.isPluginEnable( CAPTCHA_PLUGIN ) )
         {
 
             boolean isValid = _captchaService.isResolvable( ) ? _captchaService.get( ).validate( request ) : false;
