@@ -1,23 +1,21 @@
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title='' />
-		<@row class='mt-l'>
-			<@columns>
-				<@box title='#i18n{contact.manage_features.manageFeatures}'>
-				<@listGroup>
-					<@listGroupItem>
+		<@pageHeader title='#i18n{contact.manage_features.manageFeatures}' />
+			<@manageFeature>
+				<@manageFeatureItem>
+					<@manageFeatureItemColumn>
 						<@link href='jsp/admin/plugins/contact/ManageContacts.jsp' title='#i18n{contact.manage_features.contactManagement}'>
 							<@icon style='user' /> #i18n{contact.manage_features.contactManagement} - #i18n{contact.manage_features.contactManagementDescription}
 						</@link>
-					</@listGroupItem>
-					<@listGroupItem>
+					</@manageFeatureItemColumn>
+				</@manageFeatureItem>
+				<@manageFeatureItem>
+					<@manageFeatureItemColumn> 
 						<@link href='jsp/admin/plugins/contact/ManageContactLists.jsp' title='#i18n{contact.manage_features.contactListsManagement}'>
-						<@icon style='list-alt' /> #i18n{contact.manage_features.contactListsManagement} - #i18n{contact.manage_features.contactListsManagementDescription}
+							<@icon style='list-alt' /> #i18n{contact.manage_features.contactListsManagement} - #i18n{contact.manage_features.contactListsManagementDescription}
 						</@link>
-					</@listGroupItem>
-				</@listGroup>
-				</@box>
-			</@columns>
-		</@row>
-	</@pageColumn>
+					</@manageFeatureItemColumn>
+				</@manageFeatureItem>
+			</@manageFeature>
+		</@pageColumn>
 </@pageContainer>
