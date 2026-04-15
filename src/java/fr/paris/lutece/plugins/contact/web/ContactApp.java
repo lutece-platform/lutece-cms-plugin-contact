@@ -501,7 +501,7 @@ public class ContactApp extends MVCApplication
 
         String strMessageText = template.getHtml( );
 
-        MailService.sendMailHtml( strEmailContact, strVisitorLastName, strVisitorEmail, strObject, strMessageText );
+        MailService.sendMailHtml( strEmailContact, strVisitorLastName, MailService.getNoReplyEmail( ), strObject, strMessageText, strVisitorEmail );
         ContactHome.updateHits( nContact, nIdContactList, _plugin );
 
         Map<String, String> mapParamSuccess = new HashMap<String, String>( );
