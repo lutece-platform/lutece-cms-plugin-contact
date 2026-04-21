@@ -39,7 +39,7 @@
                 <#if is_tos_required><@cBlock class='mt-xs'><@cCheckbox label='#i18n{contact.page_contact.tosLabel} ${tos_message}' name='accept_tos' value='1' for='accept_tos' checked=accept_tos required=true /></@cBlock></#if>
                 <#if alert_msg?exists><@cAlert type='danger' title=alert_msg! /></#if>
                 <@cRow>
-                    <@cCol class='ps-xxs' >
+                    <@cCol>
                         <@cBtn type='submit' params='name="save"' label='#i18n{contact.page_contact.buttonSend}'>
                             <@parisIcon name='check' /> 
                         </@cBtn>
