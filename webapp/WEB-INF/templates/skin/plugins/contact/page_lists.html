@@ -1,5 +1,7 @@
 <@cTpl>
 <@cContainer>
+    <#assign breadcrumbItems = [{ 'title': '#i18n{contact.page_contact.pagePathLabel}', 'url': 'jsp/site/Portal.jsp?page=contact' }]>
+    <@cBreadCrumb home='Home' type='fluid' items=breadcrumbItems />
     <@cRow>
         <@cCol>
             <@cTitle level=2>#i18n{contact.lists.messageSelectList}</@cTitle>
@@ -14,4 +16,8 @@
 <script>
 <@cSetPageTitle title='#i18n{contact.page_contact.pageTitle}' />
 </script>
+<style>
+.banner.credits.page-1{
+    display: none;
+}
 </@cTpl>

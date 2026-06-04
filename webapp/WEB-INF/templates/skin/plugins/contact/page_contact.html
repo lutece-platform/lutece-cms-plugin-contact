@@ -1,9 +1,11 @@
 <@cTpl>
 <@cContainer>
+    <#assign breadcrumbItems = [{ 'title': '#i18n{contact.page_contact.pagePathLabel}', 'url': 'jsp/site/Portal.jsp?page=contact&view=viewContactPage&id_contact_list=1' }]>
+    <@cBreadCrumb home='Home' type='fluid' items=breadcrumbItems />
     <@cRow>
         <@cCol>
             <@cTitle level=2>#i18n{contact.page_contact.pageTitle}</@cTitle> 
-            <@cForm action='jsp/site/Portal.jsp'>
+            <@cForm action='jsp/site/Portal.jsp' class='mb-l'>
                 <@input type='hidden' name='page' value='contact' />
                 <@input type='hidden' name='action' value='actionSendMessage' />
                 <@input type='hidden' name='portal_url' value=portal_url! />
@@ -36,13 +38,11 @@
                     <@cTextArea name='message' maxlength=1000 id='message' rows=6 class='form-control ${style_message?if_exists}'>${message}</@cTextArea>
                 </@cField>
                 <#if is_active_captcha>${captcha}</#if>
-                <#if is_tos_required><@cBlock class='mt-xs'><@cCheckbox label='#i18n{contact.page_contact.tosLabel} ${tos_message}' name='accept_tos' value='1' for='accept_tos' checked=accept_tos required=true /></@cBlock></#if>
+                <#if is_tos_required><@cCheckbox label='#i18n{contact.page_contact.tosLabel} ${tos_message}' name='accept_tos' value='1' for='accept_tos' checked=accept_tos required=true /></#if>
                 <#if alert_msg?exists><@cAlert type='danger' title=alert_msg! /></#if>
                 <@cRow>
                     <@cCol>
-                        <@cBtn type='submit' params='name="save"' label='#i18n{contact.page_contact.buttonSend}'>
-                            <@parisIcon name='check' /> 
-                        </@cBtn>
+                        <@cBtn type='submit' params='name="save"' label='#i18n{contact.page_contact.buttonSend}' />
                     </@cCol>
                 </@cRow>
             </@cForm>
@@ -52,4 +52,9 @@
 <script>
 <@cSetPageTitle title='#i18n{contact.page_contact.pageTitle}' />
 </script>
+<style>
+.banner.credits.page-1{
+    display: none;
+}
+</style>
 </@cTpl>
