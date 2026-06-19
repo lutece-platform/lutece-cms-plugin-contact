@@ -50,6 +50,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.BeanUtils;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
@@ -140,6 +141,7 @@ public class ContactApp extends MVCApplication
     private static final String PROPERTY_LIST_NOT_EXISTS = "contact.message_contact.listNotExists";
     private static final String PROPERTY_NOT_AUTHORIZED = "contact.message_contact.notauthorized";
     private static final String PROPERTY_NO_LIST_VISIBLE = "contact.message_contact.noListVisible";
+    private static final String PROPERTY_CAPTCHA_ENABLED = "contact.captcha.enabled";
     private static final String CAPTCHA_PLUGIN = "captcha";
     private static final String EMPTY_STRING = "";
     private static final String ACTION_SEND_MESSAGE = "actionSendMessage";
@@ -201,7 +203,7 @@ public class ContactApp extends MVCApplication
 
         model.put( MARK_PORTAL_URL, strPortalUrl );
 
-        boolean bIsCaptchaEnabled = PluginService.isPluginEnable( CAPTCHA_PLUGIN );
+        boolean bIsCaptchaEnabled = PluginService.isPluginEnable( CAPTCHA_PLUGIN ) && AppPropertiesService.getPropertyBoolean( PROPERTY_CAPTCHA_ENABLED, true );
         model.put( MARK_IS_ACTIVE_CAPTCHA, bIsCaptchaEnabled );
 
         if ( bIsCaptchaEnabled )
@@ -426,7 +428,8 @@ public class ContactApp extends MVCApplication
         }
 
         // test the captcha
-        if ( PluginService.isPluginEnable( CAPTCHA_PLUGIN ) )
+        boolean bIsCaptchaEnabled = PluginService.isPluginEnable( CAPTCHA_PLUGIN ) && AppPropertiesService.getPropertyBoolean( PROPERTY_CAPTCHA_ENABLED, true );
+        if ( bIsCaptchaEnabled )
         {
 
             boolean isValid = _captchaService.isResolvable( ) ? _captchaService.get( ).validate( request ) : false;
