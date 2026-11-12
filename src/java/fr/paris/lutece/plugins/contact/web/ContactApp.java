@@ -285,7 +285,7 @@ public class ContactApp extends MVCApplication
         int nIdContactList = Integer.parseInt( strIdContactList );
         ContactList contactList = ContactListHome.findByPrimaryKey( nIdContactList, _plugin );
 
-        if ( !ContactListHome.listExists( contactList.getId( ), _plugin ) )
+        if ( ( contactList == null ) || !ContactListHome.listExists( contactList.getId( ), _plugin ) )
         {
             SiteMessageService.setMessage( request, PROPERTY_LIST_NOT_EXISTS, SiteMessage.TYPE_ERROR );
         }
