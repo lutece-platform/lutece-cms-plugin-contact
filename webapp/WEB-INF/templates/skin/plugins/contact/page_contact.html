@@ -10,37 +10,37 @@
                 <@input type='hidden' name='action' value='actionSendMessage' />
                 <@input type='hidden' name='portal_url' value=portal_url! />
                 <@input type='hidden' name='id_contact_list' value=id_contact_list! />
+                <#if alert_msg?has_content><@cAlert type='danger' title=alert_msg /></#if>
                 <#assign mandatoryFieldsHelp><span class="text-danger">*</span> #i18n{contact.page_contact.mandatoryFields}</#assign>
                 <@cFormHelp id='mandatoryFieldsHelp' label=mandatoryFieldsHelp />
                 <@cField label='#i18n{contact.page_contact.visitorEmail}' for='visitor_email' required=true >
-                    <@cInput name='visitor_email' id='visitor_email' maxlength=50 required=true value=visitor_email! />
+                    <@cInput name='visitor_email' id='visitor_email' type='email' autocomplete='email' maxlength=50 required=true value=visitor_email! errorMsg=( style_email! == 'error' )?then( '#i18n{contact.message_contact.error.email}', '' ) />
                 </@cField>
                 <@cField label='#i18n{contact.page_contact.visitorLastName}' for='visitor_last_name' required=true >
-                    <@cInput name='visitor_last_name' id='visitor_last_name' value=visitor_last_name! maxlength=50 required=true />
+                    <@cInput name='visitor_last_name' id='visitor_last_name' autocomplete='family-name' value=visitor_last_name! maxlength=50 required=true errorMsg=( style_last_name! == 'error' )?then( '#i18n{contact.message_contact.mandatory.field}', '' ) />
                 </@cField>
                 <#if mylutece_user??><#assign userValue = mylutece_user.getUserInfo( 'user.name.given' )! /><#else><#assign userValue = visitor_first_name! /></#if>
                 <@cField label='#i18n{contact.page_contact.visitorFirstName}' for='visitor_first_name' required=true >
-                    <@cInput name='visitor_first_name' id='visitor_first_name' maxlength=50 required=true value=userValue! />
+                    <@cInput name='visitor_first_name' id='visitor_first_name' autocomplete='given-name' maxlength=50 required=true value=userValue! errorMsg=( style_first_name! == 'error' )?then( '#i18n{contact.message_contact.mandatory.field}', '' ) />
                 </@cField>
                 <@cField label='#i18n{contact.page_contact.visitorAddress}' for='visitor_address' required=true >
-                    <@cInput name='visitor_address' id='visitor_address' maxlength=200 required=true value=visitor_address! />
+                    <@cInput name='visitor_address' id='visitor_address' autocomplete='street-address' maxlength=200 required=true value=visitor_address! />
                 </@cField>
-                <@cField label='#i18n{contact.page_contact.comboLabel} ' for='visitor_address' required=true >
-                    <@cSelect name='contact' id='contact'class='form-select ${style_contact?if_exists}' required=true >
+                <@cField label='#i18n{contact.page_contact.comboLabel} ' for='contact' required=true >
+                    <@cSelect name='contact' id='contact' class='form-select ${style_contact?if_exists}' required=true errorMsg=( style_contact! == 'error' )?then( '#i18n{contact.message_contact.recipient.missing}', '' ) >
                         <#list contacts_list as contact>
                             <@cOption value=contact.code! label=contact.name! selected=(default_contact! == contact.code!)  />
                         </#list>
                     </@cSelect>
                 </@cField>
                 <@cField label='#i18n{contact.page_contact.messageObject}' for='message_object' required=true >
-                    <@cInput name='message_object' id='message_object' value=message_object! maxlength=120 />
+                    <@cInput name='message_object' id='message_object' value=message_object! maxlength=120 required=true errorMsg=( style_object! == 'error' )?then( '#i18n{contact.message_contact.mandatory.field}', '' ) />
                 </@cField>
                 <@cField label='#i18n{contact.page_contact.message} #i18n{contact.page_contact.characterMax}' for='message' required=true >
-                    <@cTextArea name='message' maxlength=1000 id='message' rows=6 class='form-control ${style_message?if_exists}'>${message}</@cTextArea>
+                    <@cTextArea name='message' maxlength=1000 id='message' rows=6 class='form-control ${style_message?if_exists}' required=true errorMsg=( style_message! == 'error' )?then( '#i18n{contact.message_contact.mandatory.field}', '' )>${message}</@cTextArea>
                 </@cField>
                 <#if is_active_captcha>${captcha}</#if>
-                <#if is_tos_required><@cCheckboxList label='#i18n{contact.page_contact.tosLabel}' name='accept_tos' value='1' for='accept_tos' checked=accept_tos required=true>${richText( tos_message! )}</@cCheckboxList></#if>
-                <#if alert_msg?exists><@cAlert type='danger' title=alert_msg! /></#if>
+                <#if is_tos_required><@cCheckboxList label='#i18n{contact.page_contact.tosLabel}' name='accept_tos' id='accept_tos' value='1' checked=accept_tos required=true>${richText( tos_message! )}</@cCheckboxList></#if>
                 <@cRow>
                     <@cCol>
                         <@cBtn type='submit' params={"name": "save"} label='#i18n{contact.page_contact.buttonSend}' />

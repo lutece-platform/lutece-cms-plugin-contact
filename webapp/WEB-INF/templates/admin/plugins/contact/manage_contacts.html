@@ -9,9 +9,9 @@
 			<@manageFeatureItem>
 					<@manageFeatureItemColumn><strong>${contact.name} - ${contact.email}</strong>- <em>#i18n{contact.workgroup} : ${contact.workgroup}</em> </@manageFeatureItemColumn>     
 					<@manageFeatureItemColumn align='end'>
-						<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&id_contact=${contact.id}' targetElement='#update_contact_page' redirectForm=false id='contact${contact.id}_update' title='#i18n{contact.modify_contact.tableLabel}' btnTitle='' btnIcon='pencil' position='end' />
-						<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewManageContactAssignation&id_contact=${contact.id}' title='#i18n{contact.contact_assignations.actionAssign}' buttonIcon='user' class='ms-1' hideTitle=['xs'] />
-						<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewConfirmRemoveContact&id_contact=${contact.id}' title='#i18n{contact.contact.actionDelete}' buttonIcon='trash' color='danger' class='ms-1' hideTitle=['xs'] />
+						<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&id_contact=${contact.id}' targetElement='#update_contact_page' redirectForm=false id='contact${contact.id}_update' title='#i18n{contact.modify_contact.tableLabel}' btnTitle='#i18n{contact.contact.actionModify}' hideTitle=['all'] btnIcon='pencil' position='end' params={'aria-label': '#i18n{contact.contact.actionModify} ' + contact.name} />
+						<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewManageContactAssignation&id_contact=${contact.id}' title='#i18n{contact.contact_assignations.actionAssign}' buttonIcon='user' class='ms-1' hideTitle=['xs'] params={'aria-label': '#i18n{contact.contact_assignations.actionAssign} ' + contact.name} />
+						<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewConfirmRemoveContact&id_contact=${contact.id}' title='#i18n{contact.contact.actionDelete}' buttonIcon='trash' color='danger' class='ms-1' hideTitle=['xs'] params={'aria-label': '#i18n{contact.contact.actionDelete} ' + contact.name} />
 					</@manageFeatureItemColumn>
 				</@manageFeatureItem>					
 			</#list>

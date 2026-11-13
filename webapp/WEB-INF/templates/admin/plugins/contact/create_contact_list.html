@@ -9,16 +9,16 @@
 			<@formGroup labelFor='contact_list_description' labelKey='#i18n{contact.create_contact_list.rowTitleDescription}' mandatory=true>
 				<@input type='text' name='contact_list_description' id='contact_list_description' inputSize=60 maxlength=100 />	
 			</@formGroup>
-			<@formGroup labelFor='direction_workgroup' labelKey='#i18n{contact.create_contact_list.labelWorkgroupKey}' mandatory=true>
+			<@formGroup labelFor='workgroup' labelKey='#i18n{contact.create_contact_list.labelWorkgroupKey}' mandatory=true>
 				<@select name='workgroup' default_value='all' items=workgroups_list />
 			</@formGroup>
-			<@formGroup labelFor='direction_workgroup' labelKey='#i18n{contact.create_contact_list.labelRole}' mandatory=true>
+			<@formGroup labelFor='role' labelKey='#i18n{contact.create_contact_list.labelRole}' mandatory=true>
 				<@select name='role' default_value='none' items=roles_list />
 			</@formGroup>
 			<@formGroup labelKey='#i18n{contact.create_contact_list.labelActiveTos}'>
-				<@checkBox labelFor='active_tos' labelKey='#i18n{contact.create_contact_list.labelActiveTosComment}' orientation='switch' name='active_tos' id='active_tos' value='1' />
+				<@checkBox labelKey='#i18n{contact.create_contact_list.labelActiveTosComment}' orientation='switch' name='active_tos' id='active_tos' value='1' />
 			</@formGroup>
-			<@formGroup labelFor='tos_message' labelKey='' mandatory=true>
+			<@formGroup labelFor='tos_message' labelKey='#i18n{contact.create_contact_list.rowTitleTosMessage}' mandatory=true>
 				<@input type='textarea' name='tos_message' id='tos_message' rows=5 richtext=true />
 			</@formGroup>
 			<@formGroup>
