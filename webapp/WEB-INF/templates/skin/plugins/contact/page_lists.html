@@ -7,7 +7,7 @@
             <@cTitle level=2>#i18n{contact.lists.messageSelectList}</@cTitle>
             <@cList>
                 <#list list_of_lists as list >
-                    <@cListItem url='jsp/site/Portal.jsp?page=contact&amp;view=viewContactPage&amp;id_contact_list=${list.id}' label='${list.label}- ${list.description}' />
+                    <@cListItem url='jsp/site/Portal.jsp?page=contact&view=viewContactPage&id_contact_list=${list.id?c}' label='${list.label}- ${list.description}' />
                 </#list>
             </@cList>
         </@cCol>
