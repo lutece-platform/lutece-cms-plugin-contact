@@ -25,9 +25,9 @@
 				</@manageFeatureItemColumn>
 				<@manageFeatureItemColumn align='end'>
 					<#--	#i18n{contact.contact_list_assignations.navigation}		-->
-					<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&amp;id_contact_list=${contactList.id}' targetElement='#update_contact_list_page' redirectForm=false id='contact_list${contactList.id}_update' title='#i18n{contact.modify_contact_list.tableLabel}' btnTitle='' btnIcon='pencil' position='end' />
-					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewManageContactListAssignation&amp;id_contact_list=${contactList.id}' title='#i18n{contact.manage_contact_lists.actionAssignContacts}' buttonIcon='user' class='ms-1' hideTitle=['xs'] />
-					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewConfirmRemoveContactList&amp;id_contact_list=${contactList.id}' title='#i18n{contact.manage_contact_lists.actionDeleteContactList}' buttonIcon='trash' color='danger' class='ms-1' hideTitle=['xs'] />
+					<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&id_contact_list=${contactList.id}' targetElement='#update_contact_list_page' redirectForm=false id='contact_list${contactList.id}_update' title='#i18n{contact.modify_contact_list.tableLabel}' btnTitle='' btnIcon='pencil' position='end' />
+					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewManageContactListAssignation&id_contact_list=${contactList.id}' title='#i18n{contact.manage_contact_lists.actionAssignContacts}' buttonIcon='user' class='ms-1' hideTitle=['xs'] />
+					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewConfirmRemoveContactList&id_contact_list=${contactList.id}' title='#i18n{contact.manage_contact_lists.actionDeleteContactList}' buttonIcon='trash' color='danger' class='ms-1' hideTitle=['xs'] />
 				</@manageFeatureItemColumn>
 			</@manageFeatureItem>
 		</#list>

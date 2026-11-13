@@ -50,6 +50,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.service.util.BeanUtils;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
@@ -206,7 +207,7 @@ public class ContactApp extends MVCApplication
 
         if ( bIsCaptchaEnabled )
         {
-            model.put( MARK_CAPTCHA, _captchaService.get( ).getHtmlCode( ) );
+            model.put( MARK_CAPTCHA, HtmlMarkup.of( _captchaService.get( ).getHtmlCode( ) ) );
         }
 
         String strIdContactList = request.getParameter( PARAMETER_ID_CONTACT_LIST );
