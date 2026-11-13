@@ -15,19 +15,19 @@
 					<@tform method='post' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
 						<@input type='hidden' name='action' value='actionModifyContactListOrder' />
 						<@input type='hidden' name='id_contact_list' value='${contactList.id}' />
-						<@formGroup labelKey='#i18n{contact.manage_contact_lists.contactListOrder}' labelFor='contact_list_order' required=true >
+						<@formGroup labelKey='#i18n{contact.manage_contact_lists.contactListOrder}' labelFor='contact_list_order_${contactList.id?c}'>
 							<@inputGroup>
-								<@select name='contact_list_order' default_value='${contactList.contactListOrder}' items=order_list />
-								<@button type='submit' name='' id='' buttonIcon='check' title='#i18n{contact.manage_contacts.buttonChangeOrder}' hideTitle=['xs'] />
+								<@select name='contact_list_order' id='contact_list_order_${contactList.id?c}' default_value='${contactList.contactListOrder}' items=order_list />
+								<@button type='submit' name='' id='' buttonIcon='check' title='#i18n{contact.manage_contacts.buttonChangeOrder}' hideTitle=['xs'] params={'aria-label': '#i18n{contact.manage_contacts.buttonChangeOrder} ' + contactList.label} />
 							</@inputGroup>
 						</@formGroup>
 					</@tform>
 				</@manageFeatureItemColumn>
 				<@manageFeatureItemColumn align='end'>
 					<#--	#i18n{contact.contact_list_assignations.navigation}		-->
-					<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&id_contact_list=${contactList.id}' targetElement='#update_contact_list_page' redirectForm=false id='contact_list${contactList.id}_update' title='#i18n{contact.modify_contact_list.tableLabel}' btnTitle='' btnIcon='pencil' position='end' />
-					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewManageContactListAssignation&id_contact_list=${contactList.id}' title='#i18n{contact.manage_contact_lists.actionAssignContacts}' buttonIcon='user' class='ms-1' hideTitle=['xs'] />
-					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewConfirmRemoveContactList&id_contact_list=${contactList.id}' title='#i18n{contact.manage_contact_lists.actionDeleteContactList}' buttonIcon='trash' color='danger' class='ms-1' hideTitle=['xs'] />
+					<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&id_contact_list=${contactList.id}' targetElement='#update_contact_list_page' redirectForm=false id='contact_list${contactList.id}_update' title='#i18n{contact.modify_contact_list.tableLabel}' btnTitle='#i18n{contact.manage_contact_lists.actionModifyContactList}' hideTitle=['all'] btnIcon='pencil' position='end' params={'aria-label': '#i18n{contact.manage_contact_lists.actionModifyContactList} ' + contactList.label} />
+					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewManageContactListAssignation&id_contact_list=${contactList.id}' title='#i18n{contact.manage_contact_lists.actionAssignContacts}' buttonIcon='user' class='ms-1' hideTitle=['xs'] params={'aria-label': '#i18n{contact.manage_contact_lists.actionAssignContacts} ' + contactList.label} />
+					<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewConfirmRemoveContactList&id_contact_list=${contactList.id}' title='#i18n{contact.manage_contact_lists.actionDeleteContactList}' buttonIcon='trash' color='danger' class='ms-1' hideTitle=['xs'] params={'aria-label': '#i18n{contact.manage_contact_lists.actionDeleteContactList} ' + contactList.label} />
 				</@manageFeatureItemColumn>
 			</@manageFeatureItem>
 		</#list>
