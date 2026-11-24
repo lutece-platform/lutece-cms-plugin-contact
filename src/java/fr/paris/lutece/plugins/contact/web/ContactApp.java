@@ -64,6 +64,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -155,6 +157,18 @@ public class ContactApp extends MVCApplication
     // private fields
     private Plugin _plugin = PluginService.getPlugin( "contact" );
 
+
+    /**
+     * Encodes a value given back to the form in the URL of a redirect
+     * 
+     * @param strValue
+     *            the value, may be null
+     * @return the value encoded for a query string, or null
+     */
+    private static String encodeParameter( String strValue )
+    {
+        return ( strValue == null ) ? null : URLEncoder.encode( strValue, StandardCharsets.UTF_8 );
+    }
 
     /**
      * Checks if the page is visible for the current user
@@ -413,14 +427,15 @@ public class ContactApp extends MVCApplication
         boolean bTosAccepted = request.getParameter( PARAMETER_TOS_ACCEPTED ) != null;
 
         Map<String, String> mapParamError = new HashMap<String, String>( );
-        mapParamError.put( PARAMETER_ID_CONTACT_LIST, strIdContactList );
-        mapParamError.put( PARAMETER_VISITOR_LASTNAME, strVisitorLastName );
-        mapParamError.put( PARAMETER_VISITOR_FIRSTNAME, strVisitorFirstName );
-        mapParamError.put( PARAMETER_VISITOR_ADDRESS, strVisitorAddress );
-        mapParamError.put( PARAMETER_VISITOR_EMAIL, strVisitorEmail );
-        mapParamError.put( PARAMETER_CONTACT, strContact );
-        mapParamError.put( PARAMETER_MESSAGE_OBJECT, strObject );
-        mapParamError.put( PARAMETER_MESSAGE, strMessage );
+        // the input of the visitor is given back to the form in the URL of the redirect: the values are encoded
+        mapParamError.put( PARAMETER_ID_CONTACT_LIST, encodeParameter( strIdContactList ) );
+        mapParamError.put( PARAMETER_VISITOR_LASTNAME, encodeParameter( strVisitorLastName ) );
+        mapParamError.put( PARAMETER_VISITOR_FIRSTNAME, encodeParameter( strVisitorFirstName ) );
+        mapParamError.put( PARAMETER_VISITOR_ADDRESS, encodeParameter( strVisitorAddress ) );
+        mapParamError.put( PARAMETER_VISITOR_EMAIL, encodeParameter( strVisitorEmail ) );
+        mapParamError.put( PARAMETER_CONTACT, encodeParameter( strContact ) );
+        mapParamError.put( PARAMETER_MESSAGE_OBJECT, encodeParameter( strObject ) );
+        mapParamError.put( PARAMETER_MESSAGE, encodeParameter( strMessage ) );
         if ( bTosAccepted )
         {
             mapParamError.put( PARAMETER_TOS_ACCEPTED, "1" );

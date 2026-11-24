@@ -110,7 +110,25 @@ public class ContactAppSendMessageTest extends LuteceTestCase
         assertTrue( strLocation, strLocation.contains( "send=error_recipient" ) );
     }
 
+    /**
+     * On an error, the input given back to the form in the URL of the redirect is encoded: a # or a & does not cut it
+     */
+    @Test
+    public void testErrorRedirectKeepsTheInput( ) throws SiteMessageException
+    {
+        String strLocation = send( String.valueOf( _list.getId( ) ), String.valueOf( _contactInList.getId( ) ), "pas-une-adresse", "Dossier #4521 & Co" );
+
+        assertTrue( strLocation, strLocation.contains( "send=error_email" ) );
+        assertFalse( strLocation, strLocation.contains( "#" ) );
+        assertTrue( strLocation, strLocation.contains( "message_object=Dossier+%234521+%26+Co" ) );
+    }
+
     private String send( String strIdContactList, String strIdContact ) throws SiteMessageException
+    {
+        return send( strIdContactList, strIdContact, "jean.dupont@example.org", "object" );
+    }
+
+    private String send( String strIdContactList, String strIdContact, String strEmail, String strObject ) throws SiteMessageException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         RedirectResponse response = new RedirectResponse( );
@@ -122,8 +140,8 @@ public class ContactAppSendMessageTest extends LuteceTestCase
         request.addParameter( "contact", strIdContact );
         request.addParameter( "visitor_last_name", "Dupont" );
         request.addParameter( "visitor_first_name", "Jean" );
-        request.addParameter( "visitor_email", "jean.dupont@example.org" );
-        request.addParameter( "message_object", "object" );
+        request.addParameter( "visitor_email", strEmail );
+        request.addParameter( "message_object", strObject );
         request.addParameter( "message", "message" );
 
         CDI.current( ).select( ContactApp.class ).get( ).doSendMessage( request );
