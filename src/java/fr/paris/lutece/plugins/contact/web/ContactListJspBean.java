@@ -38,6 +38,7 @@ import fr.paris.lutece.plugins.contact.business.ContactHome;
 import fr.paris.lutece.plugins.contact.business.ContactList;
 import fr.paris.lutece.plugins.contact.business.ContactListHome;
 import fr.paris.lutece.portal.business.role.RoleHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -251,12 +252,13 @@ public class ContactListJspBean extends MVCAdminJspBean
      * @return the HTML code of modify contactList form
      */
     @View( VIEW_MODIFY_CONTACT_LIST )
-    public String getModifyContactList( HttpServletRequest request )
+    public String getModifyContactList( HttpServletRequest request ) throws AccessDeniedException
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
 
         ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
         ContactList contactList = ContactListHome.findByPrimaryKey( nId, getPlugin( ) );
+        WorkgroupAccess.check( contactList, getUser( ) );
 
         if ( contactList == null )
         {
@@ -280,10 +282,11 @@ public class ContactListJspBean extends MVCAdminJspBean
      * @return the contactList list
      */
     @Action( ACTION_MODIFY_CONTACT_LIST )
-    public String doModifyContactList( HttpServletRequest request )
+    public String doModifyContactList( HttpServletRequest request ) throws AccessDeniedException
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
         ContactList contactList = ContactListHome.findByPrimaryKey( nId, getPlugin( ) );
+        WorkgroupAccess.check( contactList, getUser( ) );
         contactList.setLabel( request.getParameter( PARAMETER_CONTACT_LIST_LABEL ) );
         contactList.setDescription( request.getParameter( PARAMETER_CONTACT_LIST_DESCRIPTION ) );
         contactList.setWorkgroup( request.getParameter( PARAMETER_WORKGROUP ) );
@@ -310,8 +313,10 @@ public class ContactListJspBean extends MVCAdminJspBean
      * @return the html code to confirm
      */
     @View( VIEW_CONFIRM_REMOVE_CONTACT_LIST )
-    public String getConfirmRemoveContactList( HttpServletRequest request )
+    public String getConfirmRemoveContactList( HttpServletRequest request ) throws AccessDeniedException
     {
+        WorkgroupAccess.check( ContactListHome.findByPrimaryKey( Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) ), getPlugin( ) ),
+                getUser( ) );
         UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_CONTACT_LIST ) );
         url.addParameter( PARAMETER_ID_CONTACT_LIST, request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
 
@@ -327,9 +332,10 @@ public class ContactListJspBean extends MVCAdminJspBean
      * @return the contactList list
      */
     @Action( ACTION_REMOVE_CONTACT_LIST )
-    public String doRemoveContactList( HttpServletRequest request )
+    public String doRemoveContactList( HttpServletRequest request ) throws AccessDeniedException
     {
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
+        WorkgroupAccess.check( ContactListHome.findByPrimaryKey( nIdContactList, getPlugin( ) ), getUser( ) );
         int nOrder = ContactListHome.getContactListOrderById( nIdContactList, getPlugin( ) );
         int nNewOrder = ContactListHome.getMaxOrderContactList( getPlugin( ) );
         ContactListHome.unassignContactsForList( nIdContactList, getPlugin( ) );
@@ -348,11 +354,12 @@ public class ContactListJspBean extends MVCAdminJspBean
      * @return the HTML code of list assignations
      */
     @View( VIEW_MANAGE_CONTACT_LIST_ASSIGNATIONS )
-    public String getManageListAssignations( HttpServletRequest request )
+    public String getManageListAssignations( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdContactList = request.getParameter( PARAMETER_ID_CONTACT_LIST );
         int nIdContactList = Integer.parseInt( strIdContactList );
         ContactList contactList = ContactListHome.findByPrimaryKey( nIdContactList, getPlugin( ) ); // The contactList object concerned -- One obecjt
+        WorkgroupAccess.check( contactList, getUser( ) );
 
         if ( contactList == null )
         {
@@ -392,7 +399,7 @@ public class ContactListJspBean extends MVCAdminJspBean
      * @return the template of list assignations
      */
     @Action( ACTION_ASSIGN_CONTACTS_TO_LIST )
-    public String doAssignContactsToList( HttpServletRequest request )
+    public String doAssignContactsToList( HttpServletRequest request ) throws AccessDeniedException
     {
         String strActionCancel = request.getParameter( PARAMETER_CANCEL );
 
@@ -404,12 +411,14 @@ public class ContactListJspBean extends MVCAdminJspBean
         // retrieve the selected portlets ids
         String [ ] arrayContactsIds = request.getParameterValues( PARAMETER_CONTACT_LIST );
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
+        WorkgroupAccess.check( ContactListHome.findByPrimaryKey( nIdContactList, getPlugin( ) ), getUser( ) );
 
         if ( ( arrayContactsIds != null ) )
         {
             for ( int i = 0; i < arrayContactsIds.length; i++ )
             {
-                if ( !ContactListHome.isAssigned( Integer.parseInt( arrayContactsIds [i] ), nIdContactList, getPlugin( ) ) )
+                if ( !ContactListHome.isAssigned( Integer.parseInt( arrayContactsIds [i] ), nIdContactList, getPlugin( ) ) && WorkgroupAccess
+                        .isAuthorized( ContactHome.findByPrimaryKey( Integer.parseInt( arrayContactsIds [i] ), getPlugin( ) ), getUser( ) ) )
                 {
                     ContactListHome.assign( Integer.parseInt( arrayContactsIds [i] ), nIdContactList, getPlugin( ) );
                 }
@@ -427,10 +436,11 @@ public class ContactListJspBean extends MVCAdminJspBean
      * @return the HTML code of list assignations
      */
     @Action( ACTION_REVOKE_CONTACTS_FROM_LIST )
-    public String doUnAssignContact( HttpServletRequest request )
+    public String doUnAssignContact( HttpServletRequest request ) throws AccessDeniedException
     {
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );
+        checkContactAndList( nIdContact, nIdContactList );
 
         int nOrder = ContactHome.getContactOrderById( nIdContact, nIdContactList, getPlugin( ) );
         int nNewOrder = ContactListHome.getMaxOrderContact( nIdContactList, getPlugin( ) );
@@ -448,10 +458,11 @@ public class ContactListJspBean extends MVCAdminJspBean
      * @return the html code of contact assignations
      */
     @Action( ACTION_REVOKE_LISTS_FROM_CONTACT )
-    public String doUnAssignList( HttpServletRequest request )
+    public String doUnAssignList( HttpServletRequest request ) throws AccessDeniedException
     {
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );
+        checkContactAndList( nIdContact, nIdContactList );
         ContactListHome.unAssign( nIdContact, nIdContactList, getPlugin( ) );
 
         return redirect( request, VIEW_MANAGE_CONTACT_ASSIGNATIONS, PARAMETER_ID_CONTACT, nIdContact );
@@ -465,10 +476,11 @@ public class ContactListJspBean extends MVCAdminJspBean
      * @return the HTML code of contact assignations
      */
     @View( VIEW_MANAGE_CONTACT_ASSIGNATIONS )
-    public String getManageContactAssignations( HttpServletRequest request )
+    public String getManageContactAssignations( HttpServletRequest request ) throws AccessDeniedException
     {
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );
         Contact contact = ContactHome.findByPrimaryKey( nIdContact, getPlugin( ) );
+        WorkgroupAccess.check( contact, getUser( ) );
         Collection<ContactList> notAssignedLists = ContactListHome.getNotAssignedListsFor( nIdContact, getPlugin( ) );
         notAssignedLists = AdminWorkgroupService.getAuthorizedCollection( notAssignedLists, getUser( ) );
 
@@ -499,7 +511,7 @@ public class ContactListJspBean extends MVCAdminJspBean
      * @return the HTML code of contact assignations
      */
     @Action( ACTION_ASSIGN_LISTS_TO_CONTACT )
-    public String doAssignListsToContact( HttpServletRequest request )
+    public String doAssignListsToContact( HttpServletRequest request ) throws AccessDeniedException
     {
         String strActionCancel = request.getParameter( PARAMETER_CANCEL );
 
@@ -511,12 +523,14 @@ public class ContactListJspBean extends MVCAdminJspBean
         // retrieve the selected portlets ids
         String [ ] arrayListsIds = request.getParameterValues( PARAMETER_CONTACT_LIST );
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );
+        WorkgroupAccess.check( ContactHome.findByPrimaryKey( nIdContact, getPlugin( ) ), getUser( ) );
 
         if ( ( arrayListsIds != null ) )
         {
             for ( int i = 0; i < arrayListsIds.length; i++ )
             {
-                if ( !ContactListHome.isAssigned( nIdContact, Integer.parseInt( arrayListsIds [i] ), getPlugin( ) ) )
+                if ( !ContactListHome.isAssigned( nIdContact, Integer.parseInt( arrayListsIds [i] ), getPlugin( ) ) && WorkgroupAccess
+                        .isAuthorized( ContactListHome.findByPrimaryKey( Integer.parseInt( arrayListsIds [i] ), getPlugin( ) ), getUser( ) ) )
                 {
                     ContactListHome.assign( nIdContact, Integer.parseInt( arrayListsIds [i] ), getPlugin( ) );
                 }
@@ -527,6 +541,22 @@ public class ContactListJspBean extends MVCAdminJspBean
     }
 
     /**
+     * Refuses the access when the contact or the list belongs to a workgroup of which the user is not a member
+     *
+     * @param nIdContact
+     *            the id of the contact
+     * @param nIdContactList
+     *            the id of the list
+     * @throws AccessDeniedException
+     *             if the user cannot manage the contact or the list
+     */
+    private void checkContactAndList( int nIdContact, int nIdContactList ) throws AccessDeniedException
+    {
+        WorkgroupAccess.check( ContactHome.findByPrimaryKey( nIdContact, getPlugin( ) ), getUser( ) );
+        WorkgroupAccess.check( ContactListHome.findByPrimaryKey( nIdContactList, getPlugin( ) ), getUser( ) );
+    }
+
+    /**
      * Modifies the order in the list of contacts
      * 
      * @param request
@@ -534,10 +564,11 @@ public class ContactListJspBean extends MVCAdminJspBean
      * @return The Jsp URL of the process result
      */
     @Action( ACTION_MODIFY_CONTACT_ORDER )
-    public String doModifyContactsOrder( HttpServletRequest request )
+    public String doModifyContactsOrder( HttpServletRequest request ) throws AccessDeniedException
     {
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
+        WorkgroupAccess.check( ContactListHome.findByPrimaryKey( nIdContactList, getPlugin( ) ), getUser( ) );
 
         int nOrder = ContactHome.getContactOrderById( nIdContact, nIdContactList, getPlugin( ) );
         int nNewOrder = Integer.parseInt( request.getParameter( PARAMETER_CONTACTS_ORDER ) );
@@ -613,9 +644,10 @@ public class ContactListJspBean extends MVCAdminJspBean
      * @return The Jsp URL of the process result
      */
     @Action( ACTION_MODIFY_CONTACT_LIST_ORDER )
-    public String doModifyContactListsOrder( HttpServletRequest request )
+    public String doModifyContactListsOrder( HttpServletRequest request ) throws AccessDeniedException
     {
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
+        WorkgroupAccess.check( ContactListHome.findByPrimaryKey( nIdContactList, getPlugin( ) ), getUser( ) );
 
         int nOrder = ContactListHome.getContactListOrderById( nIdContactList, getPlugin( ) );
         int nNewOrder = Integer.parseInt( request.getParameter( PARAMETER_CONTACT_LIST_ORDER ) );

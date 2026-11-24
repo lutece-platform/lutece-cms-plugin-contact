@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.contact.web;
 import fr.paris.lutece.plugins.contact.business.Contact;
 import fr.paris.lutece.plugins.contact.business.ContactHome;
 import fr.paris.lutece.plugins.contact.business.ContactListHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -240,7 +241,7 @@ public class ContactJspBean extends MVCAdminJspBean
      * @return The HTML form to update info
      */
     @View( VIEW_MODIFY_CONTACT )
-    public String getModifyContact( HttpServletRequest request )
+    public String getModifyContact( HttpServletRequest request ) throws AccessDeniedException
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_CONTACT_ID ) );
         Contact contact = ContactHome.findByPrimaryKey( nId, getPlugin( ) );
@@ -249,6 +250,7 @@ public class ContactJspBean extends MVCAdminJspBean
         {
             return getManageContacts( request );
         }
+        WorkgroupAccess.check( contact, getUser( ) );
 
         ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
         models.put( MARK_WORKGROUPS_LIST, workgroupsList );
@@ -265,7 +267,7 @@ public class ContactJspBean extends MVCAdminJspBean
      * @return The Jsp URL of the process result
      */
     @Action( ACTION_MODIFY_CONTACT )
-    public String doModifyContact( HttpServletRequest request )
+    public String doModifyContact( HttpServletRequest request ) throws AccessDeniedException
     {
         // Mandatory fields
         if ( request.getParameter( PARAMETER_CONTACT_NAME ).equals( "" ) || request.getParameter( PARAMETER_CONTACT_EMAIL ).equals( "" ) )
@@ -280,6 +282,7 @@ public class ContactJspBean extends MVCAdminJspBean
 
         int nId = Integer.parseInt( request.getParameter( PARAMETER_CONTACT_ID ) );
         Contact contact = ContactHome.findByPrimaryKey( nId, getPlugin( ) );
+        WorkgroupAccess.check( contact, getUser( ) );
         contact.setName( request.getParameter( PARAMETER_CONTACT_NAME ) );
         contact.setEmail( request.getParameter( PARAMETER_CONTACT_EMAIL ) );
         contact.setWorkgroup( request.getParameter( PARAMETER_CONTACT_WORKGROUP ) );
@@ -297,9 +300,10 @@ public class ContactJspBean extends MVCAdminJspBean
      * @return the html code to confirm
      */
     @View( VIEW_CONFIRM_REMOVE_CONTACT )
-    public String getConfirmRemoveContact( HttpServletRequest request )
+    public String getConfirmRemoveContact( HttpServletRequest request ) throws AccessDeniedException
     {
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_CONTACT_ID ) );
+        WorkgroupAccess.check( ContactHome.findByPrimaryKey( nIdContact, getPlugin( ) ), getUser( ) );
 
         if ( ContactListHome.countListsForContact( nIdContact, getPlugin( ) ) > 0 )
         {
@@ -324,11 +328,12 @@ public class ContactJspBean extends MVCAdminJspBean
      * @return the jsp URL to display the form to manage contacts
      */
     @Action( ACTION_REMOVE_CONTACT )
-    public String doRemoveContact( HttpServletRequest request )
+    public String doRemoveContact( HttpServletRequest request ) throws AccessDeniedException
     {
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_CONTACT_ID ) );
 
         Contact contact = ContactHome.findByPrimaryKey( nIdContact, getPlugin( ) );
+        WorkgroupAccess.check( contact, getUser( ) );
 
         ContactListHome.unassignListsForContact( contact.getId( ), getPlugin( ) );
         ContactHome.remove( contact, getPlugin( ) );
