@@ -5,15 +5,17 @@
 			<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewModifyContactList&id_contact_list=${contact_list.id}' targetElement='#update_contact_list_page' redirectForm=false id='contact_list_update' title='#i18n{contact.modify_contact_list.tableLabel}' btnTitle='#i18n{contact.modify_contact_list.tableLabel}' btnIcon='pencil' position='end' />
 			<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?view=viewConfirmRemoveContactList&id_contact_list=${contact_list.id}' title='#i18n{contact.manage_contact_lists.actionDeleteContactList}' buttonIcon='trash' color='danger' class='ms-1' hideTitle=['xs'] />
 		</@pageHeader>
-		<@tform name='assignContact' method='post' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
+		<#-- the order forms of the assigned contacts cannot sit inside this form: its select and button are attached to it by their form attribute -->
+		<@tform name='assignContact' id='assignContact' method='post' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
 			<@input type='hidden' name='action' value='actionAssignContactsToList' />
 			<@input type='hidden' name='id_contact_list' value='${contact_list.id}' />
+		</@tform>
 			<@row>
 				<@columns md=4>
 					<@box title='#i18n{contact.contact_list_assignations.holeListLabel}'>
 					<@div class='d-flex'>
 						<#if list_contacts?size gt 0 >
-							<@select name='list_contact' title='#i18n{contact.contact_list_assignations.holeListLabel}' default_value='' multiple=10 class='form-select w-100' maxLength=175 items=list_contacts />
+							<@select name='list_contact' title='#i18n{contact.contact_list_assignations.holeListLabel}' default_value='' multiple=10 class='form-select w-100' maxLength=175 items=list_contacts params={'form': 'assignContact'} />
 						<#else>
 							<@alert color='danger' class='w-100' title='#i18n{contact.contact_list_assignations.noContactToAssign}' iconTitle='ban' />
 						</#if>
@@ -23,7 +25,7 @@
 					</@box>
 				</@columns>	
 				<@columns md=1 class='d-flex align-items-center justify-content-center'>
-					<@button type='submit' title='#i18n{contact.contact_list_assignations.validateAssignation}' disabled=disableButton buttonIcon='arrow-move-right' class='mt-3' />
+					<@button type='submit' title='#i18n{contact.contact_list_assignations.validateAssignation}' disabled=disableButton buttonIcon='arrow-move-right' class='mt-3' params={'form': 'assignContact'} />
 				</@columns>	
 				<@columns md=7>
 					<@box title='#i18n{contact.contact_list_assignations.assignedContacts}'>
@@ -63,6 +65,5 @@
 					</@box>
 				</@columns>
 			</@row>
-		</@tform>
 	</@pageColumn>
 </@pageContainer>
