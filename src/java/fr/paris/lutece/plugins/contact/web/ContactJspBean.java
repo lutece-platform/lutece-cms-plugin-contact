@@ -335,6 +335,14 @@ public class ContactJspBean extends MVCAdminJspBean
         Contact contact = ContactHome.findByPrimaryKey( nIdContact, getPlugin( ) );
         WorkgroupAccess.check( contact, getUser( ) );
 
+        // a contact still assigned to lists is not removed, whatever the screen the removal comes from
+        if ( ContactListHome.countListsForContact( nIdContact, getPlugin( ) ) > 0 )
+        {
+            UrlItem url = new UrlItem( getViewUrl( VIEW_MANAGE_CONTACTS ) );
+
+            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_CONTACT_STILL_ASSIGNED, url.getUrl( ), AdminMessage.TYPE_STOP ) );
+        }
+
         ContactListHome.unassignListsForContact( contact.getId( ), getPlugin( ) );
         ContactHome.remove( contact, getPlugin( ) );
         ContactListHome.unassignListsForContact( nIdContact, getPlugin( ) );

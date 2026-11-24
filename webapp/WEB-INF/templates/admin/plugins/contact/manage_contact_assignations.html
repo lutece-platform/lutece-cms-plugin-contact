@@ -3,7 +3,7 @@
 		<@pageHeader title='#i18n{contact.contact_assignations.ContactAssignationTitle} ${contact.name} (${contact.email})'>
 			<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?' title='#i18n{contact.contact_list_assignations.goManageLists}' buttonIcon='list' hideTitle=['xs'] />
 			<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&id_contact=${contact.id}' targetElement='#update_contact_page' redirectForm=false id='contact-update' title='#i18n{contact.modify_contact.tableLabel}' btnTitle='#i18n{contact.contact_assignations.actionModify}' btnIcon='pencil' position='end' />
-			<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?action=actionRemoveContact&id_contact=${contact.id}' title='#i18n{contact.contact_assignations.actionDelete}' buttonIcon='trash' color='danger' class='ms-1' hideTitle=['xs'] />
+			<@aButton href='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewConfirmRemoveContact&id_contact=${contact.id}' title='#i18n{contact.contact_assignations.actionDelete}' buttonIcon='trash' color='danger' class='ms-1' hideTitle=['xs'] />
 		</@pageHeader>
 		<@tform name='assignContact' method='post' action='jsp/admin/plugins/contact/ManageContactLists.jsp'>
 			<@input type='hidden' name='action' value='actionAssignListsToContact' />
