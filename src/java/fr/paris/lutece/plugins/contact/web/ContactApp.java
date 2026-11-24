@@ -78,6 +78,7 @@ import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * This class manages Contact page.
@@ -297,7 +298,8 @@ public class ContactApp extends MVCApplication
             model.put( MARK_STYLE_CONTACT, strStyleContact );
         }
 
-        int nIdContactList = Integer.parseInt( strIdContactList );
+        // a missing or non numeric id gives no list: the message "list does not exist"
+        int nIdContactList = NumberUtils.toInt( strIdContactList, -1 );
         ContactList contactList = ContactListHome.findByPrimaryKey( nIdContactList, _plugin );
 
         if ( ( contactList == null ) || !ContactListHome.listExists( contactList.getId( ), _plugin ) )
@@ -422,8 +424,8 @@ public class ContactApp extends MVCApplication
         String strMessage = ( request.getParameter( PARAMETER_MESSAGE ) == null ) ? "" : request.getParameter( PARAMETER_MESSAGE );
         String strDateOfDay = DateUtil.getCurrentDateString( request.getLocale( ) );
         String strContact = request.getParameter( PARAMETER_CONTACT );
-        int nContact = ( strContact == null ) ? 0 : Integer.parseInt( strContact );
-        int nIdContactList = Integer.parseInt( strIdContactList );
+        int nContact = NumberUtils.toInt( strContact, 0 );
+        int nIdContactList = NumberUtils.toInt( strIdContactList, -1 );
         boolean bTosAccepted = request.getParameter( PARAMETER_TOS_ACCEPTED ) != null;
 
         Map<String, String> mapParamError = new HashMap<String, String>( );
@@ -464,7 +466,11 @@ public class ContactApp extends MVCApplication
 
         // the list of the form must be visible to the visitor, and the recipient must belong to it
         ContactList contactListOfForm = ContactListHome.findByPrimaryKey( nIdContactList, _plugin );
-        if ( ( contactListOfForm != null ) && !isVisible( request, contactListOfForm.getRole( ) ) )
+        if ( contactListOfForm == null )
+        {
+            SiteMessageService.setMessage( request, PROPERTY_LIST_NOT_EXISTS, SiteMessage.TYPE_ERROR );
+        }
+        if ( !isVisible( request, contactListOfForm.getRole( ) ) )
         {
             SiteMessageService.setMessage( request, PROPERTY_NOT_AUTHORIZED, SiteMessage.TYPE_STOP );
         }

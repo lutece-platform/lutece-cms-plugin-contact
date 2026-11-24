@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.contact.web;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.IOException;
 
 import org.junit.jupiter.api.AfterEach;
@@ -132,6 +134,29 @@ public class ContactAppSendMessageTest extends LuteceTestCase
         String strLocation = send( String.valueOf( _list.getId( ) ), "999999" );
 
         assertTrue( strLocation, strLocation.contains( "send=error_recipient" ) );
+    }
+
+    /**
+     * A list id that is unknown or not a number gives the message "list does not exist", on the form and on the sending
+     */
+    @Test
+    public void testUnknownOrInvalidList( )
+    {
+        assertThrows( SiteMessageException.class, ( ) -> send( "999999", String.valueOf( _contactInList.getId( ) ) ) );
+        assertThrows( SiteMessageException.class, ( ) -> send( "abc", String.valueOf( _contactInList.getId( ) ) ) );
+        assertThrows( SiteMessageException.class, ( ) -> displayForm( null ) );
+        assertThrows( SiteMessageException.class, ( ) -> displayForm( "abc" ) );
+    }
+
+    private void displayForm( String strIdContactList ) throws SiteMessageException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        LocalVariables.setLocal( null, request, new RedirectResponse( ) );
+        if ( strIdContactList != null )
+        {
+            request.addParameter( "id_contact_list", strIdContactList );
+        }
+        CDI.current( ).select( ContactApp.class ).get( ).getForm( request );
     }
 
     private String send( String strIdContactList, String strIdContact ) throws SiteMessageException
