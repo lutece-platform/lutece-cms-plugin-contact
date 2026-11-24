@@ -483,6 +483,12 @@ public class ContactListJspBean extends MVCAdminJspBean
     {
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );
         Contact contact = ContactHome.findByPrimaryKey( nIdContact, getPlugin( ) );
+
+        if ( contact == null )
+        {
+            // unknown contact, or deleted since the page was bookmarked
+            return getManageContactLists( request );
+        }
         WorkgroupAccess.check( contact, getUser( ) );
         Collection<ContactList> notAssignedLists = ContactListHome.getNotAssignedListsFor( nIdContact, getPlugin( ) );
         notAssignedLists = AdminWorkgroupService.getAuthorizedCollection( notAssignedLists, getUser( ) );

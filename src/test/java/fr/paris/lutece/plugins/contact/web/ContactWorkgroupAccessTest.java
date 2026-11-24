@@ -139,6 +139,20 @@ public class ContactWorkgroupAccessTest extends LuteceTestCase
         assertNotNull( bean.getModifyContact( request ) );
     }
 
+    /**
+     * The assignation page of an unknown contact (deleted since the page was bookmarked) gives the lists, not an error
+     */
+    @Test
+    public void testAssignationsOfAnUnknownContact( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = request( ContactListJspBean.RIGHT_MANAGE_CONTACT );
+        request.addParameter( "id_contact", "999999" );
+        ContactListJspBean bean = CDI.current( ).select( ContactListJspBean.class ).get( );
+        initBean( bean, request );
+
+        assertNotNull( bean.getManageContactAssignations( request ) );
+    }
+
     private static MockHttpServletRequest request( String strRight )
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
