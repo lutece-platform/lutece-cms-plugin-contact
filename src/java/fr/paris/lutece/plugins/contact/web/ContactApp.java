@@ -447,6 +447,19 @@ public class ContactApp extends MVCApplication
             return redirect( request, VIEW_CONTACT_PAGE, mapParamError );
         }
 
+        // the list of the form must be visible to the visitor, and the recipient must belong to it
+        ContactList contactListOfForm = ContactListHome.findByPrimaryKey( nIdContactList, _plugin );
+        if ( ( contactListOfForm != null ) && !isVisible( request, contactListOfForm.getRole( ) ) )
+        {
+            SiteMessageService.setMessage( request, PROPERTY_NOT_AUTHORIZED, SiteMessage.TYPE_STOP );
+        }
+        if ( !ContactListHome.isAssigned( nContact, nIdContactList, _plugin ) )
+        {
+            mapParamError.put( PARAMETER_SEND, "error_recipient" );
+
+            return redirect( request, VIEW_CONTACT_PAGE, mapParamError );
+        }
+
         Contact contact = ContactHome.findByPrimaryKey( nContact, _plugin );
         String strEmailContact = contact.getEmail( );
         String strContactName = contact.getName( );
