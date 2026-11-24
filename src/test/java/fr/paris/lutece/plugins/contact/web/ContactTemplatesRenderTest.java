@@ -244,4 +244,27 @@ public class ContactTemplatesRenderTest extends LuteceTestCase
         assertTrue( strHtml.contains( "&lt;b&gt;Bonjour&lt;/b&gt; &amp; " + PAYLOAD_ESCAPED ), strHtml );
         assertTrue( strHtml.contains( "<strong>" ), strHtml );
     }
+
+    /**
+     * The mail keeps the line breaks of the message typed by the visitor, each line escaped
+     *
+     * @throws Exception
+     *             if the rendering fails
+     */
+    @Test
+    public void testMailKeepsTheLineBreaksOfTheMessage( ) throws Exception
+    {
+        Map<String, String> model = new HashMap<>( );
+        model.put( "visitor_last_name", "Dupont" );
+        model.put( "visitor_first_name", "Jean" );
+        model.put( "visitor_address", "" );
+        model.put( "visitor_email", "jean.dupont@example.org" );
+        model.put( "contact_name", "Accueil" );
+        model.put( "message", "ligne 1\nligne <2>\n\nligne 4" );
+        model.put( "current_date", "13/11/2026" );
+
+        String strHtml = render( TEMPLATE_MAIL, model );
+
+        assertTrue( strHtml.contains( "ligne 1<br/>ligne &lt;2&gt;<br/><br/>ligne 4" ), strHtml );
+    }
 }
