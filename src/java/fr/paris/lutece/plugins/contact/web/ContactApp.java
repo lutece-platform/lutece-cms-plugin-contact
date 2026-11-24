@@ -85,7 +85,7 @@ import org.apache.commons.lang3.math.NumberUtils;
  */
 @RequestScoped
 @Named( "contact.xpage.contact" )
-@Controller( xpageName = "contact", pageTitleI18nKey = "contact.pagePathLabel", pagePathI18nKey = "subscribe.pageTitle" )
+@Controller( xpageName = "contact", pageTitleI18nKey = "contact.page_contact.pageTitle", pagePathI18nKey = "contact.page_contact.pagePathLabel" )
 public class ContactApp extends MVCApplication
 {
     /** Serial id */
