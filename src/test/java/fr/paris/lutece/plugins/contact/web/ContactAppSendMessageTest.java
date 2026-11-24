@@ -123,6 +123,17 @@ public class ContactAppSendMessageTest extends LuteceTestCase
         assertTrue( strLocation, strLocation.contains( "message_object=Dossier+%234521+%26+Co" ) );
     }
 
+    /**
+     * A recipient deleted after the form was displayed (or an unknown id) is refused as a missing recipient, not an error page
+     */
+    @Test
+    public void testSendToADeletedContact( ) throws SiteMessageException
+    {
+        String strLocation = send( String.valueOf( _list.getId( ) ), "999999" );
+
+        assertTrue( strLocation, strLocation.contains( "send=error_recipient" ) );
+    }
+
     private String send( String strIdContactList, String strIdContact ) throws SiteMessageException
     {
         return send( strIdContactList, strIdContact, "jean.dupont@example.org", "object" );

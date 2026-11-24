@@ -476,6 +476,13 @@ public class ContactApp extends MVCApplication
         }
 
         Contact contact = ContactHome.findByPrimaryKey( nContact, _plugin );
+        if ( contact == null )
+        {
+            // the contact was deleted after the form was displayed
+            mapParamError.put( PARAMETER_SEND, "error_recipient" );
+
+            return redirect( request, VIEW_CONTACT_PAGE, mapParamError );
+        }
         String strEmailContact = contact.getEmail( );
         String strContactName = contact.getName( );
 
