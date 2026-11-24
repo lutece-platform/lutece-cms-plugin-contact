@@ -65,6 +65,8 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * This class provides the user interface to manage contact features ( manage, create, modify, remove, change order of contact )
  */
@@ -294,8 +296,9 @@ public class ContactListJspBean extends MVCAdminJspBean
         contactList.setTos( request.getParameter( PARAMETER_TOS ) != null );
         contactList.setTosMessage( request.getParameter( PARAMETER_TOS_MESSAGE ) );
 
-        // Mandatory fields
-        if ( request.getParameter( PARAMETER_CONTACT_LIST_LABEL ).equals( "" ) )
+        // Mandatory fields, as on the creation
+        if ( StringUtils.isBlank( request.getParameter( PARAMETER_CONTACT_LIST_LABEL ) )
+                || StringUtils.isBlank( request.getParameter( PARAMETER_CONTACT_LIST_DESCRIPTION ) ) )
         {
             return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
