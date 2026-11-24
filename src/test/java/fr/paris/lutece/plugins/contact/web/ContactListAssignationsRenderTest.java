@@ -63,6 +63,7 @@ public class ContactListAssignationsRenderTest extends LuteceTestCase
 {
     private static final String TEMPLATES_ROOT = "webapp/WEB-INF/templates";
     private static final String TEMPLATE = "admin/plugins/contact/manage_list_assignations.html";
+    private static final String TEMPLATE_CONTACT = "admin/plugins/contact/manage_contact_assignations.html";
     private static final String MACROS = "contact_assignations_test_macros.ftl";
     /** Stand-ins of the BO macros of the core: forms, selects and buttons are written with their attributes, the other macros keep their content */
     private static final String MACROS_SOURCE = "<#macro attrs params><#list params as k, v> ${k}=\"${v}\"</#list></#macro>"
@@ -79,6 +80,48 @@ public class ContactListAssignationsRenderTest extends LuteceTestCase
     {
         String strHtml = render( );
 
+        // the form that assigns contacts, then for each of the 2 assigned contacts its order form and its unassign form
+        assertEquals( 5, countNotNestedForms( strHtml ) );
+        assertTrue( strHtml.contains( "<select name=\"list_contact\" id=\"list_contact\" form=\"assignContact\">" ), strHtml );
+        assertTrue( strHtml.contains( "<button type=\"submit\" form=\"assignContact\">" ), strHtml );
+        assertTrue( strHtml.contains( "<input name=\"action\" value=\"actionRevokeContactsFromList\">" ), strHtml );
+    }
+
+    /**
+     * The assignation page of a contact: the unassign forms of the assigned lists are not nested in the form that assigns lists
+     */
+    @Test
+    public void testUnassignFormsOfAContactAreNotNested( ) throws Exception
+    {
+        Contact contact = new Contact( );
+        contact.setId( 4 );
+        contact.setName( "Contact" );
+        contact.setEmail( "contact@example.org" );
+        List<ContactList> listAssigned = new ArrayList<>( );
+        for ( int i = 1; i <= 2; i++ )
+        {
+            ContactList contactList = new ContactList( );
+            contactList.setId( i );
+            contactList.setLabel( "List " + i );
+            listAssigned.add( contactList );
+        }
+        ReferenceList listNotAssigned = new ReferenceList( );
+        listNotAssigned.addItem( "3", "List 3" );
+        Map<String, Object> model = new HashMap<>( );
+        model.put( "contact", contact );
+        model.put( "not_assigned_lists", listNotAssigned );
+        model.put( "assigned_lists", listAssigned );
+
+        String strHtml = render( TEMPLATE_CONTACT, model );
+
+        assertEquals( 3, countNotNestedForms( strHtml ) );
+        assertTrue( strHtml.contains( "<select name=\"list_contact\" id=\"list_contact\" form=\"assignContact\">" ), strHtml );
+        assertTrue( strHtml.contains( "<button type=\"submit\" form=\"assignContact\">" ), strHtml );
+        assertTrue( strHtml.contains( "<input name=\"action\" value=\"actionRevokeListsFromContact\">" ), strHtml );
+    }
+
+    private static int countNotNestedForms( String strHtml )
+    {
         int nDepth = 0;
         int nForms = 0;
         Matcher matcher = Pattern.compile( "<form|</form>" ).matcher( strHtml );
@@ -95,22 +138,11 @@ public class ContactListAssignationsRenderTest extends LuteceTestCase
                 nDepth--;
             }
         }
-        assertEquals( 3, nForms );
-        assertTrue( strHtml.contains( "<select name=\"list_contact\" id=\"list_contact\" form=\"assignContact\">" ), strHtml );
-        assertTrue( strHtml.contains( "<button type=\"submit\" form=\"assignContact\">" ), strHtml );
+        return nForms;
     }
 
     private static String render( ) throws Exception
     {
-        StringTemplateLoader macros = new StringTemplateLoader( );
-        macros.putTemplate( MACROS, MACROS_SOURCE );
-        Configuration cfg = new Configuration( Configuration.VERSION_2_3_32 );
-        cfg.setOutputFormat( HTMLOutputFormat.INSTANCE );
-        cfg.setTemplateLoader( new MultiTemplateLoader( new TemplateLoader [ ] {
-                new FileTemplateLoader( new File( TEMPLATES_ROOT ) ), macros
-        } ) );
-        cfg.addAutoInclude( MACROS );
-
         ContactList contactList = new ContactList( );
         contactList.setId( 7 );
         contactList.setLabel( "List" );
@@ -137,8 +169,22 @@ public class ContactListAssignationsRenderTest extends LuteceTestCase
         model.put( "assigned_contacts", listAssigned );
         model.put( "order_list", listOrder );
 
+        return render( TEMPLATE, model );
+    }
+
+    private static String render( String strTemplate, Map<String, Object> model ) throws Exception
+    {
+        StringTemplateLoader macros = new StringTemplateLoader( );
+        macros.putTemplate( MACROS, MACROS_SOURCE );
+        Configuration cfg = new Configuration( Configuration.VERSION_2_3_32 );
+        cfg.setOutputFormat( HTMLOutputFormat.INSTANCE );
+        cfg.setTemplateLoader( new MultiTemplateLoader( new TemplateLoader [ ] {
+                new FileTemplateLoader( new File( TEMPLATES_ROOT ) ), macros
+        } ) );
+        cfg.addAutoInclude( MACROS );
+
         StringWriter writer = new StringWriter( );
-        cfg.getTemplate( TEMPLATE ).process( model, writer );
+        cfg.getTemplate( strTemplate ).process( model, writer );
         return writer.toString( );
     }
 }

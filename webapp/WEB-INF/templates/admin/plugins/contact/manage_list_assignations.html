@@ -53,7 +53,12 @@
 							</@manageFeatureItemColumn>
 							<@manageFeatureItemColumn align='end' auto=true>
 								<@offcanvas targetUrl='jsp/admin/plugins/contact/ManageContacts.jsp?view=viewModifyContact&id_contact_list=${contact_list.id}&id_contact=${assigned_contact.id}' targetElement='#update_contact_page' redirectForm=false id='contact${assigned_contact.id}_update' title='#i18n{contact.modify_contact.tableLabel}' btnTitle='#i18n{contact.contact.actionModify}' btnIcon='pencil' position='end' params={'aria-label': '#i18n{contact.contact.actionModify} ' + assigned_contact.name} />
-								<@aButton href='jsp/admin/plugins/contact/ManageContactLists.jsp?action=actionRevokeContactsFromList&id_contact_list=${contact_list.id}&id_contact=${assigned_contact.id}' title='#i18n{contact.contact.actionUnassign}' buttonIcon='trash' color='danger' hideTitle=['xs'] params={'aria-label': '#i18n{contact.contact.actionUnassign} ' + assigned_contact.name} />
+								<@tform action='jsp/admin/plugins/contact/ManageContactLists.jsp' class='d-inline'>
+									<@input type='hidden' name='action' value='actionRevokeContactsFromList' />
+									<@input type='hidden' name='id_contact_list' value='${contact_list.id}' />
+									<@input type='hidden' name='id_contact' value='${assigned_contact.id}' />
+									<@button type='submit' title='#i18n{contact.contact.actionUnassign}' buttonIcon='trash' color='danger' hideTitle=['xs'] params={'aria-label': '#i18n{contact.contact.actionUnassign} ' + assigned_contact.name} />
+								</@tform>
 							</@manageFeatureItemColumn>
 							</@manageFeatureItem>
 						</#list>

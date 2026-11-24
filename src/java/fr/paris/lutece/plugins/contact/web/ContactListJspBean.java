@@ -72,7 +72,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 @RequestScoped
 @Named
-@Controller( controllerJsp = "ManageContactLists.jsp", controllerPath = "jsp/admin/plugins/contact/", right = ContactListJspBean.RIGHT_MANAGE_CONTACT )
+@Controller( controllerJsp = "ManageContactLists.jsp", controllerPath = "jsp/admin/plugins/contact/", right = ContactListJspBean.RIGHT_MANAGE_CONTACT, securityTokenEnabled = true )
 public class ContactListJspBean extends MVCAdminJspBean
 {
     // Right
@@ -161,7 +161,7 @@ public class ContactListJspBean extends MVCAdminJspBean
      *            The HttpRequest
      * @return template of lists management
      */
-    @View( value = VIEW_MANAGE_CONTACT_LISTS, defaultView = true )
+    @View( value = VIEW_MANAGE_CONTACT_LISTS, defaultView = true, securityTokenAction = ACTION_MODIFY_CONTACT_LIST_ORDER )
     public String getManageContactLists( HttpServletRequest request )
     {
         Collection<ContactList> listContactList = ContactListHome.findAll( getPlugin( ) );
@@ -173,7 +173,7 @@ public class ContactListJspBean extends MVCAdminJspBean
 
         models.put( MARK_CONTACT_ORDER_LIST, getContactListOrderList( ) );
 
-        return getPage( PROPERTY_PAGE_TITLE_CONTACTS, TEMPLATE_MANAGE_CONTACT_LISTS, models );
+        return getPage( PROPERTY_PAGE_TITLE_CONTACTS, TEMPLATE_MANAGE_CONTACT_LISTS );
     }
 
     /**
@@ -199,7 +199,7 @@ public class ContactListJspBean extends MVCAdminJspBean
      *            The HttpRequest
      * @return the HTML code of contactList form
      */
-    @View( VIEW_CREATE_CONTACT_LIST )
+    @View( value = VIEW_CREATE_CONTACT_LIST, securityTokenAction = ACTION_CREATE_CONTACT_LIST )
     public String getCreateContactList( HttpServletRequest request )
     {
         ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
@@ -208,7 +208,7 @@ public class ContactListJspBean extends MVCAdminJspBean
         models.put( MARK_WORKGROUPS_LIST, workgroupsList );
         models.put( MARK_ROLES_LIST, RoleHome.getRolesList( ) );
 
-        return getPage( PROPERTY_PAGE_TITLE_CREATE_CONTACTS, TEMPLATE_CREATE_CONTACT, models );
+        return getPage( PROPERTY_PAGE_TITLE_CREATE_CONTACTS, TEMPLATE_CREATE_CONTACT );
     }
 
     /**
@@ -253,7 +253,7 @@ public class ContactListJspBean extends MVCAdminJspBean
      *            The HttpRequest
      * @return the HTML code of modify contactList form
      */
-    @View( VIEW_MODIFY_CONTACT_LIST )
+    @View( value = VIEW_MODIFY_CONTACT_LIST, securityTokenAction = ACTION_MODIFY_CONTACT_LIST )
     public String getModifyContactList( HttpServletRequest request ) throws AccessDeniedException
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
@@ -273,7 +273,7 @@ public class ContactListJspBean extends MVCAdminJspBean
         models.put( MARK_CONTACT_LIST, contactList );
         models.put( MARK_ROLES_LIST, RoleHome.getRolesList( ) );
 
-        return getPage( PROPERTY_PAGE_TITLE_MODIFY, TEMPLATE_MODIFY_CONTACT_LIST, models );
+        return getPage( PROPERTY_PAGE_TITLE_MODIFY, TEMPLATE_MODIFY_CONTACT_LIST );
     }
 
     /**
@@ -315,7 +315,7 @@ public class ContactListJspBean extends MVCAdminJspBean
      *            The Http request
      * @return the html code to confirm
      */
-    @View( VIEW_CONFIRM_REMOVE_CONTACT_LIST )
+    @View( value = VIEW_CONFIRM_REMOVE_CONTACT_LIST, securityTokenAction = ACTION_REMOVE_CONTACT_LIST )
     public String getConfirmRemoveContactList( HttpServletRequest request ) throws AccessDeniedException
     {
         WorkgroupAccess.check( ContactListHome.findByPrimaryKey( Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) ), getPlugin( ) ),
@@ -391,7 +391,7 @@ public class ContactListJspBean extends MVCAdminJspBean
         models.put( MARK_CONTACTS_NUMBER, ContactListHome.countContactsForList( nIdContactList, getPlugin( ) ) );
         models.put( MARK_CONTACT_ORDER_LIST, getContactOrderList( nIdContactList ) );
 
-        return getPage( PROPERTY_PAGE_TITLE_MANAGE_LIST_ASSIGNATIONS, TEMPLATE_MANAGE_LIST_ASSIGNATIONS, models );
+        return getPage( PROPERTY_PAGE_TITLE_MANAGE_LIST_ASSIGNATIONS, TEMPLATE_MANAGE_LIST_ASSIGNATIONS );
     }
 
     /**
@@ -401,7 +401,7 @@ public class ContactListJspBean extends MVCAdminJspBean
      *            The HttpRequest
      * @return the template of list assignations
      */
-    @Action( ACTION_ASSIGN_CONTACTS_TO_LIST )
+    @Action( value = ACTION_ASSIGN_CONTACTS_TO_LIST, securityTokenAction = VIEW_MANAGE_CONTACT_LIST_ASSIGNATIONS )
     public String doAssignContactsToList( HttpServletRequest request ) throws AccessDeniedException
     {
         String strActionCancel = request.getParameter( PARAMETER_CANCEL );
@@ -438,7 +438,7 @@ public class ContactListJspBean extends MVCAdminJspBean
      *            The HttpRequest
      * @return the HTML code of list assignations
      */
-    @Action( ACTION_REVOKE_CONTACTS_FROM_LIST )
+    @Action( value = ACTION_REVOKE_CONTACTS_FROM_LIST, securityTokenAction = VIEW_MANAGE_CONTACT_LIST_ASSIGNATIONS )
     public String doUnAssignContact( HttpServletRequest request ) throws AccessDeniedException
     {
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
@@ -460,7 +460,7 @@ public class ContactListJspBean extends MVCAdminJspBean
      *            The HttpRequest
      * @return the html code of contact assignations
      */
-    @Action( ACTION_REVOKE_LISTS_FROM_CONTACT )
+    @Action( value = ACTION_REVOKE_LISTS_FROM_CONTACT, securityTokenAction = VIEW_MANAGE_CONTACT_ASSIGNATIONS )
     public String doUnAssignList( HttpServletRequest request ) throws AccessDeniedException
     {
         int nIdContactList = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT_LIST ) );
@@ -509,7 +509,7 @@ public class ContactListJspBean extends MVCAdminJspBean
         models.put( MARK_NOT_ASSIGNED_LISTS, refListNotAssigned );
         models.put( MARK_ASSIGNED_LISTS, assignedLists );
 
-        return getPage( PROPERTY_PAGE_TITLE_MANAGE_CONTACT_ASSIGNATIONS, TEMPLATE_MANAGE_CONTACT_ASSIGNATIONS, models );
+        return getPage( PROPERTY_PAGE_TITLE_MANAGE_CONTACT_ASSIGNATIONS, TEMPLATE_MANAGE_CONTACT_ASSIGNATIONS );
     }
 
     /**
@@ -519,7 +519,7 @@ public class ContactListJspBean extends MVCAdminJspBean
      *            The HttpRequest
      * @return the HTML code of contact assignations
      */
-    @Action( ACTION_ASSIGN_LISTS_TO_CONTACT )
+    @Action( value = ACTION_ASSIGN_LISTS_TO_CONTACT, securityTokenAction = VIEW_MANAGE_CONTACT_ASSIGNATIONS )
     public String doAssignListsToContact( HttpServletRequest request ) throws AccessDeniedException
     {
         String strActionCancel = request.getParameter( PARAMETER_CANCEL );
@@ -572,7 +572,7 @@ public class ContactListJspBean extends MVCAdminJspBean
      *            The Http request
      * @return The Jsp URL of the process result
      */
-    @Action( ACTION_MODIFY_CONTACT_ORDER )
+    @Action( value = ACTION_MODIFY_CONTACT_ORDER, securityTokenAction = VIEW_MANAGE_CONTACT_LIST_ASSIGNATIONS )
     public String doModifyContactsOrder( HttpServletRequest request ) throws AccessDeniedException
     {
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_ID_CONTACT ) );

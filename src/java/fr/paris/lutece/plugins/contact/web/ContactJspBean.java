@@ -70,7 +70,7 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 @RequestScoped
 @Named
-@Controller( controllerJsp = "ManageContacts.jsp", controllerPath = "jsp/admin/plugins/contact/", right = ContactJspBean.RIGHT_MANAGE_CONTACT )
+@Controller( controllerJsp = "ManageContacts.jsp", controllerPath = "jsp/admin/plugins/contact/", right = ContactJspBean.RIGHT_MANAGE_CONTACT, securityTokenEnabled = true )
 public class ContactJspBean extends MVCAdminJspBean
 {
     ////////////////////////////////////////////////////////////////////////////
@@ -165,7 +165,7 @@ public class ContactJspBean extends MVCAdminJspBean
         _pager.withBaseUrl( getViewUrl( VIEW_MANAGE_CONTACTS ) ).withIdList( contactIds ).populateModels( request, models, ( l ) -> getItemsFromIds( l ),
                 getLocale( ) );
 
-        return getPage( PROPERTY_PAGE_TITLE_CONTACTS, TEMPLATE_CONTACTS, models );
+        return getPage( PROPERTY_PAGE_TITLE_CONTACTS, TEMPLATE_CONTACTS );
     }
     
     /**
@@ -191,13 +191,13 @@ public class ContactJspBean extends MVCAdminJspBean
      *            The Http request
      * @return the html code of the contact form
      */
-    @View( VIEW_CREATE_CONTACT )
+    @View( value = VIEW_CREATE_CONTACT, securityTokenAction = ACTION_CREATE_CONTACT )
     public String getCreateContact( HttpServletRequest request )
     {
         ReferenceList workgroupsList = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
         models.put( MARK_WORKGROUPS_LIST, workgroupsList );
 
-        return getPage( PROPERTY_PAGE_TITLE_CREATE, TEMPLATE_CREATE_CONTACT, models );
+        return getPage( PROPERTY_PAGE_TITLE_CREATE, TEMPLATE_CREATE_CONTACT );
     }
 
     /**
@@ -240,7 +240,7 @@ public class ContactJspBean extends MVCAdminJspBean
      *            The Http request
      * @return The HTML form to update info
      */
-    @View( VIEW_MODIFY_CONTACT )
+    @View( value = VIEW_MODIFY_CONTACT, securityTokenAction = ACTION_MODIFY_CONTACT )
     public String getModifyContact( HttpServletRequest request ) throws AccessDeniedException
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_CONTACT_ID ) );
@@ -256,7 +256,7 @@ public class ContactJspBean extends MVCAdminJspBean
         models.put( MARK_WORKGROUPS_LIST, workgroupsList );
         models.put( MARK_CONTACT, contact );
 
-        return getPage( PROPERTY_PAGE_TITLE_MODIFY, TEMPLATE_MODIFY_CONTACT, models );
+        return getPage( PROPERTY_PAGE_TITLE_MODIFY, TEMPLATE_MODIFY_CONTACT );
     }
 
     /**
@@ -299,7 +299,7 @@ public class ContactJspBean extends MVCAdminJspBean
      *            The Http request
      * @return the html code to confirm
      */
-    @View( VIEW_CONFIRM_REMOVE_CONTACT )
+    @View( value = VIEW_CONFIRM_REMOVE_CONTACT, securityTokenAction = ACTION_REMOVE_CONTACT )
     public String getConfirmRemoveContact( HttpServletRequest request ) throws AccessDeniedException
     {
         int nIdContact = Integer.parseInt( request.getParameter( PARAMETER_CONTACT_ID ) );
