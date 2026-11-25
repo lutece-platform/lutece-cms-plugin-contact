@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Lut&egrave;ce - Contact">
+<project name="Lutèce - Contact">
 	<body>
 		<links>
 			<item name="EN" href="../index.html" />
 		</links>
 
-		<menu name="Aper&ccedil;u">
+		<menu name="Aperçu">
 			<item name="Introduction" href="index.html" />
 
 
